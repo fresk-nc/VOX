@@ -1,0 +1,65 @@
+{
+  "rules": {
+    "array-bracket-spacing": [2, "always"],
+    "camelcase": [2, {"properties": "never"}],
+    "comma-spacing": 2,
+    "eol-last": 2,
+    "eqeqeq": [2, "smart"],
+    "indent": [2, 4, {"SwitchCase": 1}],
+    "keyword-spacing": 2,
+    "key-spacing": 2,
+    "quotes": [2, "single"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "object-curly-spacing": [2, "always"],
+    "max-len": [2, 120, 4],
+    "space-in-parens": [2, "never"],
+    "space-infix-ops": 2,
+    "no-eval": 2,
+    "no-implicit-coercion": 2,
+    "no-mixed-spaces-and-tabs": 2,
+    "no-multi-spaces": 2,
+    "no-multiple-empty-lines": [2, {"max": 2}],
+    "new-parens": 2,
+
+    "react/display-name": 2,
+    "react/prop-types": 2,
+    "react/jsx-uses-vars": 2,
+    "react/jsx-key": 2,
+    "react/jsx-indent": 2,
+    "react/jsx-equals-spacing": 2,
+    "react/jsx-max-props-per-line": [2, {"maximum": 3}],
+    "react/no-direct-mutation-state": 2,
+    "react/no-is-mounted": 2,
+    "react/no-multi-comp": 2,
+    "react/no-deprecated": 2,
+    "react/no-string-refs": 2,
+    "react/no-unknown-property": 2,
+    "react/wrap-multilines": 2,
+    "react/prefer-es6-class": [2, "always"],
+    "react/sort-comp": 2
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "globals": {
+    "React": false,
+    "ReactDOM": false,
+    "NODE_ENV": false
+  }
+}
