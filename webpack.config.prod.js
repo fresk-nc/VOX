@@ -12,9 +12,7 @@ const config = Object.create(baseConfig);
 
 config.devtool = 'source-map';
 
-config.entry = 'index.js';
-
-config.output.publicPath = distPath;
+config.entry = './index.js';
 
 config.module.loaders.push({
     test: /\.js$/,
