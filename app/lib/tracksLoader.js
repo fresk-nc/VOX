@@ -1,6 +1,7 @@
 import { showOpenDialog } from 'lib/dialog.js';
 import fs from 'fs';
 import mm from 'musicmetadata';
+import uuid from 'node-uuid';
 
 export function load() {
     return new Promise((resolve, reject) => {
@@ -50,7 +51,7 @@ function getMetadata(filename) {
 
 function normalize(filename, metadata) {
     return {
-        id: Date.now(),
+        id: uuid.v1(),
         src: filename,
         artist: metadata.artist[0],
         title: metadata.title,
