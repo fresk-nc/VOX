@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons")
+
+@require 'normalize.styl'
+@require 'variables.styl'
+
+*
+  box-sizing: border-box
+  cursor: default
+  user-select: none
+
+body
+  font-family: $baseFont
+  font-size: $baseFontSize
+  background: $baseBgColor
+  color: $baseTextColor
+  overflow: hidden
+
+:global body.disabled
+  pointer-events: none

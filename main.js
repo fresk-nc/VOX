@@ -2,12 +2,13 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const crashReporter = electron.crashReporter;
+const isDev = (process.env.NODE_ENV === 'development');
 
 let mainWindow = null;
 
 crashReporter.start();
 
-if (process.env.NODE_ENV === 'development') {
+if (isDev) {
     require('electron-debug')();
 }
 
@@ -22,7 +23,8 @@ app.on('ready', function() {
         width: 320,
         height: 570,
         show: false,
-        //resizable: false,
+        resizable: isDev,
+        backgroundColor: '#282828',
         fullscreen: false,
         frame: false
     });

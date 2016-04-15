@@ -1,0 +1,62 @@
+@require '../../styles/variables.styl'
+
+.wrap
+  position: relative
+  z-index: 1
+
+  display: flex
+  justify-content: space-between
+
+  height: $playerBarHeight
+  padding: 0 20px
+
+  background: $playerBarBg
+  box-shadow: 0 1px #464646
+
+  -webkit-app-region: drag
+
+.main
+  position: relative
+  display: flex
+  padding: 0 20px
+
+  &:before,
+  &:after
+    content: ''
+    position: absolute
+    top: 11px
+    bottom: 11px
+    width: 1px
+    background: #282828
+
+  &:before
+    left: 0
+
+  &:after
+    right: 0
+
+.button
+  display: flex
+  padding: 0 10px
+
+  outline: none
+  cursor: default
+
+  border: 0
+  background: none
+  color: #FFF
+
+  -webkit-app-region: no-drag
+
+.minimize,
+.prev,
+.play,
+.next,
+.search
+  composes: button
+
+.prev,
+.next,
+.search
+  :global .material-icons
+    font-size: 20px

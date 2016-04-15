@@ -1,0 +1,38 @@
+@require '../../styles/variables.styl'
+
+.common
+  display: flex
+
+.current
+  composes: common
+  box-shadow: inset 1px 0 $accentColor
+
+.index
+  padding: 13px 20px 13px 15px
+
+.info
+  display: flex
+  flex-grow: 1
+  justify-content: space-between
+  padding: 13px 15px 13px 0
+  box-shadow: 0 1px #303030
+
+.name
+  display: flex
+  max-width: 220px
+  overflow: hidden
+  white-space: nowrap
+
+.title
+  flex-shrink: 2
+  min-width: 50px
+  padding-right: 5px
+  overflow: hidden
+  text-overflow: ellipsis
+  color: #FFF
+
+.artist
+  flex-shrink: 1
+  overflow: hidden
+  min-width: 30px
+  text-overflow: ellipsis

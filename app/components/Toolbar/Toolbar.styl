@@ -1,0 +1,31 @@
+@require '../../styles/variables.styl'
+
+.wrap
+  display: flex
+  justify-content: flex-end
+  align-items: center
+  height: $toolbarHeight
+  padding: 0 15px
+  box-shadow: 0 1px #222
+  background: $toolbarBg
+
+.button
+  display: inline-block
+  width: 24px
+  height: 24px
+  margin-left: 10px
+  padding: 0
+
+  border: 0
+  outline: 0
+
+  background: none
+  color: #808080
+
+  &:hover
+    color: $accentColor
+
+.disableButton
+  composes: button
+  color: #5B5B5B
+  pointer-events: none
