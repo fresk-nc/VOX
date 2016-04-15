@@ -36,7 +36,10 @@ const config = {
             /node_modules[\/\\]immutable[\/\\]dist[\/\\]immutable.js/
         ],
         loaders: [
-
+            {
+                test: /\.(woff2)$/,
+                loader: 'file?name=fonts/[name].[ext]'
+            }
         ]
     },
     plugins: [
