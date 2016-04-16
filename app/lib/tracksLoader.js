@@ -53,6 +53,7 @@ function normalize(filename, metadata) {
     return {
         id: uuid.v1(),
         src: filename,
+        album: metadata.album,
         artist: metadata.artist[0],
         title: metadata.title,
         duration: metadata.duration,

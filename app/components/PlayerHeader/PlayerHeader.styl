@@ -2,8 +2,6 @@
 
 .wrap
   display: flex
-  justify-content: center
-  align-items: center
 
   height: $playerHeaderHeight
 
@@ -13,7 +11,97 @@
   -webkit-app-region: drag
 
 .logo
+  display: flex
+  flex-grow: 1
+  justify-content: center
+  align-items: center
+
   font-size: 28px
   color: #231f20
   text-shadow: 1px 1px #4A4A4A
   letter-spacing: 6px
+
+.main
+  position: relative
+  width: 100%
+  padding: 66px 10px 0
+
+.artistLine
+  position: absolute
+  top: 48px
+  left: 10px
+  right: 10px
+
+.artist,
+.album
+  position: absolute
+  top: 0
+  right: 0
+  left: 0
+
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+  font-size: 13px
+  color: #C0C0C0
+  text-shadow: 0 -1px #222
+
+.artist
+  animation: artist 14s infinite
+
+.album
+  animation: album 14s infinite
+
+.titleLine
+  display: flex
+  justify-content: space-between
+
+.title
+  font-size: 16px
+  color: #FFF
+  text-shadow: 0 -1px #1E1E1E
+
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  max-width: 245px
+
+.time
+  font-size: 10px
+  line-height: 22px
+  color: #C0C0C0
+  text-shadow: 0 -1px #1E1E1E
+
+
+@keyframes artist
+  0%
+    opacity: 1
+
+  40%
+    opacity: 1
+
+  50%
+    opacity: 0
+
+  90%
+    opacity: 0
+
+  100%
+    opacity: 1
+
+@keyframes album
+  0%
+    opacity: 0
+
+  40%
+    opacity: 0
+
+  50%
+    opacity: 1
+
+  90%
+    opacity: 1
+
+  100%
+    opacity: 0
