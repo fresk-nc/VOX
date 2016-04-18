@@ -2,10 +2,7 @@
 
 .wrap
   display: flex
-
   height: $playerHeaderHeight
-
-  border-bottom: 1px solid $accentColor
   background: linear-gradient(#4A4A4A, #333)
 
   -webkit-app-region: drag
@@ -17,9 +14,14 @@
   align-items: center
 
   font-size: 28px
-  color: #231f20
-  text-shadow: 1px 1px #4A4A4A
   letter-spacing: 6px
+
+  color: #231f20
+  border-bottom: 1px solid $accentColor
+  text-shadow: 1px 1px #4A4A4A
+
+.content
+  flex-grow: 1
 
 .main
   position: relative
@@ -59,6 +61,7 @@
 
 .title
   font-size: 16px
+  line-height: 16px
   color: #FFF
   text-shadow: 0 -1px #1E1E1E
 
@@ -69,9 +72,53 @@
 
 .time
   font-size: 10px
-  line-height: 22px
+  line-height: 16px
   color: #C0C0C0
   text-shadow: 0 -1px #1E1E1E
+
+.progress
+  position: relative
+  z-index: 10
+  padding: 6px 0
+
+  -webkit-app-region: no-drag
+
+.progressActive
+  composes: progress
+
+.progress:hover,
+.progressActive
+  & .progressLine
+    min-width: 2px !important
+
+    &:after
+      display: block
+
+.progressBg
+  height: 1px
+  background: #202020
+
+.progressLine
+  position: absolute
+  left: 0
+  top: 6px
+
+  height: 1px
+
+  background: $accentColor
+
+  &:after
+    display: none
+
+    position: absolute
+    right: 0
+    top: -5px
+
+    height: 11px
+    width: 2px
+
+    content: ''
+    background: $accentColor
 
 
 @keyframes artist

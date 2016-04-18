@@ -20,7 +20,7 @@ class Player {
         }, false);
 
         this[0].addEventListener('timeupdate', () => {
-            this.trigger('timeupdate', this[0].currentTime);
+            this.trigger('timeupdate', this[0].currentTime, this.getProgress());
         }, false);
     }
 
@@ -107,7 +107,7 @@ class Player {
         }
 
         methods.forEach((method) => {
-            method(payload);
+            method(...payload);
         });
     }
 
@@ -115,6 +115,14 @@ class Player {
         this._list = [];
         this._index = 0;
         this._currentTrack = null;
+    }
+
+    getProgress() {
+        return (this[0].currentTime / this[0].duration * 100) || 0;
+    }
+
+    setProgress(time) {
+        this[0].currentTime = time;
     }
 
 }
