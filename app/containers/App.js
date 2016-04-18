@@ -11,7 +11,6 @@ import Toolbar from 'components/Toolbar';
 import DropArea from 'components/DropArea';
 import TrackListWrapper from 'components/TrackListWrapper';
 import TrackList from 'components/TrackList';
-import Track from 'components/Track';
 import Footer from 'components/Footer';
 
 const BrowserWindow = require('electron').remote.BrowserWindow;
@@ -60,21 +59,10 @@ class App extends React.Component {
 
             return (
                 <div>
-                    <TrackList>
-                        {tracks.map((track, i) => {
-                            return (
-                                <Track
-                                    key={track.get('id')}
-                                    index={i + 1}
-                                    artist={track.get('artist')}
-                                    title={track.get('title')}
-                                    duration={track.get('duration')}
-                                    isCurrent={track.get('isCurrent')}
-                                    onDoubleClick={() => actions.playTrack(track.get('id'))}
-                                />
-                            );
-                        })}
-                    </TrackList>
+                    <TrackList
+                        tracks={tracks}
+                        onTrackDoubleClick={(id) => actions.playTrack(id)}
+                    />
                     <Footer
                         trackCount={tracks.size}
                         totalMinutes={totalMinutes}
