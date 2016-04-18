@@ -36,7 +36,7 @@ export default class Track extends React.Component {
                         </span>
                     </div>
                     <span>
-                        {moment.duration(duration, 'seconds').format('m:ss')}
+                        {moment.duration(duration, 'seconds').format('m:ss', { trim: false })}
                     </span>
                 </div>
             </div>
