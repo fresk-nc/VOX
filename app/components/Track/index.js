@@ -1,10 +1,17 @@
-import styles from './Track.styl';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import moment from 'moment';
+import styles from './Track.styl';
 
 export default class Track extends React.Component {
 
     static displayName = 'Track';
+
+    constructor(props) {
+        super(props);
+
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    }
 
     render() {
         const {
