@@ -1,12 +1,11 @@
 import path from 'path';
 import webpack from 'webpack';
-import webpackTargetElectronRenderer from 'webpack-target-electron-renderer';
 
 import baseConfig from './webpack.config.base';
 
 const srcPath = path.join(__dirname, 'app');
 
-const config = {
+export default {
     ...baseConfig,
 
     debug: true,
@@ -47,9 +46,6 @@ const config = {
                 'NODE_ENV': JSON.stringify('development')
             }
         })
-    ]
+    ],
+    target: 'electron-renderer'
 };
-
-config.target = webpackTargetElectronRenderer(config);
-
-export default config;

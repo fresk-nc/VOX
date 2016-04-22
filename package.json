@@ -62,9 +62,8 @@
     "redux-logger": "2.6.1",
     "style-loader": "0.13.0",
     "stylus-loader": "1.5.1",
-    "webpack": "1.12.14",
+    "webpack": "1.13.0",
     "webpack-dev-middleware": "1.6.1",
-    "webpack-hot-middleware": "2.10.0",
-    "webpack-target-electron-renderer": "0.4.0"
+    "webpack-hot-middleware": "2.10.0"
   }
 }

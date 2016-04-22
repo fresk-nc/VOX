@@ -1,14 +1,13 @@
 import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import webpackTargetElectronRenderer from 'webpack-target-electron-renderer';
 
 import baseConfig from './webpack.config.base';
 
 const distPath = path.join(__dirname, 'dist');
 const srcPath = path.join(__dirname, 'app');
 
-const config = {
+export default {
     ...baseConfig,
 
     devtool: 'source-map',
@@ -52,9 +51,6 @@ const config = {
                 warnings: false
             }
         })
-    ]
+    ],
+    target: 'electron-renderer'
 };
-
-config.target = webpackTargetElectronRenderer(config);
-
-export default config;
