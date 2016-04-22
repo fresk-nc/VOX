@@ -17,6 +17,7 @@ export default class PlayerHeader extends React.Component {
         };
 
         this._onTimeUpdate = this._onTimeUpdate.bind(this);
+        this._onTrackEnded = this._onTrackEnded.bind(this);
 
         this._handleProgressClick = this._handleProgressClick.bind(this);
         this._handleProgressMouseDown = this._handleProgressMouseDown.bind(this);
@@ -26,6 +27,7 @@ export default class PlayerHeader extends React.Component {
 
     componentDidMount() {
         player.on('timeupdate', this._onTimeUpdate);
+        player.on('ended', this._onTrackEnded);
     }
 
     _onTimeUpdate(currentTime, progress) {
@@ -34,6 +36,11 @@ export default class PlayerHeader extends React.Component {
         }
 
         this.setState({ currentTime, progress });
+    }
+
+    _onTrackEnded() {
+        this.props.actions.nextTrack();
+        this.setState({ currentTime: 0 });
     }
 
     _handleProgressClick(event) {

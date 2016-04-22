@@ -83,6 +83,7 @@ class App extends React.Component {
         return (
             <div>
                 <PlayerHeader
+                    actions={actions}
                     currentTrack={currentTrack && currentTrack.toJS()}
                 />
                 <PlayerBar

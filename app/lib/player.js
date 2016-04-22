@@ -16,7 +16,7 @@ class Player {
 
     _bindAudioEvents() {
         this[0].addEventListener('ended', () => {
-            //this.next();
+            this.trigger('ended');
         }, false);
 
         this[0].addEventListener('timeupdate', () => {
