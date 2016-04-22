@@ -1,13 +1,11 @@
-'use strict';
-
-const path = require('path');
-const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
+import path from 'path';
+import webpack from 'webpack';
+import autoprefixer from 'autoprefixer';
 
 const distPath = path.join(__dirname, 'dist');
 const srcPath = path.join(__dirname, 'app');
 
-const config = {
+export default {
     context: srcPath,
     output: {
         path: distPath,
@@ -62,5 +60,3 @@ const config = {
         'moment-duration-format'
     ]
 };
-
-module.exports = config;

@@ -1,43 +1,55 @@
-'use strict';
+import path from 'path';
+import webpack from 'webpack';
+import webpackTargetElectronRenderer from 'webpack-target-electron-renderer';
 
-const path = require('path');
-const webpack = require('webpack');
-const webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
+import baseConfig from './webpack.config.base';
 
 const srcPath = path.join(__dirname, 'app');
-const baseConfig = require('./webpack.config.base');
-const config = Object.create(baseConfig);
 
-config.debug = true;
+const config = {
+    ...baseConfig,
 
-config.devtool = 'cheap-module-eval-source-map';
+    debug: true,
+    devtool: 'cheap-module-eval-source-map',
+    entry: [
+        'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
+        './index.js'
+    ],
+    output: {
+        ...baseConfig.output,
 
-config.entry = [
-    'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
-    './index.js'
-];
+        publicPath: 'http://localhost:3000/dist/'
+    },
+    module: {
+        ...baseConfig.module,
 
-config.output.publicPath = 'http://localhost:3000/dist/';
+        loaders: [
+            ...baseConfig.module.loaders,
 
-config.module.loaders.push({
-    test: /\.js$/,
-    loaders: [ 'react-hot', 'babel' ],
-    include: [ srcPath ]
-}, {
-    test: /\.styl$/,
-    loader: 'style!css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!stylus'
-});
+            {
+                test: /\.js$/,
+                loaders: [ 'react-hot', 'babel' ],
+                include: [ srcPath ]
+            },
+            {
+                test: /\.styl$/,
+                loader: 'style!css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!stylus'
+            }
+        ]
+    },
+    plugins: [
+        ...baseConfig.plugins,
 
-config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-        '__DEV__': true,
-        'process.env': {
-            'NODE_ENV': JSON.stringify('development')
-        }
-    })
-);
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            '__DEV__': true,
+            'process.env': {
+                'NODE_ENV': JSON.stringify('development')
+            }
+        })
+    ]
+};
 
 config.target = webpackTargetElectronRenderer(config);
 
-module.exports = config;
+export default config;

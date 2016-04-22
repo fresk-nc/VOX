@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "lint-only-change": "eslint",
-    "hot-server": "node server.js",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --progress --profile --colors",
+    "hot-server": "babel-node server.js",
+    "build": "cross-env NODE_ENV=production babel-node ./node_modules/.bin/ --config webpack.config.prod.js --progress --profile --colors",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron ./",
     "precommit": "./scripts/pre-commit.sh"
@@ -35,12 +35,14 @@
   },
   "devDependencies": {
     "autoprefixer": "6.3.6",
+    "babel-cli": "6.7.7",
     "babel-core": "6.5.2",
     "babel-eslint": "5.0.0",
     "babel-loader": "6.2.3",
     "babel-preset-es2015": "6.5.0",
     "babel-preset-react": "6.5.0",
     "babel-preset-stage-0": "6.5.0",
+    "babel-register": "6.7.2",
     "cross-env": "1.0.7",
     "css-loader": "0.23.1",
     "electron-debug": "0.5.2",
