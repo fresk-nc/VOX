@@ -7,7 +7,9 @@ export default () => {
         deserialize: (serializedData) => {
             const data = JSON.parse(serializedData);
             return {
-                tracks: fromJS(data.tracks),
+                tracks: fromJS(data.tracks).map((track) => {
+                    return track.set('isPlay', false);
+                }),
                 settings: fromJS(data.settings)
             }
         }

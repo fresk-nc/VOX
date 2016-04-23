@@ -25,11 +25,16 @@ class Player {
     }
 
     addTracks(tracks) {
-        tracks.forEach((track) => {
+        tracks.forEach((track, i) => {
             this._list.push({
                 id: track.id,
                 src: track.src
             });
+
+            if (track.isCurrent) {
+                this._currentTrack = track;
+                this._index = i;
+            }
         });
     }
 
@@ -64,6 +69,9 @@ class Player {
         }
 
         if (!id && this._currentTrack) {
+            if (!this[0].src) {
+                this[0].src = 'file:///' + this._currentTrack.src;
+            }
             this[0].play();
         }
     }
