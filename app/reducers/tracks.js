@@ -50,3 +50,7 @@ export function getCurrentTrack(state) {
         return track.get('isCurrent');
     });
 }
+
+export function getCount(state) {
+    return state.size;
+}

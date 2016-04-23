@@ -56,14 +56,14 @@ export function pauseTrack() {
 export function nextTrack() {
     return (dispatch) => {
         player.next();
-        dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() })
+        dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() });
     }
 }
 
 export function prevTrack() {
     return (dispatch) => {
         player.prev();
-        dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() })
+        dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() });
     }
 }
 

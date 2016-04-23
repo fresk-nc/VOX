@@ -1,8 +1,8 @@
-import styles from './PlayerBar.styl';
+import styles from './PlaybackBar.styl';
 
-export default class PlayerBar extends React.Component {
+export default class PlaybackBar extends React.Component {
 
-    static displayName = 'PlayerBar';
+    static displayName = 'PlaybackBar';
 
     constructor(props) {
         super(props);
