@@ -55,6 +55,7 @@ export default {
         ];
     },
     externals: [
+        'glob',
         'musicmetadata',
         'moment',
         'moment-duration-format'
