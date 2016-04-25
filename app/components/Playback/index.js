@@ -2,11 +2,25 @@ import moment from 'moment';
 import classNames from 'classnames';
 
 import styles from './Playback.styl';
-import player from 'lib/player';
 
 export default class Playback extends React.Component {
 
     static displayName = 'Playback';
+
+    static propTypes = {
+        currentTrack: React.PropTypes.shape({
+            artist: React.PropTypes.string.isRequired,
+            album: React.PropTypes.string.isRequired,
+            title: React.PropTypes.string.isRequired,
+            duration: React.PropTypes.number.isRequired
+        }),
+        isChangingTime: React.PropTypes.bool.isRequired,
+        currentTime: React.PropTypes.number.isRequired,
+        progress: React.PropTypes.number.isRequired,
+
+        onProgressClicked: React.PropTypes.func.isRequired,
+        onProgressMouseDown: React.PropTypes.func.isRequired
+    };
 
     _renderContent() {
         const { currentTrack } = this.props;
@@ -42,7 +56,7 @@ export default class Playback extends React.Component {
                     </div>
                     <div className={progressClass} onClick={onProgressClicked} onMouseDown={onProgressMouseDown}>
                         <div className={styles.progressBg}></div>
-                        <div className={styles.progressLine} style={{width: `${progress}%`}}></div>
+                        <div className={styles.progressLine} style={{ width: `${progress}%` }}></div>
                     </div>
                 </div>
             );
@@ -60,7 +74,7 @@ export default class Playback extends React.Component {
             <div className={styles.wrap}>
                 {this._renderContent()}
             </div>
-        )
+        );
     }
 
-};
+}

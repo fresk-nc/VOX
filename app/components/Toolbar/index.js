@@ -5,6 +5,12 @@ export default class Toolbar extends React.Component {
 
     static displayName = 'Toolbar';
 
+    static propTypes = {
+        trackCount: React.PropTypes.number.isRequired,
+        onAddClicked: React.PropTypes.func.isRequired,
+        onClearClicked: React.PropTypes.func.isRequired
+    };
+
     render() {
         const { trackCount, onAddClicked, onClearClicked } = this.props;
         const clearButtonClass = classNames({
@@ -24,4 +30,4 @@ export default class Toolbar extends React.Component {
         );
     }
 
-};
+}

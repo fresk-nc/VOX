@@ -6,7 +6,7 @@ const initState = Map({
 });
 
 export default function settings(state = initState, action) {
-    switch(action.type) {
+    switch (action.type) {
 
         case types.TOGGLE_MINIMIZE:
             return state.set('minimize', !action.minimize);

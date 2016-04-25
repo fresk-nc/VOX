@@ -4,6 +4,16 @@ export default class PlaybackBar extends React.Component {
 
     static displayName = 'PlaybackBar';
 
+    static propTypes = {
+        play: React.PropTypes.bool.isRequired,
+
+        onPauseClicked: React.PropTypes.func.isRequired,
+        onPlayClicked: React.PropTypes.func.isRequired,
+        onPrevClicked: React.PropTypes.func.isRequired,
+        onNextClicked: React.PropTypes.func.isRequired,
+        onMinimizeClicked: React.PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -42,4 +52,4 @@ export default class PlaybackBar extends React.Component {
         );
     }
 
-};
+}

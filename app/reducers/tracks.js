@@ -2,7 +2,7 @@ import types from 'constants/ActionTypes';
 import { List, fromJS } from 'immutable';
 
 export default function tracks(state = List(), action) {
-    switch(action.type) {
+    switch (action.type) {
 
         case types.LOAD_TRACKS_SUCCESS:
             return state.concat(fromJS(action.tracks));

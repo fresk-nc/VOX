@@ -7,6 +7,15 @@ export default class Track extends React.Component {
 
     static displayName = 'Track';
 
+    static propTypes = {
+        index: React.PropTypes.number.isRequired,
+        artist: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string.isRequired,
+        duration: React.PropTypes.number.isRequired,
+        isCurrent: React.PropTypes.bool.isRequired,
+        onDoubleClick: React.PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -50,4 +59,4 @@ export default class Track extends React.Component {
         );
     }
 
-};
+}

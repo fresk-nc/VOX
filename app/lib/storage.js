@@ -11,7 +11,7 @@ export default () => {
                     return track.set('isPlay', false);
                 }),
                 settings: fromJS(data.settings)
-            }
+            };
         }
     });
-}
+};

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Map } from 'immutable';
 
 import {
     prevTrack,
@@ -15,6 +16,19 @@ import PlaybackBar from 'components/PlaybackBar';
 class PlaybackBarContainer extends React.Component {
 
     static displayName = 'PlaybackBarContainer';
+
+    static propTypes = {
+        currentTrack: React.PropTypes.instanceOf(Map),
+        settings: React.PropTypes.instanceOf(Map),
+        trackCount: React.PropTypes.number.isRequired,
+
+        prevTrack: React.PropTypes.func.isRequired,
+        nextTrack: React.PropTypes.func.isRequired,
+        playTrack: React.PropTypes.func.isRequired,
+        pauseTrack: React.PropTypes.func.isRequired,
+        loadTracks: React.PropTypes.func.isRequired,
+        toggleMinimize: React.PropTypes.func.isRequired
+    };
 
     render() {
         const {

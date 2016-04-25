@@ -20,7 +20,7 @@ export function clearTracks() {
         const cancelId = 1;
 
         showMessageBox({
-            buttons: ['Clear', 'Cancel'],
+            buttons: [ 'Clear', 'Cancel' ],
             cancelId: cancelId,
             message: 'Are you sure you want to clear playlist?',
             detail: 'This operation can\'t be undone'
@@ -50,21 +50,21 @@ export function pauseTrack() {
     return (dispatch) => {
         player.pause();
         dispatch({ type: types.PAUSE_TRACK, id: player.getCurrentTrackId() });
-    }
+    };
 }
 
 export function nextTrack() {
     return (dispatch) => {
         player.next();
         dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() });
-    }
+    };
 }
 
 export function prevTrack() {
     return (dispatch) => {
         player.prev();
         dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() });
-    }
+    };
 }
 
 export function toggleMinimize(minimize) {

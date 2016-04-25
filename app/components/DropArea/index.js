@@ -18,4 +18,4 @@ export default class DropArea extends React.Component {
         );
     }
 
-};
+}

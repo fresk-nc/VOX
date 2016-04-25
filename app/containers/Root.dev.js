@@ -7,7 +7,7 @@ export default class Root extends React.Component {
 
     static displayName = 'Root';
 
-    static propsTypes = {
+    static propTypes = {
         store: React.PropTypes.object.isRequired,
         locale: React.PropTypes.string.isRequired,
         messages: React.PropTypes.object.isRequired

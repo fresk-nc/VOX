@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Map } from 'immutable';
 
 import { getCurrentTrack } from 'reducers/tracks';
 import { nextTrack } from 'actions';
@@ -9,6 +10,12 @@ import Playback from 'components/Playback';
 class PlaybackContainer extends React.Component {
 
     static displayName = 'PlaybackContainer';
+
+    static propTypes = {
+        currentTrack: React.PropTypes.instanceOf(Map),
+
+        nextTrack: React.PropTypes.func.isRequired
+    };
 
     constructor(props) {
         super(props);
@@ -46,7 +53,7 @@ class PlaybackContainer extends React.Component {
     }
 
     _handleProgressClick(event) {
-        const {currentTrack } = this.props;
+        const { currentTrack } = this.props;
         const progress = event.clientX * 100 / window.outerWidth;
         const currentTime = currentTrack.get('duration') * (progress / 100);
 
@@ -54,45 +61,45 @@ class PlaybackContainer extends React.Component {
     }
 
     _handleProgressMouseDown() {
-         window.addEventListener('mousemove', this._handleWindowMouseMove, false);
-         window.addEventListener('mouseup', this._handleWindowMouseUp, false);
+        window.addEventListener('mousemove', this._handleWindowMouseMove, false);
+        window.addEventListener('mouseup', this._handleWindowMouseUp, false);
 
-         this.setState({ isChangingTime: true });
+        this.setState({ isChangingTime: true });
     }
 
     _handleWindowMouseMove(event) {
-         const clientX = event.clientX;
-         const windowWidth = window.outerWidth;
-         const { currentTrack } = this.props;
+        const clientX = event.clientX;
+        const windowWidth = window.outerWidth;
+        const { currentTrack } = this.props;
 
-         let progress;
-         let currentTime;
+        let progress;
+        let currentTime;
 
-         if (clientX < 0) {
+        if (clientX < 0) {
             progress = 0;
             currentTime = 0;
-         } else if (clientX > windowWidth) {
+        } else if (clientX > windowWidth) {
             progress = 100;
             currentTime = currentTrack.get('duration');
-         } else {
+        } else {
             progress = clientX * 100 / windowWidth;
             currentTime = currentTrack.get('duration') * (progress / 100);
-         }
+        }
 
-         this.setState({ currentTime, progress });
+        this.setState({ currentTime, progress });
     }
 
     _handleWindowMouseUp() {
-         window.removeEventListener('mousemove', this._handleWindowMouseMove);
-         window.removeEventListener('mouseup', this._handleWindowMouseUp);
+        window.removeEventListener('mousemove', this._handleWindowMouseMove);
+        window.removeEventListener('mouseup', this._handleWindowMouseUp);
 
-         this.setState({ isChangingTime: false });
+        this.setState({ isChangingTime: false });
 
-         player.setProgress(this.state.currentTime);
+        player.setProgress(this.state.currentTime);
     }
 
     render() {
-        const {currentTrack } = this.props;
+        const { currentTrack } = this.props;
         const { isChangingTime, currentTime, progress } = this.state;
 
         return (

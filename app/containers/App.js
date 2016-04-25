@@ -14,18 +14,6 @@ class App extends React.Component {
         settings: React.PropTypes.object.isRequired
     };
 
-    componentWillReceiveProps(nextProps) {
-        /*
-        if (nextProps.settings.get('minimize') !== this.props.settings.get('minimize')) {
-            if (nextProps.settings.get('minimize')) {
-                BrowserWindow.getFocusedWindow().setSize(320, 122);
-            } else {
-                BrowserWindow.getFocusedWindow().setSize(320, 570);
-            }
-        }
-        */
-    }
-
     componentDidMount() {
         /*
         if (this.props.settings.get('minimize')) {
@@ -33,6 +21,18 @@ class App extends React.Component {
         } else {
             BrowserWindow.getAllWindows()[0].setSize(320, 570);
         }
+        */
+    }
+
+    componentWillReceiveProps(/*nextProps*/) {
+        /*
+         if (nextProps.settings.get('minimize') !== this.props.settings.get('minimize')) {
+            if (nextProps.settings.get('minimize')) {
+                BrowserWindow.getFocusedWindow().setSize(320, 122);
+            } else {
+                BrowserWindow.getFocusedWindow().setSize(320, 570);
+            }
+         }
         */
     }
 

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import moment from 'moment';
+import { List } from 'immutable';
 
-import { getTotalDuration } from 'reducers/tracks';
+import { getTotalDuration, getCount } from 'reducers/tracks';
 import { loadTracks, clearTracks, playTrack } from 'actions';
 import player from 'lib/player';
 
@@ -16,28 +16,33 @@ class Playlist extends React.Component {
 
     static displayName = 'Playlist';
 
+    static propTypes = {
+        tracks: React.PropTypes.instanceOf(List),
+        trackCount: React.PropTypes.number.isRequired,
+        totalDuration: React.PropTypes.number.isRequired,
+
+        loadTracks: React.PropTypes.func.isRequired,
+        clearTracks: React.PropTypes.func.isRequired,
+        playTrack: React.PropTypes.func.isRequired
+    };
+
     componentDidMount() {
         player.addTracks(this.props.tracks.toJS());
     }
 
     _renderTrackListContent() {
-        const { tracks, totalDuration, playTrack } = this.props;
+        const { tracks, trackCount, totalDuration, playTrack } = this.props;
 
-        if (tracks.size) {
-            const momentDuration = moment.duration(totalDuration, 'seconds');
-            const totalMinutes = momentDuration.minutes();
-            const totalSeconds = momentDuration.seconds();
-
+        if (trackCount) {
             return (
                 <div>
                     <TrackList
-                        tracks={tracks}
+                        tracks={tracks.toJS()}
                         onTrackDoubleClick={(id) => playTrack(id)}
                     />
                     <Footer
-                        trackCount={tracks.size}
-                        totalMinutes={totalMinutes}
-                        totalSeconds={totalSeconds}
+                        trackCount={trackCount}
+                        totalDuration={totalDuration}
                     />
                 </div>
             );
@@ -49,12 +54,12 @@ class Playlist extends React.Component {
     }
 
     render() {
-        const { tracks, loadTracks, clearTracks } = this.props;
+        const { trackCount, loadTracks, clearTracks } = this.props;
 
         return (
             <div>
                 <Toolbar
-                    trackCount={tracks.size}
+                    trackCount={trackCount}
                     onAddClicked={loadTracks}
                     onClearClicked={clearTracks}
                 />
@@ -70,6 +75,7 @@ class Playlist extends React.Component {
 function mapStateToProps(state) {
     return {
         tracks: state.tracks,
+        trackCount: getCount(state.tracks),
         totalDuration: getTotalDuration(state.tracks)
     };
 }

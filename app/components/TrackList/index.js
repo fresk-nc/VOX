@@ -4,18 +4,22 @@ const TrackList = ({ tracks, onTrackDoubleClick }) => (
     <div>
         {tracks.map((track, i) =>
             <Track
-                key={track.get('id')}
+                key={track.id}
                 index={i + 1}
-                artist={track.get('artist')}
-                title={track.get('title')}
-                duration={track.get('duration')}
-                isCurrent={track.get('isCurrent')}
-                onDoubleClick={() => onTrackDoubleClick(track.get('id'))}
+                artist={track.artist}
+                title={track.title}
+                duration={track.duration}
+                isCurrent={track.isCurrent}
+                onDoubleClick={() => onTrackDoubleClick(track.id)}
             />
         )}
     </div>
 );
 
 TrackList.displayName = 'TrackList';
+TrackList.propTypes = {
+    tracks: React.PropTypes.array.isRequired,
+    onTrackDoubleClick: React.PropTypes.func.isRequired
+};
 
 export default TrackList;
