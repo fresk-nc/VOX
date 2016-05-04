@@ -3,8 +3,13 @@ import { bindActionCreators } from 'redux';
 import { List } from 'immutable';
 
 import { getTotalDuration, getCount } from 'reducers/tracks';
-import { loadTracks, clearTracks, playTrack } from 'actions';
 import player from 'lib/player';
+import {
+    loadTracks,
+    loadTracksFromDrop,
+    clearTracks,
+    playTrack
+} from 'actions';
 
 import Toolbar from 'components/Toolbar';
 import DropArea from 'components/DropArea';
@@ -22,6 +27,7 @@ class Playlist extends React.Component {
         totalDuration: React.PropTypes.number.isRequired,
 
         loadTracks: React.PropTypes.func.isRequired,
+        loadTracksFromDrop: React.PropTypes.func.isRequired,
         clearTracks: React.PropTypes.func.isRequired,
         playTrack: React.PropTypes.func.isRequired
     };
@@ -31,7 +37,13 @@ class Playlist extends React.Component {
     }
 
     _renderTrackListContent() {
-        const { tracks, trackCount, totalDuration, playTrack } = this.props;
+        const {
+            tracks,
+            trackCount,
+            totalDuration,
+            playTrack,
+            loadTracksFromDrop
+        } = this.props;
 
         if (trackCount) {
             return (
@@ -49,7 +61,7 @@ class Playlist extends React.Component {
         }
 
         return (
-            <DropArea />
+            <DropArea onDropEnd={loadTracksFromDrop} />
         );
     }
 
@@ -83,6 +95,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         loadTracks,
+        loadTracksFromDrop,
         clearTracks,
         playTrack
     }, dispatch);

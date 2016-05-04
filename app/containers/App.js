@@ -22,6 +22,16 @@ class App extends React.Component {
             BrowserWindow.getAllWindows()[0].setSize(320, 570);
         }
         */
+
+        document.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+
+        document.addEventListener('drop', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
     }
 
     componentWillReceiveProps(/*nextProps*/) {

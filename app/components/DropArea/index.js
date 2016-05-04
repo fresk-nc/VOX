@@ -1,12 +1,33 @@
+import { DropTarget } from 'react-dnd';
+import { NativeTypes } from 'react-dnd-html5-backend';
 import { FormattedMessage } from 'react-intl';
 import styles from './DropArea.styl';
 
-export default class DropArea extends React.Component {
+function collect(connect) {
+    return {
+        connectDropTarget: connect.dropTarget()
+    };
+}
+
+const spec = {
+    drop(props, monitor) {
+        const sourceItem = monitor.getItem();
+        props.onDropEnd(sourceItem.files.map((f) => f.path));
+    }
+};
+
+class DropArea extends React.Component {
 
     static displayName = 'DropArea';
 
+    static propTypes = {
+        connectDropTarget: React.PropTypes.func.isRequired
+    };
+
     render() {
-        return (
+        const { connectDropTarget } = this.props;
+
+        return connectDropTarget(
             <div className={styles.wrap}>
                 <p className={styles.title}>
                     <FormattedMessage id="dropArea.title" />
@@ -19,3 +40,5 @@ export default class DropArea extends React.Component {
     }
 
 }
+
+export default DropTarget(NativeTypes.FILE, spec, collect)(DropArea);

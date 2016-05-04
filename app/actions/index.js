@@ -1,19 +1,32 @@
 import types from 'constants/ActionTypes';
-import { load } from 'lib/tracksLoader';
+import { loadFromDialog, loadFromDrop } from 'lib/trackLoader';
 import { showMessageBox } from 'lib/dialog';
 import player from 'lib/player';
 
 export function loadTracks() {
     return (dispatch) => {
-        load().then((tracks) => {
-            if (tracks.length) {
-                player.addTracks(tracks);
-                dispatch({ type: types.LOAD_TRACKS_SUCCESS, tracks });
-            }
+        loadFromDialog().then((tracks) => {
+            loadTracksSuccess(dispatch, tracks);
         });
     };
 }
 
+export function loadTracksFromDrop(files) {
+    return (dispatch) => {
+        loadFromDrop(files).then((tracks) => {
+            loadTracksSuccess(dispatch, tracks);
+        });
+    };
+}
+
+function loadTracksSuccess(dispatch, tracks) {
+    if (tracks.length) {
+        player.addTracks(tracks);
+        dispatch({ type: types.LOAD_TRACKS_SUCCESS, tracks });
+    }
+}
+
+// FIXME унести showMessageBox
 export function clearTracks() {
     return (dispatch) => {
         const clearId = 0;

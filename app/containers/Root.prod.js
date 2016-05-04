@@ -1,8 +1,10 @@
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 import App from './App.js';
 
-export default class Root extends React.Component {
+class Root extends React.Component {
 
     static displayName = 'Root';
 
@@ -24,3 +26,5 @@ export default class Root extends React.Component {
     }
 
 }
+
+export default DragDropContext(HTML5Backend)(Root);
