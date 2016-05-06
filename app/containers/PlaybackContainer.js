@@ -57,6 +57,8 @@ class PlaybackContainer extends React.Component {
         const progress = event.clientX * 100 / window.outerWidth;
         const currentTime = currentTrack.get('duration') * (progress / 100);
 
+        this.setState({ currentTime, progress });
+
         player.setProgress(currentTime);
     }
 
