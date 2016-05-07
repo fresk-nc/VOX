@@ -9,5 +9,6 @@ export default keyMirror({
     NEXT_TRACK: null,
     PREV_TRACK: null,
 
-    TOGGLE_MINIMIZE: null
+    TOGGLE_MINIMIZE: null,
+    TOGGLE_SHUFFLE: null
 });

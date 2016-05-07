@@ -83,3 +83,14 @@ export function prevTrack() {
 export function toggleMinimize(minimize) {
     return { type: types.TOGGLE_MINIMIZE, minimize };
 }
+
+export function toggleShuffle(shuffle) {
+    return (dispatch) => {
+        if (shuffle) {
+            player.shuffleOff();
+        } else {
+            player.shuffleOn();
+        }
+        dispatch({ type: types.TOGGLE_SHUFFLE, shuffle });
+    };
+}

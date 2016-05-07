@@ -49,8 +49,8 @@ class PlaybackBarContainer extends React.Component {
                 onMinimizeClicked={() => toggleMinimize(settings.get('minimize'))}
                 onPlayClicked={trackCount ? playTrack : loadTracks}
                 onPauseClicked={pauseTrack}
-                onPrevClicked={prevTrack}
-                onNextClicked={nextTrack}
+                onPrevClicked={() => trackCount ? prevTrack() : null}
+                onNextClicked={() => trackCount ? nextTrack() : null}
             />
         );
     }

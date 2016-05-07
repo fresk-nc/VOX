@@ -1,0 +1,27 @@
+.wrap
+  display: flex
+  padding: 10px 0
+
+  -webkit-app-region: no-drag
+
+.button
+  display: flex
+
+  padding: 0
+  outline: none
+  cursor: default
+
+  border: 0
+  background: none
+  color: #202020
+
+.shuffle,
+.shuffleActive
+.repeat
+  composes: button
+
+  :global .material-icons
+    font-size: 18px
+
+.shuffleActive
+  color: #FFF

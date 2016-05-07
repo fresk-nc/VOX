@@ -1,6 +1,7 @@
 import moment from 'moment';
 import classNames from 'classnames';
 
+import PlaybackSettingsContainer from 'containers/PlaybackSettingsContainer.js';
 import styles from './Playback.styl';
 
 export default class Playback extends React.Component {
@@ -53,6 +54,7 @@ export default class Playback extends React.Component {
                                 - {moment.duration(time, 'seconds').format('m:ss', { trim: false })}
                             </span>
                         </div>
+                        <PlaybackSettingsContainer />
                     </div>
                     <div className={progressClass} onClick={onProgressClicked} onMouseDown={onProgressMouseDown}>
                         <div className={styles.progressBg}></div>

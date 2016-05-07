@@ -22,11 +22,18 @@
 
 .content
   flex-grow: 1
+  height: 82px
+  overflow: hidden
 
 .main
   position: relative
   width: 100%
   padding: 66px 10px 0
+  transition: transform 0.3s 1s
+
+  &:hover
+    transition: transform 0.3s 0s
+    transform: translateY(-32px)
 
 .artistLine
   position: absolute
@@ -77,8 +84,12 @@
   text-shadow: 0 -1px #1E1E1E
 
 .progress
-  position: relative
+  position: absolute
+  top: 82px
+  left: 0
+  right: 0
   z-index: 10
+
   padding: 6px 0
 
   -webkit-app-region: no-drag
