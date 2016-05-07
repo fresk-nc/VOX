@@ -1,6 +1,6 @@
 import types from 'constants/ActionTypes';
 import { loadFromDialog, loadFromDrop } from 'lib/trackLoader';
-import { showMessageBox } from 'lib/dialog';
+import { tryClean } from 'lib/trackCleaner';
 import player from 'lib/player';
 
 export function loadTracks() {
@@ -26,23 +26,12 @@ function loadTracksSuccess(dispatch, tracks) {
     }
 }
 
-// FIXME унести showMessageBox
 export function clearTracks() {
     return (dispatch) => {
-        const clearId = 0;
-        const cancelId = 1;
-
-        showMessageBox({
-            buttons: [ 'Clear', 'Cancel' ],
-            cancelId: cancelId,
-            message: 'Are you sure you want to clear playlist?',
-            detail: 'This operation can\'t be undone'
-        }, (buttonIndex) => {
-            if (buttonIndex === clearId) {
-                player.pause();
-                player.clearTrackList();
-                dispatch({ type: types.CLEAR_TRACKS });
-            }
+        tryClean(() => {
+            player.pause();
+            player.clearTrackList();
+            dispatch({ type: types.CLEAR_TRACKS });
         });
     };
 }
