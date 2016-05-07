@@ -9,6 +9,7 @@ import {
     loadTracks,
     loadTracksFromDrop,
     clearTracks,
+    removeTrack,
     playTrack
 } from 'actions';
 
@@ -35,6 +36,7 @@ class Playlist extends React.Component {
         loadTracks: React.PropTypes.func.isRequired,
         loadTracksFromDrop: React.PropTypes.func.isRequired,
         clearTracks: React.PropTypes.func.isRequired,
+        removeTrack: React.PropTypes.func.isRequired,
         playTrack: React.PropTypes.func.isRequired
     };
 
@@ -43,13 +45,19 @@ class Playlist extends React.Component {
     }
 
     _showTrackMenu(id) {
-        const { playTrack, intl } = this.props;
+        const { playTrack, removeTrack, intl } = this.props;
         const menu = new Menu();
 
         menu.append(
             new MenuItem({
                 label: intl.formatMessage({ id: 'trackMenu.play' }),
                 click: () => playTrack(id)
+            })
+        );
+        menu.append(
+            new MenuItem({
+                label: intl.formatMessage({ id: 'trackMenu.remove' }),
+                click: () => removeTrack(id)
             })
         );
 
@@ -118,6 +126,7 @@ function mapDispatchToProps(dispatch) {
         loadTracks,
         loadTracksFromDrop,
         clearTracks,
+        removeTrack,
         playTrack
     }, dispatch);
 }

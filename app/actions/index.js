@@ -36,6 +36,13 @@ export function clearTracks() {
     };
 }
 
+export function removeTrack(id) {
+    return (dispatch) => {
+        player.removeTrack(id);
+        dispatch({ type: types.REMOVE_TRACK, id });
+    };
+}
+
 export function playTrack(id) {
     return (dispatch) => {
         player.play(id);

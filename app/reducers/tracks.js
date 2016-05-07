@@ -10,6 +10,9 @@ export default function tracks(state = List(), action) {
         case types.CLEAR_TRACKS:
             return state.clear();
 
+        case types.REMOVE_TRACK:
+            return state.filter((track) => track.get('id') !== action.id);
+
         case types.PLAY_TRACK:
             return state.map((track) => {
                 if (track.get('id') === action.id) {

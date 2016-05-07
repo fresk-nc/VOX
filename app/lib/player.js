@@ -48,6 +48,16 @@ class Player {
         }
     }
 
+    removeTrack(id) {
+        this._list = this._list.filter((track) => track.id !== id);
+        this._noShuffleList = this._noShuffleList.filter((track) => track.id !== id);
+
+        if (this._currentTrack && this._currentTrack.id === id) {
+            this._currentTrack = null;
+            this.pause();
+        }
+    }
+
     play(id) {
         if (id) {
             this._updateCurrentTrack(
