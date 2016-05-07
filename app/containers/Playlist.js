@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List } from 'immutable';
+import { injectIntl } from 'react-intl';
 
 import { getTotalDuration, getCount } from 'reducers/tracks';
 import player from 'lib/player';
@@ -17,6 +18,10 @@ import TrackListWrapper from 'components/TrackListWrapper';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 
+const remote = require('electron').remote;
+const Menu = remote.Menu;
+const MenuItem = remote.MenuItem;
+
 class Playlist extends React.Component {
 
     static displayName = 'Playlist';
@@ -25,6 +30,7 @@ class Playlist extends React.Component {
         tracks: React.PropTypes.instanceOf(List),
         trackCount: React.PropTypes.number.isRequired,
         totalDuration: React.PropTypes.number.isRequired,
+        intl: React.PropTypes.object.isRequired,
 
         loadTracks: React.PropTypes.func.isRequired,
         loadTracksFromDrop: React.PropTypes.func.isRequired,
@@ -34,6 +40,20 @@ class Playlist extends React.Component {
 
     componentDidMount() {
         player.addTracks(this.props.tracks.toJS());
+    }
+
+    _showTrackMenu(id) {
+        const { playTrack, intl } = this.props;
+        const menu = new Menu();
+
+        menu.append(
+            new MenuItem({
+                label: intl.formatMessage({ id: 'trackMenu.play' }),
+                click: () => playTrack(id)
+            })
+        );
+
+        menu.popup(remote.getCurrentWindow());
     }
 
     _renderTrackListContent() {
@@ -51,6 +71,7 @@ class Playlist extends React.Component {
                     <TrackList
                         tracks={tracks.toJS()}
                         onTrackDoubleClick={(id) => playTrack(id)}
+                        onTrackContextMenu={this._showTrackMenu.bind(this)}
                     />
                     <Footer
                         trackCount={trackCount}
@@ -104,4 +125,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Playlist);
+)(injectIntl(Playlist));

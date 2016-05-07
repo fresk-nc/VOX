@@ -13,7 +13,9 @@ export default class Track extends React.Component {
         title: React.PropTypes.string.isRequired,
         duration: React.PropTypes.number.isRequired,
         isCurrent: React.PropTypes.bool.isRequired,
-        onDoubleClick: React.PropTypes.func.isRequired
+
+        onDoubleClick: React.PropTypes.func.isRequired,
+        onContextMenu: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -25,6 +27,7 @@ export default class Track extends React.Component {
     render() {
         const {
             onDoubleClick,
+            onContextMenu,
             index,
             title,
             artist,
@@ -38,7 +41,11 @@ export default class Track extends React.Component {
         });
 
         return (
-            <div className={wrapClass} onDoubleClick={onDoubleClick}>
+            <div
+                className={wrapClass}
+                onDoubleClick={onDoubleClick}
+                onContextMenu={onContextMenu}
+            >
                 <span className={styles.index}>
                     {index}
                 </span>
