@@ -34,6 +34,7 @@ export default class PlaybackBar extends React.Component {
                 <button className={styles.minimize} onClick={onMinimizeClicked}>
                     <i className="material-icons">more_horiz</i>
                 </button>
+                <span className="separate"></span>
                 <div className={styles.main}>
                     <button className={styles.prev} onClick={onPrevClicked}>
                         <i className="material-icons">fast_rewind</i>
@@ -45,6 +46,7 @@ export default class PlaybackBar extends React.Component {
                         <i className="material-icons">fast_forward</i>
                     </button>
                 </div>
+                <span className="separate"></span>
                 <button className={styles.search}>
                     <i className="material-icons">search</i>
                 </button>

@@ -90,3 +90,10 @@ export function toggleShuffle(shuffle) {
         dispatch({ type: types.TOGGLE_SHUFFLE, shuffle });
     };
 }
+
+export function changeLoopMode(loopMode) {
+    return (dispatch) => {
+        player.changeLoopMode(loopMode);
+        dispatch({ type: types.CHANGE_LOOP_MODE, loopMode });
+    };
+}

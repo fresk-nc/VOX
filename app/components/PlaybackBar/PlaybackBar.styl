@@ -18,22 +18,7 @@
 .main
   position: relative
   display: flex
-  padding: 0 20px
-
-  &:before,
-  &:after
-    content: ''
-    position: absolute
-    top: 11px
-    bottom: 11px
-    width: 1px
-    background: #282828
-
-  &:before
-    left: 0
-
-  &:after
-    right: 0
+  padding: 0 14px
 
 .button
   display: flex
@@ -54,6 +39,10 @@
 .next,
 .search
   composes: button
+
+.minimize,
+.search
+  padding: 0 14px
 
 .prev,
 .next,

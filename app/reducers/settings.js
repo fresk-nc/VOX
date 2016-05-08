@@ -3,7 +3,8 @@ import { Map } from 'immutable';
 
 const initState = Map({
     minimize: false,
-    shuffle: false
+    shuffle: false,
+    loopMode: 'off'
 });
 
 export default function settings(state = initState, action) {
@@ -14,6 +15,9 @@ export default function settings(state = initState, action) {
 
         case types.TOGGLE_SHUFFLE:
             return state.set('shuffle', !action.shuffle);
+
+        case types.CHANGE_LOOP_MODE:
+            return state.set('loopMode', action.loopMode);
 
         default:
             return state;

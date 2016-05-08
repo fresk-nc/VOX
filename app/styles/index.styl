@@ -10,9 +10,19 @@
 body
   font-family: $baseFont
   font-size: $baseFontSize
+
   background: $baseBgColor
   color: $baseTextColor
   overflow: hidden
 
 :global body.disabled
   pointer-events: none
+
+:global .separate
+  display: flex
+  align-self: center
+
+  height: 10px
+  width: 1px
+
+  box-shadow: 0.5px 0 #282828

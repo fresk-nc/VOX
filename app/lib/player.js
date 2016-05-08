@@ -8,6 +8,7 @@ class Player {
         this._events = {};
         this._currentTrack = null;
         this._shuffle = false;
+        this._loopMode = 'off';
 
         this._init();
     }
@@ -100,19 +101,61 @@ class Player {
     }
 
     next() {
-        const currentIndex = Math.max(this._list.indexOf(this._currentTrack), 0);
-        const index = (currentIndex === this._list.length - 1) ? 0 : currentIndex + 1;
-        const id = this._list[index].id;
+        const index = this._getNextTrackIndex();
 
-        this.play(id);
+        if (index > -1) {
+            this.play(this._list[index].id);
+        } else {
+            this._currentTrack = null;
+            this.pause();
+        }
+    }
+
+    _getNextTrackIndex() {
+        const currentIndex = this._list.indexOf(this._currentTrack);
+
+        if (currentIndex === -1) {
+            return 0;
+        }
+
+        if (this._loopMode === 'one') {
+            return currentIndex;
+        }
+
+        if (this._loopMode === 'all') {
+            return (currentIndex === this._list.length - 1) ? 0 : currentIndex + 1;
+        }
+
+        return (currentIndex === this._list.length - 1) ? -1 : currentIndex + 1;
     }
 
     prev() {
-        const currentIndex = Math.max(this._list.indexOf(this._currentTrack), 0);
-        const index = (currentIndex === 0) ? this._list.length - 1 : currentIndex - 1;
-        const id = this._list[index].id;
+        const index = this._getPrevTrackIndex();
 
-        this.play(id);
+        if (index > -1) {
+            this.play(this._list[index].id);
+        } else {
+            this._currentTrack = null;
+            this.pause();
+        }
+    }
+
+    _getPrevTrackIndex() {
+        const currentIndex = this._list.indexOf(this._currentTrack);
+
+        if (currentIndex === -1) {
+            return this._list.length - 1;
+        }
+
+        if (this._loopMode === 'one') {
+            return currentIndex;
+        }
+
+        if (this._loopMode === 'all') {
+            return (currentIndex === 0) ? this._list.length - 1 : currentIndex - 1;
+        }
+
+        return (currentIndex === 0) ? -1 : currentIndex - 1;
     }
 
     getCurrentTrackId() {
@@ -164,6 +207,10 @@ class Player {
         if (this._list.length) {
             this._list = shuffle(this._list);
         }
+    }
+
+    changeLoopMode(mode) {
+        this._loopMode = mode;
     }
 
 }
