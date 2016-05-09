@@ -32,7 +32,13 @@ class Player {
         const newTracks = [];
 
         tracks.forEach((track) => {
-            const newTrack = { id: track.id, src: track.src };
+            const newTrack = {
+                id: track.id,
+                src: track.src,
+                title: track.title,
+                album: track.album,
+                artist: track.artist
+            };
 
             newTracks.push(newTrack);
 
@@ -156,6 +162,10 @@ class Player {
         }
 
         return (currentIndex === 0) ? -1 : currentIndex - 1;
+    }
+
+    getCurrentTrack() {
+        return this._currentTrack;
     }
 
     getCurrentTrackId() {
