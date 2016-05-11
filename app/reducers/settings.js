@@ -4,7 +4,8 @@ import { Map } from 'immutable';
 const initState = Map({
     minimize: false,
     shuffle: false,
-    loopMode: 'off'
+    loopMode: 'off',
+    volume: 1
 });
 
 export default function settings(state = initState, action) {
@@ -18,6 +19,9 @@ export default function settings(state = initState, action) {
 
         case types.CHANGE_LOOP_MODE:
             return state.set('loopMode', action.loopMode);
+
+        case types.CHANGE_VOLUME:
+            return state.set('volume', action.volume);
 
         default:
             return state;

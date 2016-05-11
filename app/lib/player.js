@@ -223,6 +223,10 @@ class Player {
         this._loopMode = mode;
     }
 
+    changeVolume(volume) {
+        this[0].volume = volume;
+    }
+
 }
 
 export default new Player();

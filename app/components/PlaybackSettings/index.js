@@ -8,9 +8,18 @@ export default class PlaybackSettings extends React.Component {
     static propTypes = {
         isShuffle: React.PropTypes.bool.isRequired,
         loopMode: React.PropTypes.string.isRequired,
+        volume: React.PropTypes.number.isRequired,
+        volumeMin: React.PropTypes.number.isRequired,
+        volumeMax: React.PropTypes.number.isRequired,
+        volumeStep: React.PropTypes.number.isRequired,
 
         onShuffleClicked: React.PropTypes.func.isRequired,
-        onLoopClicked: React.PropTypes.func.isRequired
+        onLoopClicked: React.PropTypes.func.isRequired,
+        onVolumeMinusMouseDown: React.PropTypes.func.isRequired,
+        onVolumeMinusMouseUp: React.PropTypes.func.isRequired,
+        onVolumePlusMouseDown: React.PropTypes.func.isRequired,
+        onVolumePlusMouseUp: React.PropTypes.func.isRequired,
+        onVolumeRangeInput: React.PropTypes.func.isRequired
     };
 
     _renderLoopButton() {
@@ -28,11 +37,26 @@ export default class PlaybackSettings extends React.Component {
     }
 
     render() {
-        const { isShuffle, onShuffleClicked } = this.props;
+        const {
+            isShuffle,
+            onShuffleClicked,
+            volume,
+            volumeMin,
+            volumeMax,
+            volumeStep,
+            onVolumePlusMouseDown,
+            onVolumePlusMouseUp,
+            onVolumeMinusMouseDown,
+            onVolumeMinusMouseUp,
+            onVolumeRangeInput
+        } = this.props;
         const shuffleClass = classNames({
             [styles.shuffle]: !isShuffle,
             [styles.shuffleActive]: isShuffle
         });
+        const volumeRangeStyle = {
+            backgroundSize: `${volume * 100}% 100%`
+        };
 
         return (
             <div className={styles.wrap}>
@@ -41,6 +65,35 @@ export default class PlaybackSettings extends React.Component {
                 <button className={shuffleClass} onClick={onShuffleClicked}>
                     <i className="material-icons">shuffle</i>
                 </button>
+                <span className="separate"></span>
+                <div className={styles.volume}>
+                    <button
+                        className={styles.volumeButton}
+                        onMouseDown={onVolumeMinusMouseDown}
+                        onMouseUp={onVolumeMinusMouseUp}
+                    >
+                        –
+                    </button>
+                    <label className={styles.volumeRangeWrap}>
+                        <input
+                            className={styles.volumeRange}
+                            type="range"
+                            min={volumeMin}
+                            max={volumeMax}
+                            step={volumeStep}
+                            onInput={onVolumeRangeInput}
+                            value={volume}
+                            style={volumeRangeStyle}
+                        />
+                    </label>
+                    <button
+                        className={styles.volumeButton}
+                        onMouseDown={onVolumePlusMouseDown}
+                        onMouseUp={onVolumePlusMouseUp}
+                    >
+                        +
+                    </button>
+                </div>
                 <span className="separate"></span>
             </div>
         );

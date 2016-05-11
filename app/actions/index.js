@@ -99,3 +99,10 @@ export function changeLoopMode(loopMode) {
         dispatch({ type: types.CHANGE_LOOP_MODE, loopMode });
     };
 }
+
+export function changeVolume(volume) {
+    return (dispatch) => {
+        player.changeVolume(volume);
+        dispatch({ type: types.CHANGE_VOLUME, volume });
+    };
+}

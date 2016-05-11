@@ -20,7 +20,7 @@
 .repeat,
 .repeatActive
   composes: button
-  margin-right: 10px
+  padding-right: 10px
 
   :global .material-icons
     font-size: 18px
@@ -31,9 +31,53 @@
 
 .shuffle,
 .shuffleActive
-  margin-left: 11px
+  padding-left: 11px
 
 .shuffleActive,
 .repeatActive
   color: #FFF
   text-shadow: 0 1px rgba(#000, 0.9)
+
+.volume
+  display: flex
+  align-items: center
+
+.volumeRangeWrap
+  display: flex
+  align-items: center
+  background: #202020
+
+.volumeRange
+  height: 1px
+  width: 82px
+
+  background: linear-gradient(to right, #FFF, #FFF) no-repeat
+  background-size: 50% 100%
+
+  -webkit-appearance: none
+  -webkit-app-region: no-drag
+
+  &:focus
+    outline: none
+
+  &::-webkit-slider-thumb
+    width: 10px
+    height: 10px
+    border-radius: 50%
+
+    background: linear-gradient(to bottom, #F6F6F6, #C2C2C2)
+    box-shadow: 0 1px #000
+
+    -webkit-appearance: none
+    -webkit-app-region: no-drag
+
+  &:active::-webkit-slider-thumb
+    background: linear-gradient(to bottom, #C4C4C4, #9B9B9B)
+
+.volumeButton
+  composes: button
+
+  padding: 0 17.5px
+
+  color: #E6E6E6
+  text-shadow: 0 1px #000
