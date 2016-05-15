@@ -2,14 +2,11 @@ const electron = require('electron');
 const JSONStorage = require('node-localstorage').JSONStorage;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const crashReporter = electron.crashReporter;
 
 const config = require('./app/config.js');
 const isDev = (process.env.NODE_ENV === 'development');
 
 let mainWindow = null;
-
-crashReporter.start();
 
 if (isDev) {
     require('electron-debug')();
