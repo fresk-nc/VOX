@@ -3,6 +3,7 @@ import { loadFromDialog, loadFromDrop } from 'lib/trackLoader';
 import { tryClean } from 'lib/trackCleaner';
 import { showCurrentTrack } from 'lib/notifications';
 import player from 'lib/player';
+import { resize } from 'lib/windowResizer';
 
 export function loadTracks() {
     return (dispatch) => {
@@ -79,7 +80,10 @@ export function prevTrack() {
 }
 
 export function toggleMinimize(minimize) {
-    return { type: types.TOGGLE_MINIMIZE, minimize };
+    return (dispatch) => {
+        resize(!minimize);
+        dispatch({ type: types.TOGGLE_MINIMIZE, minimize });
+    };
 }
 
 export function toggleShuffle(shuffle) {

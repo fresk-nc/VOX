@@ -1,17 +1,40 @@
-import persistState from 'redux-localstorage';
-import { fromJS } from 'immutable';
+import { LocalStorage } from 'node-localstorage';
 
-export default () => {
-    return persistState(null, {
-        key: 'vox',
-        deserialize: (serializedData) => {
-            const data = JSON.parse(serializedData);
-            return {
-                tracks: fromJS(data.tracks).map((track) => {
-                    return track.set('isPlay', false);
-                }),
-                settings: fromJS(data.settings)
-            };
+const storage = new LocalStorage('./state');
+
+export default {
+    getItem: (key, cb) => {
+        try {
+            cb(null, storage.getItem(key));
+        } catch (e) {
+            cb(e);
         }
-    });
+    },
+    setItem: (key, string, cb) => {
+        try {
+            storage.setItem(key, string);
+            cb(null);
+        } catch (e) {
+            cb(e);
+        }
+    },
+    removeItem: (key, cb) => {
+        try {
+            storage.removeItem(key);
+            cb(null);
+        } catch (e) {
+            cb(e);
+        }
+    },
+    getAllKeys: (cb) => {
+        try {
+            const keys = [];
+            for (var i = 0; i < storage.length; i++) {
+                keys.push(storage.key(i));
+            }
+            cb(null, keys);
+        } catch (e) {
+            cb(e);
+        }
+    }
 };

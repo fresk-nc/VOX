@@ -58,6 +58,7 @@ export default {
         'glob',
         'musicmetadata',
         'moment',
-        'moment-duration-format'
+        'moment-duration-format',
+        'node-localstorage'
     ]
 };

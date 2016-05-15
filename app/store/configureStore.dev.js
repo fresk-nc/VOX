@@ -2,9 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from 'reducers';
-import DevTools from 'containers/DevTools';
 import { Iterable } from 'immutable';
-import createStorage from 'lib/storage';
+import { autoRehydrate } from 'redux-persist';
 
 function stateTransformer(state) {
     return Object.keys(state).reduce((newState, key) => {
@@ -21,12 +20,11 @@ export default function configureStore(initialState) {
         rootReducer,
         initialState,
         compose(
-            createStorage(),
+            autoRehydrate(),
             applyMiddleware(
                 thunk,
                 createLogger({ stateTransformer })
-            ),
-            DevTools.instrument()
+            )
         )
     );
 

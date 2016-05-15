@@ -1,7 +1,10 @@
 const electron = require('electron');
+const JSONStorage = require('node-localstorage').JSONStorage;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const crashReporter = electron.crashReporter;
+
+const config = require('./app/config.js');
 const isDev = (process.env.NODE_ENV === 'development');
 
 let mainWindow = null;
@@ -19,12 +22,23 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
+    const storage = new JSONStorage('./state');
+    const settings = storage.getItem('reduxPersist:settings');
+
+    let width = config.maxSize.width;
+    let height = config.maxSize.height;
+
+    if (settings && settings.minimize) {
+        width = config.minSize.width;
+        height = config.minSize.height;
+    }
+
     mainWindow = new BrowserWindow({
-        width: 320,
-        height: 570,
+        width: width,
+        height: height,
         show: false,
         resizable: isDev,
-        backgroundColor: '#282828',
+        backgroundColor: config.backgroundColor,
         fullscreen: false,
         frame: false
     });
