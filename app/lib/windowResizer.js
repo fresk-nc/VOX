@@ -1,5 +1,6 @@
+import config from '../config';
+
 const BrowserWindow = require('electron').remote.BrowserWindow;
-const config = require('../config');
 
 export function resize(minimize) {
     let width = config.maxSize.width;

@@ -1,11 +1,8 @@
-const electron = require('electron');
-const JSONStorage = require('node-localstorage').JSONStorage;
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+import { app, BrowserWindow } from 'electron';
+import { JSONStorage } from 'node-localstorage';
+import config from './app/config';
 
-const config = require('./app/config.js');
 const isDev = (process.env.NODE_ENV === 'development');
-
 let mainWindow = null;
 
 if (isDev) {

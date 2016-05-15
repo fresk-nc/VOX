@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     minSize: {
         width: 320,
         height: 120
