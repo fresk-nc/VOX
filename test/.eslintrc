@@ -1,0 +1,13 @@
+{
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "max-len": [2, 200, 4]
+  },
+  "globals": {
+    "expect": false,
+    "should": false,
+    "sinon": false
+  }
+}
