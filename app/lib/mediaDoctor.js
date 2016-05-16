@@ -1,6 +1,6 @@
 import uuid from 'node-uuid';
 
-export function normalize(file, metadata) {
+export default function(file, metadata) {
     return {
         id: uuid.v1(),
         src: file,

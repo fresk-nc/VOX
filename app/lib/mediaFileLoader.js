@@ -3,7 +3,7 @@ import path from 'path';
 import mm from 'musicmetadata';
 import glob from 'glob';
 import { flatten } from 'lodash';
-import { normalize } from 'lib/mediaDoctor.js';
+import mediaDoctor from 'lib/mediaDoctor';
 
 export function load(files) {
     return new Promise((resolve, reject) => {
@@ -64,7 +64,7 @@ function loadFile(file) {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(normalize(file, metadata));
+                    resolve(mediaDoctor(file, metadata));
                 }
             }
         );
