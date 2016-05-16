@@ -8,6 +8,9 @@ export default {
         'trackMenu.remove': 'Remove',
         'playerError.message': 'Ooops, can\'t play it',
         'playerError.detail': 'Possibly the file "{src}" has been deleted or moved',
-        'playerError.remove': 'Remove track'
+        'playerError.remove': 'Remove track',
+        'trackCleaner.message': 'Are you sure you want to clear playlist?',
+        'trackCleaner.detail': 'This operation can\'t be undone',
+        'trackCleaner.clear': 'Clear'
     }
 };

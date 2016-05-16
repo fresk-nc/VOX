@@ -1,14 +1,23 @@
+import IntlMessageFormat from 'intl-messageformat';
+
+import config from '../config';
+import messages from '../loc/messages';
 import { showMessageBox } from 'lib/dialog';
+
+const locale = config.defaultLocale;
 
 export function tryClean(callback) {
     const clearId = 0;
     const cancelId = 1;
 
     showMessageBox({
-        buttons: [ 'Clear', 'Cancel' ],
+        buttons: [
+            new IntlMessageFormat(messages[locale]['trackCleaner.clear'], locale).format(),
+            new IntlMessageFormat(messages[locale]['common.cancel'], locale).format()
+        ],
         cancelId: cancelId,
-        message: 'Are you sure you want to clear playlist?',
-        detail: 'This operation can\'t be undone'
+        message: new IntlMessageFormat(messages[locale]['trackCleaner.message'], locale).format(),
+        detail: new IntlMessageFormat(messages[locale]['trackCleaner.detail'], locale).format()
     }, (buttonIndex) => {
         if (buttonIndex === clearId) {
             callback();
