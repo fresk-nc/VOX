@@ -14,7 +14,8 @@
     "build": "cross-env NODE_ENV=production node -r babel-register ./node_modules/.bin/ --config webpack.config.prod.js --progress --profile --colors",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main",
-    "precommit": "./scripts/pre-commit.sh"
+    "precommit": "./scripts/pre-commit.sh",
+    "prepush": "npm test"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron",
