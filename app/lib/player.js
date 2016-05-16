@@ -26,6 +26,10 @@ class Player {
         this[0].addEventListener('timeupdate', () => {
             this.trigger('timeupdate', this[0].currentTime, this.getProgress());
         }, false);
+
+        this[0].addEventListener('error', () => {
+            this.trigger('error');
+        });
     }
 
     addTracks(tracks) {

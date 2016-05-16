@@ -4,6 +4,7 @@ import { tryClean } from 'lib/trackCleaner';
 import { showCurrentTrack } from 'lib/notifications';
 import player from 'lib/player';
 import { resize } from 'lib/windowResizer';
+import { reportError } from 'lib/playerErrorReporter';
 
 export function loadTracks() {
     return (dispatch) => {
@@ -108,5 +109,13 @@ export function changeVolume(volume) {
     return (dispatch) => {
         player.changeVolume(volume);
         dispatch({ type: types.CHANGE_VOLUME, volume });
+    };
+}
+
+export function reportPlayerError(src, id) {
+    return (dispatch) => {
+        reportError(src, () => {
+            removeTrack(id)(dispatch);
+        });
     };
 }

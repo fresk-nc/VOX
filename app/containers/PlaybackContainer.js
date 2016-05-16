@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { Map } from 'immutable';
 
 import { getCurrentTrack } from 'reducers/tracks';
-import { nextTrack } from 'actions';
+import { nextTrack, reportPlayerError } from 'actions';
 import player from 'lib/player';
 import Playback from 'components/Playback';
 
@@ -14,7 +14,8 @@ class PlaybackContainer extends React.Component {
     static propTypes = {
         currentTrack: React.PropTypes.instanceOf(Map),
 
-        nextTrack: React.PropTypes.func.isRequired
+        nextTrack: React.PropTypes.func.isRequired,
+        reportPlayerError: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -28,6 +29,7 @@ class PlaybackContainer extends React.Component {
 
         this._onTimeUpdate = this._onTimeUpdate.bind(this);
         this._onTrackEnded = this._onTrackEnded.bind(this);
+        this._onPlayerError = this._onPlayerError.bind(this);
         this._handleProgressClick = this._handleProgressClick.bind(this);
         this._handleProgressMouseDown = this._handleProgressMouseDown.bind(this);
         this._handleWindowMouseUp = this._handleWindowMouseUp.bind(this);
@@ -37,6 +39,7 @@ class PlaybackContainer extends React.Component {
     componentDidMount() {
         player.on('timeupdate', this._onTimeUpdate);
         player.on('ended', this._onTrackEnded);
+        player.on('error', this._onPlayerError);
     }
 
     _onTimeUpdate(currentTime, progress) {
@@ -50,6 +53,12 @@ class PlaybackContainer extends React.Component {
     _onTrackEnded() {
         this.props.nextTrack();
         this.setState({ currentTime: 0 });
+    }
+
+    _onPlayerError() {
+        const { reportPlayerError, currentTrack } = this.props;
+
+        reportPlayerError(currentTrack.get('src'), currentTrack.get('id'));
     }
 
     _handleProgressClick(event) {
@@ -126,7 +135,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        nextTrack
+        nextTrack,
+        reportPlayerError
     }, dispatch);
 }
 

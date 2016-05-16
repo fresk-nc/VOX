@@ -7,5 +7,6 @@ export default {
         width: 320,
         height: 570
     },
-    backgroundColor: '#282828'
+    backgroundColor: '#282828',
+    defaultLocale: 'en'
 };
