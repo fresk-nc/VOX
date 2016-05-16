@@ -82,7 +82,7 @@ export function prevTrack() {
 export function toggleMinimize(minimize) {
     return (dispatch) => {
         resize(!minimize);
-        dispatch({ type: types.TOGGLE_MINIMIZE, minimize });
+        dispatch({ type: types.TOGGLE_MINIMIZE });
     };
 }
 
@@ -93,7 +93,7 @@ export function toggleShuffle(shuffle) {
         } else {
             player.shuffleOn();
         }
-        dispatch({ type: types.TOGGLE_SHUFFLE, shuffle });
+        dispatch({ type: types.TOGGLE_SHUFFLE });
     };
 }
 

@@ -12,10 +12,10 @@ export default function settings(state = initState, action) {
     switch (action.type) {
 
         case types.TOGGLE_MINIMIZE:
-            return state.set('minimize', !action.minimize);
+            return state.update('minimize', (v) => !v);
 
         case types.TOGGLE_SHUFFLE:
-            return state.set('shuffle', !action.shuffle);
+            return state.update('shuffle', (v) => !v);
 
         case types.CHANGE_LOOP_MODE:
             return state.set('loopMode', action.loopMode);
