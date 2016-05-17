@@ -7,7 +7,8 @@
   },
   "main": "main.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start",
+    "test": "karma start --single-run",
+    "test-watch": "karma start",
     "lint": "eslint .",
     "lint-only-change": "eslint",
     "hot-server": "node -r babel-register server.js",
@@ -19,7 +20,8 @@
   },
   "bin": {
     "electron": "./node_modules/.bin/electron",
-    "eslint": "./node_modules/.bin/eslint"
+    "eslint": "./node_modules/.bin/eslint",
+    "karma": "./node_modules/.bin/karma"
   },
   "dependencies": {
     "classnames": "2.2.3",
