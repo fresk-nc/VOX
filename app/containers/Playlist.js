@@ -19,9 +19,7 @@ import TrackListWrapper from 'components/TrackListWrapper';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 
-const remote = require('electron').remote;
-const Menu = remote.Menu;
-const MenuItem = remote.MenuItem;
+const { Menu, MenuItem, getCurrentWindow } = require('electron').remote;
 
 class Playlist extends React.Component {
 
@@ -61,7 +59,7 @@ class Playlist extends React.Component {
             })
         );
 
-        menu.popup(remote.getCurrentWindow());
+        menu.popup(getCurrentWindow());
     }
 
     _renderTrackListContent() {

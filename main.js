@@ -1,8 +1,10 @@
-import { app, BrowserWindow } from 'electron';
-import { JSONStorage } from 'node-localstorage';
-import config from './app/config';
-
 const isDev = (process.env.NODE_ENV === 'development');
+const electron = require('electron');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const JSONStorage = require('node-localstorage').JSONStorage;
+const config = require('./app/config');
+
 let mainWindow = null;
 
 if (isDev) {
@@ -16,7 +18,7 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-    const storage = new JSONStorage('./state');
+    const storage = new JSONStorage(isDev ? config.devUserData : app.getPath('userData'));
     const settings = storage.getItem('reduxPersist:settings');
 
     let width = config.maxSize.width;

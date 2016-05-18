@@ -1,5 +1,4 @@
-const remote = require('electron').remote;
-const dialog = remote.require('dialog');
+const { dialog } = require('electron').remote;
 
 const DISABLED_CLASS = 'disabled';
 

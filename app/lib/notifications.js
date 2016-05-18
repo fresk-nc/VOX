@@ -1,4 +1,4 @@
-const BrowserWindow = require('electron').remote.BrowserWindow;
+const { BrowserWindow } = require('electron').remote;
 
 export function showCurrentTrack(currentTrack) {
     if (!currentTrack) {

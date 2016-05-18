@@ -1,6 +1,10 @@
 import { LocalStorage } from 'node-localstorage';
 
-const storage = new LocalStorage('./state');
+const config = require('../config');
+const { app } = require('electron').remote;
+
+const isDev = (process.env.NODE_ENV === 'development');
+const storage = new LocalStorage(isDev ? config.devUserData : app.getPath('userData'));
 
 export default {
     getItem: (key, cb) => {

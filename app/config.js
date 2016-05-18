@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     minSize: {
         width: 320,
         height: 120
@@ -8,5 +8,6 @@ export default {
         height: 570
     },
     backgroundColor: '#282828',
-    defaultLocale: 'en'
+    defaultLocale: 'en',
+    devUserData: './state'
 };

@@ -4,7 +4,6 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 import baseConfig from './webpack.config.base';
 
-const distPath = path.join(__dirname, 'dist');
 const srcPath = path.join(__dirname, 'app');
 
 export default {

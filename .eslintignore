@@ -2,6 +2,7 @@
 .idea/
 node_modules/
 dist/
+release/
 webpack.config.base.js
 webpack.config.prod.js
 webpack.config.dev.js
