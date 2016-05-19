@@ -16,6 +16,7 @@
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron ./",
     "release": "cross-env NODE_ENV=production node -r babel-register package.js",
+    "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
     "precommit": "./scripts/pre-commit.sh",
     "prepush": "npm test"
   },
@@ -58,6 +59,7 @@
     "babel-register": "6.7.2",
     "chai": "3.5.0",
     "chai-immutable": "1.5.4",
+    "concurrently": "2.1.0",
     "cross-env": "1.0.7",
     "css-loader": "0.23.1",
     "del": "2.2.0",
