@@ -11,7 +11,7 @@ const TrackList = ({ tracks, onTrackDoubleClick, onTrackContextMenu }) => (
                 duration={track.duration}
                 isCurrent={track.isCurrent}
                 onDoubleClick={() => onTrackDoubleClick(track.id)}
-                onContextMenu={() => onTrackContextMenu(track.id)}
+                onContextMenu={() => onTrackContextMenu(track)}
             />
         )}
     </div>

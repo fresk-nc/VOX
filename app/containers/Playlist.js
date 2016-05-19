@@ -19,7 +19,7 @@ import TrackListWrapper from 'components/TrackListWrapper';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 
-const { Menu, MenuItem, getCurrentWindow } = require('electron').remote;
+const { Menu, MenuItem, getCurrentWindow, shell } = require('electron').remote;
 
 class Playlist extends React.Component {
 
@@ -42,20 +42,37 @@ class Playlist extends React.Component {
         player.addTracks(this.props.tracks.toJS());
     }
 
-    _showTrackMenu(id) {
+    _showTrackMenu(track) {
         const { playTrack, removeTrack, intl } = this.props;
         const menu = new Menu();
 
         menu.append(
             new MenuItem({
                 label: intl.formatMessage({ id: 'trackMenu.play' }),
-                click: () => playTrack(id)
+                click: () => playTrack(track.id)
+            })
+        );
+        menu.append(new MenuItem({ type: 'separator' }));
+        menu.append(
+            new MenuItem({
+                label: intl.formatMessage({ id: 'trackMenu.show.darwin' }),
+                click: () => shell.showItemInFolder(track.src)
+            })
+        );
+        menu.append(new MenuItem({ type: 'separator' }));
+        menu.append(
+            new MenuItem({
+                label: intl.formatMessage({ id: 'trackMenu.remove' }),
+                click: () => removeTrack(track.id)
             })
         );
         menu.append(
             new MenuItem({
-                label: intl.formatMessage({ id: 'trackMenu.remove' }),
-                click: () => removeTrack(id)
+                label: intl.formatMessage({ id: 'trackMenu.removeWithFile' }),
+                click: () => {
+                    removeTrack(track.id);
+                    shell.moveItemToTrash(track.src);
+                }
             })
         );
 
