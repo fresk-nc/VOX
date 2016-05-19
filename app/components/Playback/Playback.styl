@@ -7,6 +7,32 @@
 
   -webkit-app-region: drag
 
+  &:hover
+
+    .main
+      transition: transform 0.3s 0s
+      transform: translateY(-32px)
+
+.quit
+  position: absolute
+  z-index: 1
+  top: 2px
+  left: 1px
+
+  padding-right: 5px
+  padding-bottom: 5px
+
+  color: #3A3A3A
+  text-shadow: 0 1px #484848, 0 -1px #303030
+
+  -webkit-app-region: no-drag
+
+  :global .material-icons
+    font-size: 14px
+
+  &:hover
+    color: #2A2A2A
+
 .logo
   display: flex
   flex-grow: 1
@@ -30,10 +56,6 @@
   width: 100%
   padding: 66px 10px 0
   transition: transform 0.3s 1s
-
-  &:hover
-    transition: transform 0.3s 0s
-    transform: translateY(-32px)
 
 .artistLine
   position: absolute

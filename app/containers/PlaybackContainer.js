@@ -7,6 +7,8 @@ import { nextTrack, reportPlayerError } from 'actions';
 import player from 'lib/player';
 import Playback from 'components/Playback';
 
+const { app } = require('electron').remote;
+
 class PlaybackContainer extends React.Component {
 
     static displayName = 'PlaybackContainer';
@@ -121,6 +123,7 @@ class PlaybackContainer extends React.Component {
                 progress={progress}
                 onProgressClicked={this._handleProgressClick}
                 onProgressMouseDown={this._handleProgressMouseDown}
+                onQuitClicked={() => app.hide()}
             />
         );
     }

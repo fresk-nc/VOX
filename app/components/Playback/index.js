@@ -20,7 +20,8 @@ export default class Playback extends React.Component {
         progress: React.PropTypes.number.isRequired,
 
         onProgressClicked: React.PropTypes.func.isRequired,
-        onProgressMouseDown: React.PropTypes.func.isRequired
+        onProgressMouseDown: React.PropTypes.func.isRequired,
+        onQuitClicked: React.PropTypes.func.isRequired
     };
 
     _renderContent() {
@@ -72,8 +73,13 @@ export default class Playback extends React.Component {
     }
 
     render() {
+        const { onQuitClicked } = this.props;
+
         return (
             <div className={styles.wrap}>
+                <span className={styles.quit} onClick={onQuitClicked}>
+                    <i className="material-icons">clear</i>
+                </span>
                 {this._renderContent()}
             </div>
         );
