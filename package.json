@@ -7,8 +7,8 @@
   },
   "main": "main.js",
   "scripts": {
-    "test": "karma start --single-run",
-    "test:dev": "karma start",
+    "test": "node -r babel-register ./node_modules/.bin/karma start --single-run",
+    "test:dev": "node -r babel-register ./node_modules/.bin/karma start",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "lint:precommit": "eslint",
@@ -23,8 +23,7 @@
   },
   "bin": {
     "electron": "./node_modules/.bin/electron",
-    "eslint": "./node_modules/.bin/eslint",
-    "karma": "./node_modules/.bin/karma"
+    "eslint": "./node_modules/.bin/eslint"
   },
   "dependencies": {
     "classnames": "2.2.3",

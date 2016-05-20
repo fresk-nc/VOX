@@ -1,5 +1,6 @@
-const path = require('path');
-const webpack = require('webpack');
+import path from 'path';
+import webpack from 'webpack';
+import webpackConfig from './webpack.config.dev';
 
 const testPath = path.join(__dirname, 'test');
 const srcPath = path.join(__dirname, 'app');
@@ -15,34 +16,10 @@ module.exports = (config) => {
             'test/**/*.js': [ 'webpack', 'electron' ]
         },
         webpack: {
-            resolve: {
-                extensions: [ '', '.js', '.styl' ],
-                alias: {
-                    actions: path.join(srcPath, 'actions'),
-                    components: path.join(srcPath, 'components'),
-                    constants: path.join(srcPath, 'constants'),
-                    containers: path.join(srcPath, 'containers'),
-                    reducers: path.join(srcPath, 'reducers'),
-                    lib: path.join(srcPath, 'lib')
-                },
-                packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
-            },
-            plugins: [
-                new webpack.DefinePlugin({
-                    '__DEV__': true,
-                    'process.env': {
-                        'NODE_ENV': JSON.stringify('development')
-                    }
-                }),
-                new webpack.ProvidePlugin({
-                    React: 'react',
-                    ReactDOM: 'react-dom'
-                })
-            ],
+            resolve: webpackConfig.resolve,
+            plugins: webpackConfig.plugins,
             module: {
-                noParse: [
-                    /node_modules[\/\\]immutable[\/\\]dist[\/\\]immutable.js/
-                ],
+                noParse: webpackConfig.module.noParse,
                 loaders: [
                     {
                         test: /\.js$/,
@@ -59,7 +36,7 @@ module.exports = (config) => {
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
             },
-            target: 'electron-renderer'
+            target: webpackConfig.target
         },
         webpackMiddleware: {
             noInfo: true
