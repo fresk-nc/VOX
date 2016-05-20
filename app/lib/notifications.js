@@ -1,15 +1,25 @@
 const { BrowserWindow } = require('electron').remote;
 
-export function showCurrentTrack(currentTrack) {
-    if (!currentTrack) {
-        return;
-    }
+export default {
+    nextTrack(track) {
+        if (!track) {
+            return;
+        }
 
-    if (BrowserWindow.getFocusedWindow()) {
-        return;
-    }
+        if (this._hasFocusedWindow()) {
+            return;
+        }
 
-    new Notification(currentTrack.title, {
-        body: `${currentTrack.artist} — ${currentTrack.album}`
-    });
-}
+        this._showNotification(track.title, {
+            body: `${track.artist} — ${track.album}`
+        });
+    },
+
+    _hasFocusedWindow() {
+        return Boolean(BrowserWindow.getFocusedWindow());
+    },
+
+    _showNotification(title, options) {
+        new Notification(title, options);
+    }
+};

@@ -1,7 +1,7 @@
 import types from 'constants/ActionTypes';
 import { loadFromDialog, loadFromDrop } from 'lib/trackLoader';
 import { tryClean } from 'lib/trackCleaner';
-import { showCurrentTrack } from 'lib/notifications';
+import notifications from 'lib/notifications';
 import player from 'lib/player';
 import { resize } from 'lib/windowResizer';
 import { reportError } from 'lib/playerErrorReporter';
@@ -68,7 +68,7 @@ export function pauseTrack() {
 export function nextTrack() {
     return (dispatch) => {
         player.next();
-        showCurrentTrack(player.getCurrentTrack());
+        notifications.nextTrack(player.getCurrentTrack());
         dispatch({ type: types.PLAY_TRACK, id: player.getCurrentTrackId() });
     };
 }

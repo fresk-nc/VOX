@@ -12,7 +12,7 @@ module.exports = (config) => {
             'test/spec/**/*.js'
         ],
         preprocessors: {
-            'test/**/*.js': [ 'electron', 'webpack' ]
+            'test/**/*.js': [ 'webpack', 'electron' ]
         },
         webpack: {
             resolve: {
@@ -24,7 +24,8 @@ module.exports = (config) => {
                     containers: path.join(srcPath, 'containers'),
                     reducers: path.join(srcPath, 'reducers'),
                     lib: path.join(srcPath, 'lib')
-                }
+                },
+                packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
             },
             plugins: [
                 new webpack.DefinePlugin({
@@ -57,7 +58,8 @@ module.exports = (config) => {
             externals: {
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
-            }
+            },
+            target: 'electron-renderer'
         },
         webpackMiddleware: {
             noInfo: true
