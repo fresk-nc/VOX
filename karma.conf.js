@@ -20,11 +20,18 @@ module.exports = (config) => {
             plugins: webpackConfig.plugins,
             module: {
                 noParse: webpackConfig.module.noParse,
+                preLoaders: [
+                    {
+                        test: /\.js$/,
+                        loader: 'isparta',
+                        include: [ srcPath ]
+                    }
+                ],
                 loaders: [
                     {
                         test: /\.js$/,
                         loader: 'babel',
-                        include: [ srcPath, testPath ]
+                        include: [ testPath ]
                     },
                     {
                         test: /\.styl$/,
@@ -41,7 +48,13 @@ module.exports = (config) => {
         webpackMiddleware: {
             noInfo: true
         },
-        reporters: [ 'progress' ],
+        coverageReporter: {
+            reporters: [
+                { type: 'text-summary' },
+                { type: 'html', dir: 'coverage' }
+            ]
+        },
+        reporters: [ 'progress', 'coverage' ],
         browsers: [ 'Electron' ],
         singleRun: false
     });
