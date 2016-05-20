@@ -24,8 +24,8 @@ $ cd VOX && npm install
 Run this two commands **simultaneously** in different console tabs:
 
 ```
-$ npm run hot-server
-$ npm run start-hot
+$ npm run server
+$ npm run start:hot
 ```
 
 or run with one command:

@@ -20,5 +20,5 @@ git checkout -- .
 git_cached_files=$(git diff --cached --name-only --diff-filter=ACMR | grep "\.js$")
 
 if [ "$git_cached_files" ]; then
-    npm run lint-only-change $git_cached_files || exit 1
+    npm run lint:precommit $git_cached_files || exit 1
 fi
