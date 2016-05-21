@@ -3,7 +3,7 @@ import { loadFromDialog, loadFromDrop } from 'lib/trackLoader';
 import { tryClean } from 'lib/trackCleaner';
 import notifications from 'lib/notifications';
 import player from 'lib/player';
-import { resize } from 'lib/windowResizer';
+import windowResizer from 'lib/windowResizer';
 import { reportError } from 'lib/playerErrorReporter';
 
 export function loadTracks() {
@@ -82,7 +82,12 @@ export function prevTrack() {
 
 export function toggleMinimize(minimize) {
     return (dispatch) => {
-        resize(!minimize);
+        if (minimize) {
+            windowResizer.expand();
+        } else {
+            windowResizer.collapse();
+        }
+
         dispatch({ type: types.TOGGLE_MINIMIZE });
     };
 }

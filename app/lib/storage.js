@@ -1,6 +1,6 @@
 import { LocalStorage } from 'node-localstorage';
+import config from 'config';
 
-const config = require('../config');
 const { app } = require('electron').remote;
 
 const isDev = (process.env.NODE_ENV === 'development');

@@ -1,8 +1,8 @@
 import IntlMessageFormat from 'intl-messageformat';
 import messages from '../loc/messages';
 import { showMessageBox } from 'lib/dialog';
+import config from 'config';
 
-const config = require('../config');
 const locale = config.defaultLocale;
 
 export function reportError(src, callback) {

@@ -1,15 +1,17 @@
-import config from '../config';
+import config from 'config';
 
 const { BrowserWindow } = require('electron').remote;
 
-export function resize(minimize) {
-    let width = config.maxSize.width;
-    let height = config.maxSize.height;
+export default {
+    expand() {
+        this._resize(config.maxSize.width, config.maxSize.height);
+    },
 
-    if (minimize) {
-        width = config.minSize.width;
-        height = config.minSize.height;
+    collapse() {
+        this._resize(config.minSize.width, config.minSize.height);
+    },
+
+    _resize(width, height) {
+        BrowserWindow.getFocusedWindow().setSize(width, height);
     }
-
-    BrowserWindow.getFocusedWindow().setSize(width, height);
-}
+};

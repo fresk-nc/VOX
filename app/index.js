@@ -2,10 +2,10 @@ import Root from 'containers/Root';
 import configureStore from './store/configureStore';
 import messages from './loc/messages';
 import './styles/index.styl';
+import config from 'config';
 
 require('moment-duration-format');
 
-const config = require('./config');
 const store = configureStore();
 const locale = config.defaultLocale;
 

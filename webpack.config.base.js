@@ -20,7 +20,8 @@ export default {
             constants: path.join(srcPath, 'constants'),
             containers: path.join(srcPath, 'containers'),
             reducers: path.join(srcPath, 'reducers'),
-            lib: path.join(srcPath, 'lib')
+            lib: path.join(srcPath, 'lib'),
+            config: path.join(srcPath, 'config.js')
         },
         packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
     },
