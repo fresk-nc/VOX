@@ -46,7 +46,8 @@ export default {
         new webpack.ProvidePlugin({
             React: 'react',
             ReactDOM: 'react-dom'
-        })
+        }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     ],
     postcss: function() {
         return [
@@ -58,8 +59,6 @@ export default {
     externals: [
         'glob',
         'musicmetadata',
-        'moment',
-        'moment-duration-format',
         'node-localstorage'
     ]
 };

@@ -1,3 +1,12 @@
+window.process = window.parent.process;
+window.require = window.parent.require;
+
+require('moment-duration-format');
+
+// require all test files
+const testsContext = require.context('./spec', true, /\.js$/);
+testsContext.keys().forEach(testsContext);
+
 beforeEach(function() {
     this.sinon = sinon.sandbox.create();
 });

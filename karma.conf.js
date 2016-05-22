@@ -9,11 +9,10 @@ module.exports = (config) => {
     config.set({
         frameworks: [ 'mocha', 'intl-shim', 'chai-immutable', 'sinon-chai' ],
         files: [
-            'test/helpers/setup.js',
-            'test/spec/**/*.js'
+            'test/index.js'
         ],
         preprocessors: {
-            'test/**/*.js': [ 'webpack', 'electron' ]
+            'test/index.js': [ 'webpack', 'electron' ]
         },
         webpack: {
             resolve: webpackConfig.resolve,
@@ -40,6 +39,8 @@ module.exports = (config) => {
                 ]
             },
             externals: {
+                'cheerio': 'window',
+                'react/addons': true,
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
             },
