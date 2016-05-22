@@ -58,7 +58,7 @@ export default class Track extends React.Component {
                             {artist}
                         </span>
                     </div>
-                    <span>
+                    <span className={styles.duration}>
                         {moment.duration(duration, 'seconds').format('m:ss', { trim: false })}
                     </span>
                 </div>
