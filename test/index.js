@@ -4,8 +4,34 @@ window.require = window.parent.require;
 require('moment-duration-format');
 
 // require all test files
-const testsContext = require.context('./spec', true, /\.js$/);
-testsContext.keys().forEach(testsContext);
+requireTestFiles();
+
+// require src files
+requireSrcFiles();
+
+function requireTestFiles() {
+    const context = require.context('./spec', true, /\.js$/);
+    context.keys().forEach(context);
+}
+
+function requireSrcFiles() {
+    let srcContext;
+
+    srcContext = require.context('../app/actions', true, /\.js$/);
+    srcContext.keys().forEach(srcContext);
+
+    srcContext = require.context('../app/components', true, /\.js$/);
+    srcContext.keys().forEach(srcContext);
+
+    srcContext = require.context('../app/containers', true, /\.js$/);
+    srcContext.keys().forEach(srcContext);
+
+    srcContext = require.context('../app/lib', true, /\.js$/);
+    srcContext.keys().forEach(srcContext);
+
+    srcContext = require.context('../app/reducers', true, /\.js$/);
+    srcContext.keys().forEach(srcContext);
+}
 
 beforeEach(function() {
     this.sinon = sinon.sandbox.create();

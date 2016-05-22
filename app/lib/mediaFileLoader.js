@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import mm from 'musicmetadata';
-import glob from 'glob';
 import { flatten } from 'lodash';
 import mediaDoctor from 'lib/mediaDoctor';
+
+const glob = window.require('glob');
+const mm = window.require('musicmetadata');
 
 export function load(files) {
     return new Promise((resolve, reject) => {
