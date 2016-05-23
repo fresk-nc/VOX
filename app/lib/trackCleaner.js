@@ -1,5 +1,5 @@
 import IntlMessageFormat from 'intl-messageformat';
-import messages from '../loc/messages';
+import messages from 'loc/messages';
 import { showMessageBox } from 'lib/dialog';
 import config from 'config';
 

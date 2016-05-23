@@ -21,6 +21,7 @@ export default {
             containers: path.join(srcPath, 'containers'),
             reducers: path.join(srcPath, 'reducers'),
             lib: path.join(srcPath, 'lib'),
+            loc: path.join(srcPath, 'loc'),
             config: path.join(srcPath, 'config.js')
         },
         packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']

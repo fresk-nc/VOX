@@ -1,6 +1,6 @@
 import Root from 'containers/Root';
 import configureStore from './store/configureStore';
-import messages from './loc/messages';
+import messages from 'loc/messages';
 import './styles/index.styl';
 import config from 'config';
 
