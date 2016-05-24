@@ -21,6 +21,7 @@ class DropArea extends React.Component {
     static displayName = 'DropArea';
 
     static propTypes = {
+        onDropEnd: React.PropTypes.func.isRequired,
         connectDropTarget: React.PropTypes.func.isRequired
     };
 
