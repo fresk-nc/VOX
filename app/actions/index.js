@@ -1,5 +1,5 @@
 import types from 'constants/ActionTypes';
-import { loadFromDialog, loadFromDrop } from 'lib/trackLoader';
+import trackLoader from 'lib/trackLoader';
 import { tryClean } from 'lib/trackCleaner';
 import notifications from 'lib/notifications';
 import player from 'lib/player';
@@ -8,7 +8,7 @@ import { reportError } from 'lib/playerErrorReporter';
 
 export function loadTracks() {
     return (dispatch) => {
-        loadFromDialog().then((tracks) => {
+        return trackLoader.loadFromDialog().then((tracks) => {
             loadTracksSuccess(dispatch, tracks);
         });
     };
@@ -16,7 +16,7 @@ export function loadTracks() {
 
 export function loadTracksFromDrop(files) {
     return (dispatch) => {
-        loadFromDrop(files).then((tracks) => {
+        trackLoader.loadFromDrop(files).then((tracks) => {
             loadTracksSuccess(dispatch, tracks);
         });
     };
