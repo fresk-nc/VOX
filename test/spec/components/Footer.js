@@ -1,5 +1,5 @@
 import Footer from 'components/Footer';
-import { mountWithIntl } from '../../helpers/intl-enzyme';
+import { mountWithIntl } from '../../helpers/intlEnzyme';
 
 function setup(props) {
     const component = mountWithIntl(
