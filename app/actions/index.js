@@ -16,7 +16,7 @@ export function loadTracks() {
 
 export function loadTracksFromDrop(files) {
     return (dispatch) => {
-        trackLoader.loadFromDrop(files).then((tracks) => {
+        return trackLoader.loadFromDrop(files).then((tracks) => {
             loadTracksSuccess(dispatch, tracks);
         });
     };
