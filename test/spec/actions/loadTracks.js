@@ -11,7 +11,7 @@ describe('actions', () => {
             this.sinon.stub(player, 'addTracks');
         });
 
-        it('should call open dialog', function() {
+        it('should call trackLoader.loadFromDialog', function() {
             trackLoader.loadFromDialog.returns(Promise.resolve([]));
 
             return loadTracks()(this.dispatch).then(() => {
