@@ -1,6 +1,6 @@
 import types from 'constants/ActionTypes';
 import trackLoader from 'lib/trackLoader';
-import { tryClean } from 'lib/trackCleaner';
+import trackCleaner from 'lib/trackCleaner';
 import notifications from 'lib/notifications';
 import player from 'lib/player';
 import windowResizer from 'lib/windowResizer';
@@ -31,7 +31,7 @@ function loadTracksSuccess(dispatch, tracks) {
 
 export function clearTracks() {
     return (dispatch) => {
-        tryClean(() => {
+        trackCleaner.tryClean(() => {
             player.pause();
             player.clearTrackList();
             dispatch({ type: types.CLEAR_TRACKS });
