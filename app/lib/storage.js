@@ -7,6 +7,7 @@ const isDev = (process.env.NODE_ENV === 'development');
 const storage = new LocalStorage(isDev ? config.devUserData : app.getPath('userData'));
 
 export default {
+    _storage: storage,
     getItem: (key, cb) => {
         try {
             cb(null, storage.getItem(key));
