@@ -14,20 +14,20 @@ class Player {
     }
 
     _init() {
-        this[0] = new Audio();
+        this._audio = new Audio();
         this._bindAudioEvents();
     }
 
     _bindAudioEvents() {
-        this[0].addEventListener('ended', () => {
+        this._audio.addEventListener('ended', () => {
             this.trigger('ended');
         }, false);
 
-        this[0].addEventListener('timeupdate', () => {
-            this.trigger('timeupdate', this[0].currentTime, this.getProgress());
+        this._audio.addEventListener('timeupdate', () => {
+            this.trigger('timeupdate', this._audio.currentTime, this.getProgress());
         }, false);
 
-        this[0].addEventListener('error', () => {
+        this._audio.addEventListener('error', () => {
             this.trigger('error');
         });
     }
@@ -87,7 +87,7 @@ class Player {
         }
 
         if (!id && this._currentTrack) {
-            if (!this[0].src) {
+            if (!this._hasSrc()) {
                 this._updateSrc();
             }
             this._play();
@@ -99,15 +99,19 @@ class Player {
     }
 
     _updateSrc() {
-        this[0].src = 'file:///' + this._currentTrack.src;
+        this._audio.src = 'file:///' + this._currentTrack.src;
     }
 
     _play() {
-        this[0].play();
+        this._audio.play();
+    }
+
+    _hasSrc() {
+        return Boolean(this._audio.src);
     }
 
     pause() {
-        this[0].pause();
+        this._audio.pause();
     }
 
     next() {
@@ -184,13 +188,11 @@ class Player {
     trigger(eventName, ...payload) {
         const methods = this._events[eventName];
 
-        if (!methods) {
-            return;
+        if (methods) {
+            methods.forEach((method) => {
+                method(...payload);
+            });
         }
-
-        methods.forEach((method) => {
-            method(...payload);
-        });
     }
 
     clearTrackList() {
@@ -200,11 +202,11 @@ class Player {
     }
 
     getProgress() {
-        return (this[0].currentTime / this[0].duration * 100) || 0;
+        return (this._audio.currentTime / this._audio.duration * 100) || 0;
     }
 
     setProgress(time) {
-        this[0].currentTime = time;
+        this._audio.currentTime = time;
     }
 
     shuffleOn() {
@@ -228,7 +230,7 @@ class Player {
     }
 
     changeVolume(volume) {
-        this[0].volume = volume;
+        this._audio.volume = volume;
     }
 
 }
