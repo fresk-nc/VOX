@@ -37,7 +37,7 @@ export default class Playback extends React.Component {
             } = this.props;
             const time = currentTrack.duration - currentTime;
 
-            const progressClass = classNames({
+            const progressClass = classNames('js-progress-bar', {
                 [styles.progress]: !isChangingTime,
                 [styles.progressActive]: isChangingTime
             });
