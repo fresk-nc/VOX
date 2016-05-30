@@ -24,7 +24,7 @@ export default class PlaybackSettings extends React.Component {
 
     _renderLoopButton() {
         const { loopMode, onLoopClicked } = this.props;
-        const className = classNames({
+        const className = classNames('js-repeat-button', {
             [styles.repeat]: loopMode === 'off',
             [styles.repeatActive]: loopMode !== 'off'
         });
@@ -50,7 +50,7 @@ export default class PlaybackSettings extends React.Component {
             onVolumeMinusMouseUp,
             onVolumeRangeInput
         } = this.props;
-        const shuffleClass = classNames({
+        const shuffleClass = classNames('js-shuffle-button', {
             [styles.shuffle]: !isShuffle,
             [styles.shuffleActive]: isShuffle
         });
@@ -68,7 +68,7 @@ export default class PlaybackSettings extends React.Component {
                 <span className="separate"></span>
                 <div className={styles.volume}>
                     <button
-                        className={styles.volumeButton}
+                        className={classNames('js-volume-minus', styles.volumeButton)}
                         onMouseDown={onVolumeMinusMouseDown}
                         onMouseUp={onVolumeMinusMouseUp}
                     >
@@ -87,7 +87,7 @@ export default class PlaybackSettings extends React.Component {
                         />
                     </label>
                     <button
-                        className={styles.volumeButton}
+                        className={classNames('js-volume-plus', styles.volumeButton)}
                         onMouseDown={onVolumePlusMouseDown}
                         onMouseUp={onVolumePlusMouseUp}
                     >
