@@ -115,14 +115,7 @@ class Player {
     }
 
     next() {
-        const index = this._getNextTrackIndex();
-
-        if (index > -1) {
-            this.play(this._list[index].id);
-        } else {
-            this._currentTrack = null;
-            this.pause();
-        }
+        this._changeTrack(this._getNextTrackIndex());
     }
 
     _getNextTrackIndex() {
@@ -143,15 +136,17 @@ class Player {
         return (currentIndex === this._list.length - 1) ? -1 : currentIndex + 1;
     }
 
-    prev() {
-        const index = this._getPrevTrackIndex();
-
+    _changeTrack(index) {
         if (index > -1) {
             this.play(this._list[index].id);
         } else {
             this._currentTrack = null;
             this.pause();
         }
+    }
+
+    prev() {
+        this._changeTrack(this._getPrevTrackIndex());
     }
 
     _getPrevTrackIndex() {
