@@ -52,7 +52,7 @@ module.exports = (config) => {
         coverageReporter: {
             reporters: [
                 { type: 'text-summary' },
-                { type: 'html', dir: 'coverage' }
+                { type: 'lcov', dir: 'test/coverage' }
             ]
         },
         reporters: [ 'progress', 'coverage' ],
