@@ -28,3 +28,6 @@ script:
 - npm run lint
 - npm run test
 - npm run build
+
+after_script:
+- codeclimate-test-reporter < test/coverage/**/lcov.info
