@@ -9,7 +9,7 @@ import Playback from 'components/Playback';
 
 const { app } = require('electron').remote;
 
-class PlaybackContainer extends React.Component {
+export class PlaybackContainer extends React.Component {
 
     static displayName = 'PlaybackContainer';
 
