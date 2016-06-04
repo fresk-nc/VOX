@@ -5,7 +5,9 @@ import { DragDropContext } from 'react-dnd';
 import { persistStore } from 'redux-persist';
 import { fromJS } from 'immutable';
 
-import App from './App';
+import PlaybackContainer from './PlaybackContainer.js';
+import PlaybackBarContainer from './PlaybackBarContainer.js';
+import Playlist from './Playlist.js';
 import storage from 'lib/storage';
 
 class Root extends React.Component {
@@ -45,6 +47,18 @@ class Root extends React.Component {
         });
     }
 
+    componentDidMount() {
+        document.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            return false;
+        }, false);
+
+        document.addEventListener('drop', (event) => {
+            event.preventDefault();
+            return false;
+        }, false);
+    }
+
     render() {
         if (!this.state.rehydrated) {
             return null;
@@ -55,7 +69,11 @@ class Root extends React.Component {
         return (
             <Provider store={store}>
                 <IntlProvider locale={locale} messages={messages}>
-                    <App />
+                    <div>
+                        <PlaybackContainer />
+                        <PlaybackBarContainer />
+                        <Playlist />
+                    </div>
                 </IntlProvider>
             </Provider>
         );
