@@ -21,7 +21,7 @@ import Footer from 'components/Footer';
 
 const { Menu, MenuItem, getCurrentWindow, shell } = require('electron').remote;
 
-class Playlist extends React.Component {
+export class Playlist extends React.Component {
 
     static displayName = 'Playlist';
 
