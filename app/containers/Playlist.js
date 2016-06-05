@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { List } from 'immutable';
 import { injectIntl } from 'react-intl';
 
-import { getTotalDuration, getCount } from 'reducers/tracks';
+import { getTotalDuration, getCount } from 'selectors/tracks';
 import player from 'lib/player';
 import {
     loadTracks,
@@ -131,8 +131,8 @@ export class Playlist extends React.Component {
 function mapStateToProps(state) {
     return {
         tracks: state.tracks,
-        trackCount: getCount(state.tracks),
-        totalDuration: getTotalDuration(state.tracks)
+        trackCount: getCount(state),
+        totalDuration: getTotalDuration(state)
     };
 }
 

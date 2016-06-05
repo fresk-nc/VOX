@@ -41,19 +41,3 @@ export default function tracks(state = List(), action) {
             return state;
     }
 }
-
-export function getTotalDuration(state) {
-    return state.reduce((total, track) => {
-        return total += track.get('duration');
-    }, 0);
-}
-
-export function getCurrentTrack(state) {
-    return state.find((track) => {
-        return track.get('isCurrent');
-    });
-}
-
-export function getCount(state) {
-    return state.size;
-}

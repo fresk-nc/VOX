@@ -10,7 +10,7 @@ import {
     loadTracks,
     toggleMinimize
 } from 'actions';
-import { getCurrentTrack, getCount } from 'reducers/tracks';
+import { getCurrentTrack, getCount } from 'selectors/tracks';
 import PlaybackBar from 'components/PlaybackBar';
 
 class PlaybackBarContainer extends React.Component {
@@ -60,8 +60,8 @@ class PlaybackBarContainer extends React.Component {
 function mapStateToProps(state) {
     return {
         settings: state.settings,
-        trackCount: getCount(state.tracks),
-        currentTrack: getCurrentTrack(state.tracks)
+        trackCount: getCount(state),
+        currentTrack: getCurrentTrack(state)
     };
 }
 

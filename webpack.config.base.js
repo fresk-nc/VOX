@@ -20,6 +20,7 @@ export default {
             constants: path.join(srcPath, 'constants'),
             containers: path.join(srcPath, 'containers'),
             reducers: path.join(srcPath, 'reducers'),
+            selectors: path.join(srcPath, 'selectors'),
             lib: path.join(srcPath, 'lib'),
             loc: path.join(srcPath, 'loc'),
             config: path.join(srcPath, 'config.js')

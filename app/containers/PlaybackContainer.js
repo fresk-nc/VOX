@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Map } from 'immutable';
 
-import { getCurrentTrack } from 'reducers/tracks';
+import { getCurrentTrack } from 'selectors/tracks';
 import { nextTrack, reportPlayerError } from 'actions';
 import player from 'lib/player';
 import Playback from 'components/Playback';
@@ -132,7 +132,7 @@ export class PlaybackContainer extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        currentTrack: getCurrentTrack(state.tracks)
+        currentTrack: getCurrentTrack(state)
     };
 }
 
