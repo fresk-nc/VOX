@@ -1,14 +1,7 @@
 import types from 'constants/ActionTypes';
-import { Map } from 'immutable';
+import Settings from 'records/Settings';
 
-const initState = Map({
-    minimize: false,
-    shuffle: false,
-    loopMode: 'off',
-    volume: 1
-});
-
-export default function settings(state = initState, action) {
+export default function settings(state = new Settings(), action) {
     switch (action.type) {
 
         case types.TOGGLE_MINIMIZE:

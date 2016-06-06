@@ -1,6 +1,7 @@
+import { List } from 'immutable';
 import tracks from 'reducers/tracks';
 import types from 'constants/ActionTypes';
-import { List, fromJS } from 'immutable';
+import Track from 'records/Track';
 
 describe('reducers', () => {
     describe('tracks', () => {
@@ -21,17 +22,17 @@ describe('reducers', () => {
                     }
                 )
             ).to.be.equal(
-                fromJS([
-                    { id: '1' },
-                    { id: '2' }
+                List([
+                    new Track({ id: '1' }),
+                    new Track({ id: '2' })
                 ])
             );
 
             expect(
                 tracks(
-                    fromJS([
-                        { id: '1' },
-                        { id: '2' }
+                    List([
+                        new Track({ id: '1' }),
+                        new Track({ id: '2' })
                     ]),
                     {
                         type: types.LOAD_TRACKS_SUCCESS,
@@ -42,11 +43,11 @@ describe('reducers', () => {
                     }
                 )
             ).to.be.equal(
-                fromJS([
-                    { id: '1' },
-                    { id: '2' },
-                    { id: '3' },
-                    { id: '4' }
+                List([
+                    new Track({ id: '1' }),
+                    new Track({ id: '2' }),
+                    new Track({ id: '3' }),
+                    new Track({ id: '4' })
                 ])
             );
         });
@@ -54,9 +55,9 @@ describe('reducers', () => {
         it('should handle CLEAR_TRACKS', () => {
             expect(
                 tracks(
-                    fromJS([
-                        { id: '1' },
-                        { id: '2' }
+                    List([
+                        new Track({ id: '1' }),
+                        new Track({ id: '2' })
                     ]),
                     { type: types.CLEAR_TRACKS }
                 )
@@ -64,30 +65,30 @@ describe('reducers', () => {
         });
 
         it('should handle REMOVE_TRACK', () => {
-            const state = fromJS([
-                { id: '1' },
-                { id: '2' },
-                { id: '3' }
+            const state = List([
+                new Track({ id: '1' }),
+                new Track({ id: '2' }),
+                new Track({ id: '3' })
             ]);
 
             expect(tracks(state, { type: types.REMOVE_TRACK, id: '1' })).to.be.equal(
-                fromJS([
-                    { id: '2' },
-                    { id: '3' }
+                List([
+                    new Track({ id: '2' }),
+                    new Track({ id: '3' })
                 ])
             );
 
             expect(tracks(state, { type: types.REMOVE_TRACK, id: '2' })).to.be.equal(
-                fromJS([
-                    { id: '1' },
-                    { id: '3' }
+                List([
+                    new Track({ id: '1' }),
+                    new Track({ id: '3' })
                 ])
             );
 
             expect(tracks(state, { type: types.REMOVE_TRACK, id: '3' })).to.be.equal(
-                fromJS([
-                    { id: '1' },
-                    { id: '2' }
+                List([
+                    new Track({ id: '1' }),
+                    new Track({ id: '2' })
                 ])
             );
 
@@ -97,31 +98,31 @@ describe('reducers', () => {
         it('should handle PLAY_TRACK', () => {
             expect(
                 tracks(
-                    fromJS([
-                        { id: '1', isPlay: false, isCurrent: false },
-                        { id: '2', isPlay: false, isCurrent: false }
+                    List([
+                        new Track({ id: '1', isPlay: false, isCurrent: false }),
+                        new Track({ id: '2', isPlay: false, isCurrent: false })
                     ]),
                     { type: types.PLAY_TRACK, id: '1' }
                 )
             ).to.be.equal(
-                fromJS([
-                    { id: '1', isPlay: true, isCurrent: true },
-                    { id: '2', isPlay: false, isCurrent: false }
+                List([
+                    new Track({ id: '1', isPlay: true, isCurrent: true }),
+                    new Track({ id: '2', isPlay: false, isCurrent: false })
                 ])
             );
 
             expect(
                 tracks(
-                    fromJS([
-                        { id: '1', isPlay: true, isCurrent: true },
-                        { id: '2', isPlay: false, isCurrent: false }
+                    List([
+                        new Track({ id: '1', isPlay: true, isCurrent: true }),
+                        new Track({ id: '2', isPlay: false, isCurrent: false })
                     ]),
                     { type: types.PLAY_TRACK, id: '2' }
                 )
             ).to.be.equal(
-                fromJS([
-                    { id: '1', isPlay: false, isCurrent: false },
-                    { id: '2', isPlay: true, isCurrent: true }
+                List([
+                    new Track({ id: '1', isPlay: false, isCurrent: false }),
+                    new Track({ id: '2', isPlay: true, isCurrent: true })
                 ])
             );
         });
@@ -129,16 +130,16 @@ describe('reducers', () => {
         it('should handle PAUSE_TRACK', () => {
             expect(
                 tracks(
-                    fromJS([
-                        { id: '1', isPlay: true, isCurrent: true },
-                        { id: '2', isPlay: false, isCurrent: false }
+                    List([
+                        new Track({ id: '1', isPlay: true, isCurrent: true }),
+                        new Track({ id: '2', isPlay: false, isCurrent: false })
                     ]),
                     { type: types.PAUSE_TRACK, id: '1' }
                 )
             ).to.be.equal(
-                fromJS([
-                    { id: '1', isPlay: false, isCurrent: true },
-                    { id: '2', isPlay: false, isCurrent: false }
+                List([
+                    new Track({ id: '1', isPlay: false, isCurrent: true }),
+                    new Track({ id: '2', isPlay: false, isCurrent: false })
                 ])
             );
         });

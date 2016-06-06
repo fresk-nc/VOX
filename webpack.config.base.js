@@ -23,6 +23,7 @@ export default {
             selectors: path.join(srcPath, 'selectors'),
             lib: path.join(srcPath, 'lib'),
             loc: path.join(srcPath, 'loc'),
+            records: path.join(srcPath, 'records'),
             config: path.join(srcPath, 'config.js')
         },
         packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']

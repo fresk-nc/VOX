@@ -3,12 +3,14 @@ import { IntlProvider } from 'react-intl';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import { persistStore } from 'redux-persist';
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 
-import PlaybackContainer from './PlaybackContainer.js';
-import PlaybackBarContainer from './PlaybackBarContainer.js';
-import Playlist from './Playlist.js';
+import PlaybackContainer from './PlaybackContainer';
+import PlaybackBarContainer from './PlaybackBarContainer';
+import Playlist from './Playlist';
 import storage from 'lib/storage';
+import Track from 'records/Track';
+import Settings from 'records/Settings';
 
 class Root extends React.Component {
 
@@ -29,16 +31,26 @@ class Root extends React.Component {
     componentWillMount() {
         persistStore(this.props.store, {
             storage,
-            deserialize: (serializedData) => fromJS(JSON.parse(serializedData)),
             transforms: [
                 {
                     in: (state) => state,
                     out: (state, key) => {
                         if (key === 'tracks') {
-                            return state.map((track) => track.set('isPlay', false));
+                            return List(
+                                state.map((track) => {
+                                    return new Track({
+                                        ...track,
+                                        isPlay: false
+                                    });
+                                })
+                            );
                         }
 
-                        return state;
+                        if (key === 'settings') {
+                            return new Settings(state);
+                        }
+
+                        return fromJS(state);
                     }
                 }
             ]

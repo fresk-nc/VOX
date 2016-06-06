@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Map } from 'immutable';
 
 import { toggleShuffle, changeLoopMode, changeVolume } from 'actions';
 import player from 'lib/player.js';
 import PlaybackSettings from 'components/PlaybackSettings';
+import Settings from 'records/Settings';
 
 const VOLUME_MIN = 0;
 const VOLUME_MAX = 1;
@@ -16,7 +16,7 @@ class PlaybackSettingsContainer extends React.Component {
     static displayName = 'PlaybackSettingsContainer';
 
     static propTypes = {
-        settings: React.PropTypes.instanceOf(Map),
+        settings: React.PropTypes.instanceOf(Settings),
 
         toggleShuffle: React.PropTypes.func.isRequired,
         changeLoopMode: React.PropTypes.func.isRequired,
@@ -31,9 +31,9 @@ class PlaybackSettingsContainer extends React.Component {
 
     componentDidMount() {
         const { settings } = this.props;
-        const isShuffle = settings.get('shuffle');
-        const loopMode = settings.get('loopMode');
-        const volume = settings.get('volume');
+        const isShuffle = settings.shuffle;
+        const loopMode = settings.loopMode;
+        const volume = settings.volume;
 
         player.changeLoopMode(loopMode);
         player.changeVolume(volume);
@@ -45,7 +45,7 @@ class PlaybackSettingsContainer extends React.Component {
 
     _changeLoopMode() {
         const { settings, changeLoopMode } = this.props;
-        const currentLoopMode = settings.get('loopMode');
+        const currentLoopMode = settings.loopMode;
         let newLoopMode;
 
         switch (currentLoopMode) {
@@ -73,14 +73,14 @@ class PlaybackSettingsContainer extends React.Component {
 
     _decrementVolume() {
         const { settings, changeVolume } = this.props;
-        const newVolume = Math.max(settings.get('volume') - VOLUME_STEP, VOLUME_MIN);
+        const newVolume = Math.max(settings.volume - VOLUME_STEP, VOLUME_MIN);
 
         changeVolume(newVolume);
     }
 
     _incrementVolume() {
         const { settings, changeVolume } = this.props;
-        const newVolume = Math.min(settings.get('volume') + VOLUME_STEP, VOLUME_MAX);
+        const newVolume = Math.min(settings.volume + VOLUME_STEP, VOLUME_MAX);
 
         changeVolume(newVolume);
     }
@@ -110,14 +110,14 @@ class PlaybackSettingsContainer extends React.Component {
 
         return (
             <PlaybackSettings
-                loopMode={settings.get('loopMode')}
-                isShuffle={settings.get('shuffle')}
-                volume={settings.get('volume')}
+                loopMode={settings.loopMode}
+                isShuffle={settings.shuffle}
+                volume={settings.volume}
                 volumeMin={VOLUME_MIN}
                 volumeMax={VOLUME_MAX}
                 volumeStep={VOLUME_STEP}
                 onLoopClicked={() => this._changeLoopMode()}
-                onShuffleClicked={() => toggleShuffle(settings.get('shuffle'))}
+                onShuffleClicked={() => toggleShuffle(settings.shuffle)}
                 onVolumePlusMouseDown={() => this._onVolumePlusMouseDown()}
                 onVolumePlusMouseUp={() => this._clearTimer()}
                 onVolumeMinusMouseDown={() => this._onVolumeMinusMouseDown()}

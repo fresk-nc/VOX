@@ -1,80 +1,75 @@
 import settings from 'reducers/settings';
 import types from 'constants/ActionTypes';
-import { Map } from 'immutable';
+import Settings from 'records/Settings';
 
 describe('reducers', () => {
     describe('settings', () => {
         it('should handle initial state', () => {
-            expect(settings(undefined, {})).to.be.equal(Map({
-                minimize: false,
-                shuffle: false,
-                loopMode: 'off',
-                volume: 1
-            }));
+            expect(settings(undefined, {})).to.be.equal(new Settings());
         });
 
         it('should handle TOGGLE_MINIMIZE', () => {
             expect(
                 settings(
-                    Map({ minimize: false }),
+                    new Settings({ minimize: false }),
                     { type: types.TOGGLE_MINIMIZE }
                 )
-            ).to.be.equal(Map({ minimize: true }));
+            ).to.be.equal(new Settings({ minimize: true }));
 
             expect(
                 settings(
-                    Map({ minimize: true }),
+                    new Settings({ minimize: true }),
                     { type: types.TOGGLE_MINIMIZE }
                 )
-            ).to.be.equal(Map({ minimize: false }));
+            ).to.be.equal(new Settings({ minimize: false }));
         });
 
         it('should handle TOGGLE_SHUFFLE', () => {
             expect(
                 settings(
-                    Map({ shuffle: false }),
+                    new Settings({ shuffle: false }),
                     { type: types.TOGGLE_SHUFFLE }
                 )
-            ).to.be.equal(Map({ shuffle: true }));
+            ).to.be.equal(new Settings({ shuffle: true }));
 
             expect(
                 settings(
-                    Map({ shuffle: true }),
+                    new Settings({ shuffle: true }),
                     { type: types.TOGGLE_SHUFFLE }
                 )
-            ).to.be.equal(Map({ shuffle: false }));
+            ).to.be.equal(new Settings({ shuffle: false }));
         });
 
         it('should handle CHANGE_LOOP_MODE', () => {
             expect(
                 settings(
-                    Map({ loopMode: 'off' }),
+                    new Settings({ loopMode: 'off' }),
                     { type: types.CHANGE_LOOP_MODE, loopMode: 'all' }
                 )
-            ).to.be.equal(Map({ loopMode: 'all' }));
+            ).to.be.equal(new Settings({ loopMode: 'all' }));
 
             expect(
                 settings(
-                    Map({ loopMode: 'all' }),
+                    new Settings({ loopMode: 'all' }),
                     { type: types.CHANGE_LOOP_MODE, loopMode: 'one' }
                 )
-            ).to.be.equal(Map({ loopMode: 'one' }));
+            ).to.be.equal(new Settings({ loopMode: 'one' }));
 
             expect(
                 settings(
-                    Map({ loopMode: 'one' }),
+                    new Settings({ loopMode: 'one' }),
                     { type: types.CHANGE_LOOP_MODE, loopMode: 'off' }
                 )
-            ).to.be.equal(Map({ loopMode: 'off' }));
+            ).to.be.equal(new Settings({ loopMode: 'off' }));
         });
 
         it('should handle CHANGE_VOLUME', () => {
             expect(
                 settings(
-                    Map({ volume: 1 }),
+                    new Settings({ volume: 1 }),
                     { type: types.CHANGE_VOLUME, volume: 0.5 }
                 )
-            ).to.be.equal(Map({ volume: 0.5 }));
+            ).to.be.equal(new Settings({ volume: 0.5 }));
         });
     });
 });

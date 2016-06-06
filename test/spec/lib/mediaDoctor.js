@@ -22,9 +22,7 @@ describe('libs', () => {
                 album: metadata.album,
                 artist: metadata.artist[0],
                 title: metadata.title,
-                duration: metadata.duration,
-                isPlay: false,
-                isCurrent: false
+                duration: metadata.duration
             });
         });
     });

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Map } from 'immutable';
+import Track from 'records/Track';
 
 import { getCurrentTrack } from 'selectors/tracks';
 import { nextTrack, reportPlayerError } from 'actions';
@@ -14,7 +14,7 @@ export class PlaybackContainer extends React.Component {
     static displayName = 'PlaybackContainer';
 
     static propTypes = {
-        currentTrack: React.PropTypes.instanceOf(Map),
+        currentTrack: React.PropTypes.instanceOf(Track),
 
         nextTrack: React.PropTypes.func.isRequired,
         reportPlayerError: React.PropTypes.func.isRequired
@@ -60,13 +60,13 @@ export class PlaybackContainer extends React.Component {
     _onPlayerError() {
         const { reportPlayerError, currentTrack } = this.props;
 
-        reportPlayerError(currentTrack.get('src'), currentTrack.get('id'));
+        reportPlayerError(currentTrack.src, currentTrack.id);
     }
 
     _handleProgressClick(event) {
         const { currentTrack } = this.props;
         const progress = event.clientX * 100 / window.outerWidth;
-        const currentTime = currentTrack.get('duration') * (progress / 100);
+        const currentTime = currentTrack.duration * (progress / 100);
 
         this.setState({ currentTime, progress });
 
@@ -93,10 +93,10 @@ export class PlaybackContainer extends React.Component {
             currentTime = 0;
         } else if (clientX > windowWidth) {
             progress = 100;
-            currentTime = currentTrack.get('duration');
+            currentTime = currentTrack.duration;
         } else {
             progress = clientX * 100 / windowWidth;
-            currentTime = currentTrack.get('duration') * (progress / 100);
+            currentTime = currentTrack.duration * (progress / 100);
         }
 
         this.setState({ currentTime, progress });

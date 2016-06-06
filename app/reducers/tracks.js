@@ -1,21 +1,24 @@
 import types from 'constants/ActionTypes';
-import { List, fromJS } from 'immutable';
+import { List } from 'immutable';
+import Track from 'records/Track';
 
 export default function tracks(state = List(), action) {
     switch (action.type) {
 
         case types.LOAD_TRACKS_SUCCESS:
-            return state.concat(fromJS(action.tracks));
+            return state.concat(
+                List(action.tracks.map((track) => new Track(track)))
+            );
 
         case types.CLEAR_TRACKS:
             return state.clear();
 
         case types.REMOVE_TRACK:
-            return state.filter((track) => track.get('id') !== action.id);
+            return state.filter((track) => track.id !== action.id);
 
         case types.PLAY_TRACK:
             return state.map((track) => {
-                if (track.get('id') === action.id) {
+                if (track.id === action.id) {
                     return track.merge({
                         isPlay: true,
                         isCurrent: true
@@ -30,7 +33,7 @@ export default function tracks(state = List(), action) {
 
         case types.PAUSE_TRACK:
             return state.map((track) => {
-                if (track.get('id') === action.id) {
+                if (track.id === action.id) {
                     return track.set('isPlay', false);
                 }
 

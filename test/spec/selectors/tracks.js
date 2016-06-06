@@ -1,5 +1,6 @@
 import { getTotalDuration, getCurrentTrack, getCount } from 'selectors/tracks';
-import { fromJS, List } from 'immutable';
+import { List } from 'immutable';
+import Track from 'records/Track';
 
 describe('selectors', () => {
     describe('tracks', () => {
@@ -14,9 +15,9 @@ describe('selectors', () => {
 
             it('should return duration total', () => {
                 const state = {
-                    tracks: fromJS([
-                        { id: '1', duration: 100 },
-                        { id: '2', duration: 220 }
+                    tracks: List([
+                        new Track({ id: '1', duration: 100 }),
+                        new Track({ id: '2', duration: 220 })
                     ])
                 };
 
@@ -27,9 +28,9 @@ describe('selectors', () => {
         describe('getCurrentTrack', () => {
             it('should return current track', () => {
                 const state = {
-                    tracks: fromJS([
-                        { id: '1', isCurrent: true },
-                        { id: '2', isCurrent: false }
+                    tracks: List([
+                        new Track({ id: '1', isCurrent: true }),
+                        new Track({ id: '2', isCurrent: false })
                     ])
                 };
 
@@ -38,9 +39,9 @@ describe('selectors', () => {
 
             it('should return undefined if there is no current track', () => {
                 const state = {
-                    tracks: fromJS([
-                        { id: '1', isCurrent: false },
-                        { id: '2', isCurrent: false }
+                    tracks: List([
+                        new Track({ id: '1', isCurrent: false }),
+                        new Track({ id: '2', isCurrent: false })
                     ])
                 };
 
@@ -51,10 +52,10 @@ describe('selectors', () => {
         describe('getCount', () => {
             it('should return the number of tracks', () => {
                 const state = {
-                    tracks: fromJS([
-                        { id: '1' },
-                        { id: '2' },
-                        { id: '3' }
+                    tracks: List([
+                        new Track({ id: '1' }),
+                        new Track({ id: '2' }),
+                        new Track({ id: '3' })
                     ])
                 };
 

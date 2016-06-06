@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Map } from 'immutable';
 
 import {
     prevTrack,
@@ -12,14 +11,16 @@ import {
 } from 'actions';
 import { getCurrentTrack, getCount } from 'selectors/tracks';
 import PlaybackBar from 'components/PlaybackBar';
+import Track from 'records/Track';
+import Settings from 'records/Settings';
 
 class PlaybackBarContainer extends React.Component {
 
     static displayName = 'PlaybackBarContainer';
 
     static propTypes = {
-        currentTrack: React.PropTypes.instanceOf(Map),
-        settings: React.PropTypes.instanceOf(Map),
+        currentTrack: React.PropTypes.instanceOf(Track),
+        settings: React.PropTypes.instanceOf(Settings),
         trackCount: React.PropTypes.number.isRequired,
 
         prevTrack: React.PropTypes.func.isRequired,
@@ -45,8 +46,8 @@ class PlaybackBarContainer extends React.Component {
 
         return (
             <PlaybackBar
-                play={Boolean(currentTrack && currentTrack.get('isPlay'))}
-                onMinimizeClicked={() => toggleMinimize(settings.get('minimize'))}
+                play={Boolean(currentTrack && currentTrack.isPlay)}
+                onMinimizeClicked={() => toggleMinimize(settings.minimize)}
                 onPlayClicked={trackCount ? playTrack : loadTracks}
                 onPauseClicked={pauseTrack}
                 onPrevClicked={() => trackCount ? prevTrack() : null}

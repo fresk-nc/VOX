@@ -2,7 +2,7 @@ import { PlaybackContainer } from 'containers/PlaybackContainer';
 import Playback from 'components/Playback';
 import player from 'lib/player';
 import { mount } from 'enzyme';
-import { Map } from 'immutable';
+import Track from 'records/Track';
 
 function setup(props) {
     const handlers = {
@@ -91,7 +91,7 @@ describe('containers', () => {
                 this.mockContext = {
                     props: {
                         reportPlayerError: this.sinon.spy(),
-                        currentTrack: Map({
+                        currentTrack: new Track({
                             id: 100,
                             src: 'src'
                         })
@@ -104,8 +104,8 @@ describe('containers', () => {
 
                 expect(this.mockContext.props.reportPlayerError).to.have.callCount(1);
                 expect(this.mockContext.props.reportPlayerError).to.be.calledWith(
-                    this.mockContext.props.currentTrack.get('src'),
-                    this.mockContext.props.currentTrack.get('id')
+                    this.mockContext.props.currentTrack.src,
+                    this.mockContext.props.currentTrack.id
                 );
             });
         });
@@ -116,7 +116,7 @@ describe('containers', () => {
                 this.mockContext = {
                     setState: this.sinon.spy(),
                     props: {
-                        currentTrack: Map({
+                        currentTrack: new Track({
                             duration: 220
                         })
                     }
@@ -166,7 +166,7 @@ describe('containers', () => {
                 this.mockContext = {
                     setState: this.sinon.spy(),
                     props: {
-                        currentTrack: Map({
+                        currentTrack: new Track({
                             duration: 220
                         })
                     }
