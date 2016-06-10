@@ -20,6 +20,15 @@ export const getCurrentTrack = createSelector(
     }
 );
 
+export const getSelectedTrack = createSelector(
+    getTracks,
+    (tracks) => {
+        return tracks.find((track) => {
+            return track.isSelected;
+        });
+    }
+);
+
 export const getCount = createSelector(
     getTracks,
     (tracks) => {

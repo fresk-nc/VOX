@@ -40,7 +40,8 @@ class Root extends React.Component {
                                 state.map((track) => {
                                     return new Track({
                                         ...track,
-                                        isPlay: false
+                                        isPlay: false,
+                                        isSelected: false
                                     });
                                 })
                             );

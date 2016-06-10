@@ -1,6 +1,11 @@
-import { getTotalDuration, getCurrentTrack, getCount } from 'selectors/tracks';
 import { List } from 'immutable';
 import Track from 'records/Track';
+import {
+    getTotalDuration,
+    getCurrentTrack,
+    getCount,
+    getSelectedTrack
+} from 'selectors/tracks';
 
 describe('selectors', () => {
     describe('tracks', () => {
@@ -46,6 +51,30 @@ describe('selectors', () => {
                 };
 
                 expect(getCurrentTrack(state)).to.be.equal(undefined);
+            });
+        });
+
+        describe('getSelectedTrack', () => {
+            it('should return selected track', () => {
+                const state = {
+                    tracks: List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: true })
+                    ])
+                };
+
+                expect(getSelectedTrack(state)).to.be.equal(state.tracks.get(1));
+            });
+
+            it('should return undefined if there is no selected track', () => {
+                const state = {
+                    tracks: List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false })
+                    ])
+                };
+
+                expect(getSelectedTrack(state)).to.be.equal(undefined);
             });
         });
 

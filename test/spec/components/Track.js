@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 
 function setup(props) {
     const handlers = {
+        onClick: sinon.spy(),
         onDoubleClick: sinon.spy(),
         onContextMenu: sinon.spy()
     };
@@ -27,7 +28,8 @@ function mockTrack(overrides) {
         title: 'title',
         artist: 'artist',
         duration: 220,
-        isCurrent: false
+        isCurrent: false,
+        isSelected: false
     }, overrides);
 }
 
@@ -37,13 +39,22 @@ describe('components', () => {
             const { component } = setup(mockTrack({ isCurrent: true }));
 
             expect(component.hasClass(styles.current)).to.be.equal(true);
+            expect(component.hasClass(styles.selected)).to.be.equal(false);
         });
 
         it('should render the common track when track is not current', () => {
             const { component } = setup(mockTrack());
 
-            expect(component.hasClass(styles.current)).to.be.equal(false);
             expect(component.hasClass(styles.common)).to.be.equal(true);
+            expect(component.hasClass(styles.current)).to.be.equal(false);
+            expect(component.hasClass(styles.selected)).to.be.equal(false);
+        });
+
+        it('should render the selected track when track is selected', () => {
+            const { component } = setup(mockTrack({ isSelected: true }));
+
+            expect(component.hasClass(styles.current)).to.be.equal(false);
+            expect(component.hasClass(styles.selected)).to.be.equal(true);
         });
 
         it('should render the index of track', () => {
@@ -72,6 +83,14 @@ describe('components', () => {
             const { duration } = setup(track);
 
             expect(duration.text()).to.be.equal('3:40');
+        });
+
+        it('should call handler onClick on track click', () => {
+            const { component, handlers } = setup(mockTrack());
+
+            component.simulate('click');
+
+            expect(handlers.onClick).to.have.callCount(1);
         });
 
         it('should call handler onDoubleClick on track double click', () => {

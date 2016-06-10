@@ -7,12 +7,18 @@ export default class TrackList extends React.Component {
     static propTypes = {
         tracks: React.PropTypes.array.isRequired,
 
+        onTrackClick: React.PropTypes.func.isRequired,
         onTrackDoubleClick: React.PropTypes.func.isRequired,
         onTrackContextMenu: React.PropTypes.func.isRequired
     };
 
     render() {
-        const { tracks, onTrackDoubleClick, onTrackContextMenu } = this.props;
+        const {
+            tracks,
+            onTrackClick,
+            onTrackDoubleClick,
+            onTrackContextMenu
+        } = this.props;
 
         return (
             <div>
@@ -24,6 +30,8 @@ export default class TrackList extends React.Component {
                         title={track.title}
                         duration={track.duration}
                         isCurrent={track.isCurrent}
+                        isSelected={track.isSelected}
+                        onClick={() => onTrackClick(track.id)}
                         onDoubleClick={() => onTrackDoubleClick(track.id)}
                         onContextMenu={() => onTrackContextMenu(track)}
                     />

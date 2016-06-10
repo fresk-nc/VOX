@@ -80,6 +80,18 @@ export function prevTrack() {
     };
 }
 
+export function selectTrack(id) {
+    return { type: types.SELECT_TRACK, id };
+}
+
+export function selectNextTrack() {
+    return { type: types.SELECT_NEXT_TRACK };
+}
+
+export function selectPrevTrack() {
+    return { type: types.SELECT_PREV_TRACK };
+}
+
 export function toggleMinimize(minimize) {
     return (dispatch) => {
         if (minimize) {

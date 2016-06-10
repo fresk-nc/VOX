@@ -13,7 +13,9 @@ export default class Track extends React.Component {
         title: React.PropTypes.string.isRequired,
         duration: React.PropTypes.number.isRequired,
         isCurrent: React.PropTypes.bool.isRequired,
+        isSelected: React.PropTypes.bool.isRequired,
 
+        onClick: React.PropTypes.func.isRequired,
         onDoubleClick: React.PropTypes.func.isRequired,
         onContextMenu: React.PropTypes.func.isRequired
     };
@@ -24,27 +26,38 @@ export default class Track extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        if (!prevProps.isSelected && this.props.isSelected) {
+            this._node.scrollIntoViewIfNeeded();
+        }
+    }
+
     render() {
         const {
+            onClick,
             onDoubleClick,
             onContextMenu,
             index,
             title,
             artist,
             duration,
-            isCurrent
+            isCurrent,
+            isSelected
         } = this.props;
 
         const wrapClass = classNames({
-            [styles.common]: !isCurrent,
-            [styles.current]: isCurrent
+            [styles.common]: !isCurrent && !isSelected,
+            [styles.current]: isCurrent && !isSelected,
+            [styles.selected]: isSelected
         });
 
         return (
             <div
                 className={wrapClass}
+                onClick={onClick}
                 onDoubleClick={onDoubleClick}
                 onContextMenu={onContextMenu}
+                ref={(c) => this._node = c}
             >
                 <span className={styles.index}>
                     {index}

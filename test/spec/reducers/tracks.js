@@ -143,5 +143,131 @@ describe('reducers', () => {
                 ])
             );
         });
+
+        it('should handle SELECT_TRACK', () => {
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false })
+                    ]),
+                    { type: types.SELECT_TRACK, id: '1' }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: true })
+                    ]),
+                    { type: types.SELECT_TRACK, id: '1' }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false })
+                ])
+            );
+        });
+
+        it('should handle SELECT_NEXT_TRACK', () => {
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false })
+                    ]),
+                    { type: types.SELECT_NEXT_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: false })
+                    ]),
+                    { type: types.SELECT_NEXT_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: true })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: true })
+                    ]),
+                    { type: types.SELECT_NEXT_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: true })
+                ])
+            );
+        });
+
+        it('should handle SELECT_PREV_TRACK', () => {
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false })
+                    ]),
+                    { type: types.SELECT_PREV_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: true })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: true })
+                    ]),
+                    { type: types.SELECT_PREV_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: false })
+                    ]),
+                    { type: types.SELECT_PREV_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false })
+                ])
+            );
+        });
     });
 });

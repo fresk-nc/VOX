@@ -8,5 +8,6 @@ export default Record({
     title: null,
     duration: null,
     isCurrent: false,
-    isPlay: false
+    isPlay: false,
+    isSelected: false
 });

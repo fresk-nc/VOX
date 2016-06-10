@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 
 function setup(props) {
     const handlers = {
+        onTrackClick: sinon.spy(),
         onTrackDoubleClick: sinon.spy(),
         onTrackContextMenu: sinon.spy()
     };
@@ -24,14 +25,16 @@ function mockTracks() {
             artist: 'artist 1',
             title: 'title 1',
             duration: 100,
-            isCurrent: false
+            isCurrent: false,
+            isSelected: false
         },
         {
             id: 2,
             artist: 'artist 2',
             title: 'title 2',
             duration: 200,
-            isCurrent: true
+            isCurrent: true,
+            isSelected: false
         }
     ];
 }

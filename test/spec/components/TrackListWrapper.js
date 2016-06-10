@@ -6,6 +6,7 @@ function setup() {
     const component = shallow(
         <TrackListWrapper>
             <TrackList
+                onTrackClick={sinon.spy()}
                 onTrackDoubleClick={sinon.spy()}
                 onTrackContextMenu={sinon.spy()}
                 tracks={[]}
