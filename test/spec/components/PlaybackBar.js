@@ -28,6 +28,7 @@ function setup(props) {
 
 describe('components', () => {
     describe('PlaybackBar', () => {
+        // @see https://github.com/airbnb/enzyme/issues/413
         /*
         it('should render minimize button', () => {
             const { minimize } = setup({ play: false });
