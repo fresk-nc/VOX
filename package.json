@@ -13,7 +13,7 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:precommit": "eslint",
     "server": "node server.js",
-    "build": "cross-env NODE_ENV=production ./node_modules/webpack/bin/webpack --config webpack.config.prod.js --progress --profile --colors",
+    "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config webpack.config.prod.js --progress --profile --colors",
     "start": "cross-env NODE_ENV=production electron ./",
     "start:hot": "cross-env HOT=1 NODE_ENV=development electron ./",
     "release": "cross-env NODE_ENV=production node package.js",
