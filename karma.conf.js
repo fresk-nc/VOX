@@ -57,6 +57,6 @@ module.exports = (config) => {
         },
         reporters: [ 'progress', 'coverage' ],
         browsers: [ 'Electron' ],
-        singleRun: false
+        singleRun: true
     });
 };
