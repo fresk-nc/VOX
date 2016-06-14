@@ -1,11 +1,11 @@
-import path from 'path';
-import webpack from 'webpack';
-import autoprefixer from 'autoprefixer';
+const path = require('path');
+const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 
 const distPath = path.join(__dirname, 'dist');
 const srcPath = path.join(__dirname, 'app');
 
-export default {
+module.exports = {
     context: srcPath,
     output: {
         path: distPath,
@@ -26,7 +26,7 @@ export default {
             records: path.join(srcPath, 'records'),
             config: path.join(srcPath, 'config.js')
         },
-        packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+        packageMains: [ 'webpack', 'browser', 'web', 'browserify', [ 'jam', 'main' ], 'main' ]
     },
     resolveLoader: {
         modulesDirectories: [ 'node_modules' ],

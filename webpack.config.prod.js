@@ -1,22 +1,18 @@
-import path from 'path';
-import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+/* eslint-disable max-len */
 
-import baseConfig from './webpack.config.base';
+const path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const baseConfig = require('./webpack.config.base');
 const srcPath = path.join(__dirname, 'app');
 
-export default {
-    ...baseConfig,
-
+module.exports = webpackMerge(baseConfig, {
     devtool: 'source-map',
     entry: './index.js',
     module: {
-        ...baseConfig.module,
-
         loaders: [
-            ...baseConfig.module.loaders,
-
             {
                 test: /\.js$/,
                 loaders: [ 'babel' ],
@@ -32,8 +28,6 @@ export default {
         ]
     },
     plugins: [
-        ...baseConfig.plugins,
-
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             '__DEV__': false,
@@ -52,4 +46,4 @@ export default {
         })
     ],
     target: 'electron-renderer'
-};
+});

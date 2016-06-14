@@ -1,6 +1,6 @@
-import path from 'path';
-import webpack from 'webpack';
-import webpackConfig from './webpack.config.dev';
+const path = require('path');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config.dev');
 
 const testPath = path.join(__dirname, 'test');
 const srcPath = path.join(__dirname, 'app');

@@ -1,8 +1,8 @@
-/* eslint no-console: 0 */
+/* eslint-disable no-console */
 'use strict';
 
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.prod.js').default;
+const webpackConfig = require('./webpack.config.prod.js');
 const packager = require('electron-packager');
 const del = require('del');
 const pkg = require('./package.json');

@@ -4,9 +4,6 @@ node_modules/
 dist/
 release/
 test/coverage/
-webpack.config.base.js
-webpack.config.prod.js
-webpack.config.dev.js
 karma.conf.js
 package.json
 **/.*

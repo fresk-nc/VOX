@@ -1,13 +1,13 @@
-import path from 'path';
-import webpack from 'webpack';
+/* eslint-disable max-len */
 
-import baseConfig from './webpack.config.base';
+const path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
 
+const baseConfig = require('./webpack.config.base');
 const srcPath = path.join(__dirname, 'app');
 
-export default {
-    ...baseConfig,
-
+module.exports = webpackMerge(baseConfig, {
     debug: true,
     devtool: 'cheap-module-eval-source-map',
     entry: [
@@ -15,16 +15,10 @@ export default {
         './index.js'
     ],
     output: {
-        ...baseConfig.output,
-
         publicPath: 'http://localhost:3000/dist/'
     },
     module: {
-        ...baseConfig.module,
-
         loaders: [
-            ...baseConfig.module.loaders,
-
             {
                 test: /\.js$/,
                 loaders: [ 'react-hot', 'babel' ],
@@ -37,8 +31,6 @@ export default {
         ]
     },
     plugins: [
-        ...baseConfig.plugins,
-
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             '__DEV__': true,
@@ -48,4 +40,4 @@ export default {
         })
     ],
     target: 'electron-renderer'
-};
+});
