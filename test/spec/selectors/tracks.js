@@ -1,10 +1,12 @@
 import { List } from 'immutable';
 import Track from 'records/Track';
+import Search from 'records/Search';
 import {
     getTotalDuration,
     getCurrentTrack,
     getCount,
-    getSelectedTrack
+    getSelectedTrack,
+    searchTracks
 } from 'selectors/tracks';
 
 describe('selectors', () => {
@@ -89,6 +91,75 @@ describe('selectors', () => {
                 };
 
                 expect(getCount(state)).to.be.equal(3);
+            });
+        });
+
+        describe('searchTracks', () => {
+            it('should return the empty List when not find the tracks', () => {
+                const state = {
+                    tracks: List([
+                        new Track({ id: '1', title: 'a title', artist: 'foo', album: 'foo' }),
+                        new Track({ id: '2', title: 'b', artist: 'foo', album: 'foo' }),
+                        new Track({ id: '3', title: 'bar', artist: 'foo', album: 'foo' })
+                    ]),
+                    search: new Search()
+                };
+
+                expect(searchTracks(state)).to.be.equal(List());
+            });
+
+            it('should search by track title', () => {
+                const state = {
+                    tracks: List([
+                        new Track({ id: '1', title: 'a title', artist: 'foo', album: 'foo' }),
+                        new Track({ id: '2', title: 'b', artist: 'foo', album: 'foo' }),
+                        new Track({ id: '3', title: 'bar', artist: 'foo', album: 'foo' })
+                    ]),
+                    search: new Search({ text: 'a' })
+                };
+
+                expect(searchTracks(state)).to.be.equal(
+                    List([
+                        new Track({ id: '1', title: 'a title', artist: 'foo', album: 'foo' }),
+                        new Track({ id: '3', title: 'bar', artist: 'foo', album: 'foo' })
+                    ])
+                );
+            });
+
+            it('should search by track artist', () => {
+                const state = {
+                    tracks: List([
+                        new Track({ id: '1', title: 'foo', artist: 'a artist', album: 'foo' }),
+                        new Track({ id: '2', title: 'foo', artist: 'b', album: 'foo' }),
+                        new Track({ id: '3', title: 'foo', artist: 'bar', album: 'foo' })
+                    ]),
+                    search: new Search({ text: 'a' })
+                };
+
+                expect(searchTracks(state)).to.be.equal(
+                    List([
+                        new Track({ id: '1', title: 'foo', artist: 'a artist', album: 'foo' }),
+                        new Track({ id: '3', title: 'foo', artist: 'bar', album: 'foo' })
+                    ])
+                );
+            });
+
+            it('should search by track album', () => {
+                const state = {
+                    tracks: List([
+                        new Track({ id: '1', title: 'foo', artist: 'foo', album: 'a album' }),
+                        new Track({ id: '2', title: 'foo', artist: 'foo', album: 'b' }),
+                        new Track({ id: '3', title: 'foo', artist: 'foo', album: 'bar' })
+                    ]),
+                    search: new Search({ text: 'a' })
+                };
+
+                expect(searchTracks(state)).to.be.equal(
+                    List([
+                        new Track({ id: '1', title: 'foo', artist: 'foo', album: 'a album' }),
+                        new Track({ id: '3', title: 'foo', artist: 'foo', album: 'bar' })
+                    ])
+                );
             });
         });
     });

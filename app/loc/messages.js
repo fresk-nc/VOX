@@ -13,6 +13,9 @@ export default {
         'playerError.remove': 'Remove track',
         'trackCleaner.message': 'Are you sure you want to clear playlist?',
         'trackCleaner.detail': 'This operation can\'t be undone',
-        'trackCleaner.clear': 'Clear'
+        'trackCleaner.clear': 'Clear',
+        'search.notFoundTitle': 'No Results',
+        'search.notFoundText': 'Try another search phrase or check the spelling',
+        'search.inputPlaceholder': 'Type to search'
     }
 };

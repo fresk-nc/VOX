@@ -7,7 +7,7 @@ import { fromJS, List } from 'immutable';
 
 import PlaybackContainer from './PlaybackContainer';
 import PlaybackBarContainer from './PlaybackBarContainer';
-import Playlist from './Playlist';
+import PlaylistContainer from './PlaylistContainer';
 import storage from 'lib/storage';
 import Track from 'records/Track';
 import Settings from 'records/Settings';
@@ -31,6 +31,7 @@ class Root extends React.Component {
     componentWillMount() {
         persistStore(this.props.store, {
             storage,
+            blacklist: [ 'search' ],
             transforms: [
                 {
                     in: (state) => state,
@@ -85,7 +86,7 @@ class Root extends React.Component {
                     <div>
                         <PlaybackContainer />
                         <PlaybackBarContainer />
-                        <Playlist />
+                        <PlaylistContainer />
                     </div>
                 </IntlProvider>
             </Provider>

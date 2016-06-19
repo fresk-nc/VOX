@@ -1,8 +1,7 @@
 import { shallow } from 'enzyme';
 import { List } from 'immutable';
 
-import { Playlist } from 'containers/Playlist';
-import Toolbar from 'components/Toolbar';
+import { TrackListContainer } from 'containers/TrackListContainer';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 import DropArea from 'components/DropArea';
@@ -11,9 +10,7 @@ import Track from 'records/Track';
 
 function setup(props) {
     const handlers = {
-        loadTracks: sinon.spy(),
         loadTracksFromDrop: sinon.spy(),
-        clearTracks: sinon.spy(),
         removeTrack: sinon.spy(),
         playTrack: sinon.spy(),
         pauseTrack: sinon.spy(),
@@ -22,13 +19,12 @@ function setup(props) {
         selectPrevTrack: sinon.spy()
     };
     const component = shallow(
-        <Playlist {...props} {...handlers} />
+        <TrackListContainer {...props} {...handlers} />
     );
 
     return {
         handlers,
         component,
-        toolbar: component.find(Toolbar),
         dropArea: component.find(DropArea),
         trackList: component.find(TrackList),
         footer: component.find(Footer)
@@ -39,19 +35,13 @@ function mockProps(overrides) {
     return Object.assign({}, {
         trackCount: 0,
         totalDuration: 0,
-        tracks: List([]),
+        tracks: List(),
         intl: {}
     }, overrides);
 }
 
 describe('containers', () => {
-    describe('Playlist', () => {
-        it('should render the toolbar', () => {
-            const { toolbar } = setup(mockProps());
-
-            expect(toolbar).to.have.length(1);
-        });
-
+    describe('TrackListContainer', () => {
         it('should render DropArea instead TrackList and Footer when there are no tracks', () => {
             const { dropArea, trackList, footer } = setup(mockProps());
 
@@ -82,7 +72,7 @@ describe('containers', () => {
             });
 
             it('should call action selectNextTrack when key is DOWN', function() {
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.DOWN
                 });
 
@@ -90,7 +80,7 @@ describe('containers', () => {
             });
 
             it('should call action selectPrevTrack when key is UP', function() {
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.UP
                 });
 
@@ -100,7 +90,7 @@ describe('containers', () => {
             it('should call action playTrack with right args when key is ENTER and there is the selected track', function() {
                 const trackId = this.mockContext.props.selectedTrack.id;
 
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.ENTER
                 });
 
@@ -111,7 +101,7 @@ describe('containers', () => {
             it('should not call action playTrack when key is ENTER and there is no the selected track', function() {
                 this.mockContext.props.selectedTrack = undefined;
 
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.ENTER
                 });
 
@@ -121,7 +111,7 @@ describe('containers', () => {
             it('should call action pauseTrack when key is SPACE and the selected track is playing', function() {
                 this.mockContext.props.selectedTrack = new Track({ isPlay: true });
 
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.SPACE
                 });
 
@@ -131,7 +121,7 @@ describe('containers', () => {
             it('should call action playTrack when key is SPACE and the selected track is current', function() {
                 this.mockContext.props.selectedTrack = new Track({ isCurrent: true });
 
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.SPACE
                 });
 
@@ -141,7 +131,7 @@ describe('containers', () => {
             it('should call action playTrack with right args when key is SPACE and the selected track is not current', function() {
                 const trackId = this.mockContext.props.selectedTrack.id;
 
-                Playlist.prototype._handleWindowKeyDown.call(this.mockContext, {
+                TrackListContainer.prototype._handleWindowKeyDown.call(this.mockContext, {
                     which: keyboard.SPACE
                 });
 

@@ -9,7 +9,8 @@ function setup(props) {
         onPlayClicked: sinon.spy(),
         onPrevClicked: sinon.spy(),
         onNextClicked: sinon.spy(),
-        onMinimizeClicked: sinon.spy()
+        onMinimizeClicked: sinon.spy(),
+        onSearchClicked: sinon.spy()
     };
     const component = shallow(
         <PlaybackBar {...props} {...handlers} />
@@ -99,6 +100,14 @@ describe('components', () => {
             const { search } = setup({ play: false });
 
             expect(search).to.have.length(1);
+        });
+
+        it('should call handler onSearchClicked on search button click', () => {
+            const { search, handlers } = setup({ play: false });
+
+            search.simulate('click');
+
+            expect(handlers.onSearchClicked).to.have.callCount(1);
         });
     });
 });

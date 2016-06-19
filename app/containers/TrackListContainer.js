@@ -6,9 +6,7 @@ import { injectIntl } from 'react-intl';
 import { getTotalDuration, getCount, getSelectedTrack } from 'selectors/tracks';
 import player from 'lib/player';
 import {
-    loadTracks,
     loadTracksFromDrop,
-    clearTracks,
     removeTrack,
     playTrack,
     pauseTrack,
@@ -19,17 +17,15 @@ import {
 import keyboard from 'constants/KeyboardCodes';
 import Track from 'records/Track';
 
-import Toolbar from 'components/Toolbar';
 import DropArea from 'components/DropArea';
-import TrackListWrapper from 'components/TrackListWrapper';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 
 const { Menu, MenuItem, getCurrentWindow, shell } = require('electron').remote;
 
-export class Playlist extends React.Component {
+export class TrackListContainer extends React.Component {
 
-    static displayName = 'Playlist';
+    static displayName = 'TrackListContainer';
 
     static propTypes = {
         tracks: React.PropTypes.instanceOf(List),
@@ -38,9 +34,7 @@ export class Playlist extends React.Component {
         selectedTrack: React.PropTypes.instanceOf(Track),
         intl: React.PropTypes.object.isRequired,
 
-        loadTracks: React.PropTypes.func.isRequired,
         loadTracksFromDrop: React.PropTypes.func.isRequired,
-        clearTracks: React.PropTypes.func.isRequired,
         removeTrack: React.PropTypes.func.isRequired,
         playTrack: React.PropTypes.func.isRequired,
         pauseTrack: React.PropTypes.func.isRequired,
@@ -128,7 +122,7 @@ export class Playlist extends React.Component {
         menu.popup(getCurrentWindow());
     }
 
-    _renderTrackListContent() {
+    render() {
         const {
             tracks,
             trackCount,
@@ -160,23 +154,6 @@ export class Playlist extends React.Component {
         );
     }
 
-    render() {
-        const { trackCount, loadTracks, clearTracks } = this.props;
-
-        return (
-            <div>
-                <Toolbar
-                    trackCount={trackCount}
-                    onAddClicked={loadTracks}
-                    onClearClicked={clearTracks}
-                />
-                <TrackListWrapper>
-                    {this._renderTrackListContent()}
-                </TrackListWrapper>
-            </div>
-        );
-    }
-
 }
 
 function mapStateToProps(state) {
@@ -190,9 +167,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        loadTracks,
         loadTracksFromDrop,
-        clearTracks,
         removeTrack,
         playTrack,
         pauseTrack,
@@ -205,4 +180,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(injectIntl(Playlist));
+)(injectIntl(TrackListContainer));

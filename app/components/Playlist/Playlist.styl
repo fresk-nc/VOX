@@ -1,6 +1,9 @@
 @require '../../styles/variables.styl'
 
 .wrap
+  position: relative
+
+.listWrap
   overflow-x: hidden
   overflow-y: auto
   height: 'calc(100vh - %s - %s - %s)' % ($playerHeaderHeight $playerBarHeight $toolbarHeight)

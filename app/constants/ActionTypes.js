@@ -16,5 +16,9 @@ export default keyMirror({
     TOGGLE_MINIMIZE: null,
     TOGGLE_SHUFFLE: null,
     CHANGE_LOOP_MODE: null,
-    CHANGE_VOLUME: null
+    CHANGE_VOLUME: null,
+
+    SET_SEARCH_TEXT: null,
+    SHOW_SEARCH: null,
+    HIDE_SEARCH: null
 });
