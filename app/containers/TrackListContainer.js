@@ -32,6 +32,7 @@ export class TrackListContainer extends React.Component {
         trackCount: React.PropTypes.number.isRequired,
         totalDuration: React.PropTypes.number.isRequired,
         selectedTrack: React.PropTypes.instanceOf(Track),
+        isMinimized: React.PropTypes.bool.isRequired,
         intl: React.PropTypes.object.isRequired,
 
         loadTracksFromDrop: React.PropTypes.func.isRequired,
@@ -50,6 +51,14 @@ export class TrackListContainer extends React.Component {
     }
 
     _handleWindowKeyDown(event) {
+        if (this.props.isMinimized) {
+            return;
+        }
+
+        this._processKey(event.which);
+    }
+
+    _processKey(key) {
         const {
             selectNextTrack,
             selectPrevTrack,
@@ -58,7 +67,7 @@ export class TrackListContainer extends React.Component {
             pauseTrack
         } = this.props;
 
-        switch (event.which) {
+        switch (key) {
             case keyboard.DOWN:
                 selectNextTrack();
                 break;
@@ -161,7 +170,8 @@ function mapStateToProps(state) {
         tracks: state.tracks,
         trackCount: getCount(state),
         totalDuration: getTotalDuration(state),
-        selectedTrack: getSelectedTrack(state)
+        selectedTrack: getSelectedTrack(state),
+        isMinimized: state.settings.minimize
     };
 }
 
