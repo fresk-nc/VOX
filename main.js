@@ -1,11 +1,15 @@
-const isDev = (process.env.NODE_ENV === 'development');
 const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
 const JSONStorage = require('node-localstorage').JSONStorage;
 const config = require('./app/config');
+const darwinTemplate = require('./menus/darwin');
+
+const app = electron.app;
+const Menu = electron.Menu;
+const BrowserWindow = electron.BrowserWindow;
+const isDev = (process.env.NODE_ENV === 'development');
 
 let mainWindow = null;
+let menu = null;
 
 if (isDev) {
     require('electron-debug')();
@@ -38,6 +42,9 @@ app.on('ready', function() {
         fullscreen: false,
         frame: false
     });
+
+    menu = Menu.buildFromTemplate(darwinTemplate());
+    Menu.setApplicationMenu(menu);
 
     mainWindow.loadURL(`file://${__dirname}/app/app.html`);
 

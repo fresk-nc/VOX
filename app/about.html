@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>About VOX</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #ECECEC;
+            color: #515151;
+        }
+        h1 {
+            font-size: 14px;
+            margin: 0;
+        }
+        p {
+            font-size: 12px;
+        }
+        img {
+            width: 128px;
+            height: 128px;
+            margin: 40px 0 30px;
+        }
+    </style>
+</head>
+<body>
+    <img src="./app.png" />
+    <h1>VOX Music Player</h1>
+    <p class="version"></p>
+    <script>
+        var pkg = require('../package.json');
+
+        document.querySelector('.version').innerHTML = 'Version ' + pkg.version;
+    </script>
+</body>
+</html>
