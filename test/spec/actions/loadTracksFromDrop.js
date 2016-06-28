@@ -34,7 +34,7 @@ describe('actions', () => {
             trackLoader.loadFromDrop.returns(Promise.resolve([]));
 
             return loadTracksFromDrop([])(this.dispatch).then(() => {
-                expect(this.dispatch).to.have.callCount(0);
+                expect(this.dispatch).to.not.be.calledWith({ type: types.LOAD_TRACKS_SUCCESS, tracks: [] });
             });
         });
 
@@ -57,7 +57,6 @@ describe('actions', () => {
             trackLoader.loadFromDrop.returns(Promise.resolve(tracks));
 
             return loadTracksFromDrop(files)(this.dispatch).then(() => {
-                expect(this.dispatch).to.have.callCount(1);
                 expect(this.dispatch).to.be.calledWith({
                     type: types.LOAD_TRACKS_SUCCESS,
                     tracks

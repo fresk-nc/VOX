@@ -12,5 +12,13 @@ export default function status(state = new Status(), action) {
 const handlers = {
     [types.REHYDRATE_SUCCESS](state) {
         return state.set('rehydrated', true);
+    },
+
+    [types.LOAD_TRACKS](state) {
+        return state.set('loading', true);
+    },
+
+    [types.LOAD_TRACKS_SUCCESS](state) {
+        return state.set('loading', false);
     }
 };

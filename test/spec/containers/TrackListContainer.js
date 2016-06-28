@@ -5,6 +5,7 @@ import { TrackListContainer } from 'containers/TrackListContainer';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 import DropArea from 'components/DropArea';
+import Loading from 'components/Loading';
 import keyboard from 'constants/KeyboardCodes';
 import Track from 'records/Track';
 
@@ -27,7 +28,8 @@ function setup(props) {
         component,
         dropArea: component.find(DropArea),
         trackList: component.find(TrackList),
-        footer: component.find(Footer)
+        footer: component.find(Footer),
+        loading: component.find(Loading)
     };
 }
 
@@ -44,6 +46,7 @@ function mockProps(overrides) {
             duration: 150
         }),
         isMinimized: false,
+        isLoading: false,
         intl: {}
     }, overrides);
 }
@@ -64,6 +67,18 @@ describe('containers', () => {
             expect(dropArea).to.have.length(0);
             expect(trackList).to.have.length(1);
             expect(footer).to.have.length(1);
+        });
+
+        it('should render Loading when tracks are loading', () => {
+            const { loading } = setup(mockProps({ isLoading: true }));
+
+            expect(loading).to.have.length(1);
+        });
+
+        it('should not render Loading when tracks are not loading', () => {
+            const { loading } = setup(mockProps());
+
+            expect(loading).to.have.length(0);
         });
 
         describe('hotkeys ->', () => {

@@ -31,7 +31,7 @@ describe('actions', () => {
             trackLoader.loadFromDialog.returns(Promise.resolve([]));
 
             return loadTracks()(this.dispatch).then(() => {
-                expect(this.dispatch).to.have.callCount(0);
+                expect(this.dispatch).to.not.be.calledWith({ type: types.LOAD_TRACKS_SUCCESS, tracks: [] });
             });
         });
 
@@ -52,7 +52,6 @@ describe('actions', () => {
             trackLoader.loadFromDialog.returns(Promise.resolve(tracks));
 
             return loadTracks()(this.dispatch).then(() => {
-                expect(this.dispatch).to.have.callCount(1);
                 expect(this.dispatch).to.be.calledWith({
                     type: types.LOAD_TRACKS_SUCCESS,
                     tracks

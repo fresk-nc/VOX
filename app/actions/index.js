@@ -12,6 +12,8 @@ export function rehydrateSuccess() {
 
 export function loadTracks() {
     return (dispatch) => {
+        dispatch({ type: types.LOAD_TRACKS });
+
         return trackLoader.loadFromDialog().then((tracks) => {
             loadTracksSuccess(dispatch, tracks);
         });
@@ -20,6 +22,8 @@ export function loadTracks() {
 
 export function loadTracksFromDrop(files) {
     return (dispatch) => {
+        dispatch({ type: types.LOAD_TRACKS });
+
         return trackLoader.loadFromDrop(files).then((tracks) => {
             loadTracksSuccess(dispatch, tracks);
         });

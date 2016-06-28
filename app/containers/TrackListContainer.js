@@ -20,6 +20,7 @@ import Track from 'records/Track';
 import DropArea from 'components/DropArea';
 import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
+import Loading from 'components/Loading';
 
 const { Menu, MenuItem, getCurrentWindow, shell } = require('electron').remote;
 
@@ -33,6 +34,7 @@ export class TrackListContainer extends React.Component {
         totalDuration: React.PropTypes.number.isRequired,
         selectedTrack: React.PropTypes.instanceOf(Track),
         isMinimized: React.PropTypes.bool.isRequired,
+        isLoading: React.PropTypes.bool.isRequired,
         intl: React.PropTypes.object.isRequired,
 
         loadTracksFromDrop: React.PropTypes.func.isRequired,
@@ -138,7 +140,8 @@ export class TrackListContainer extends React.Component {
             totalDuration,
             playTrack,
             selectTrack,
-            loadTracksFromDrop
+            loadTracksFromDrop,
+            isLoading
         } = this.props;
 
         if (trackCount) {
@@ -158,6 +161,12 @@ export class TrackListContainer extends React.Component {
             );
         }
 
+        if (isLoading) {
+            return (
+                <Loading />
+            );
+        }
+
         return (
             <DropArea onDropEnd={loadTracksFromDrop} />
         );
@@ -171,7 +180,8 @@ function mapStateToProps(state) {
         trackCount: getCount(state),
         totalDuration: getTotalDuration(state),
         selectedTrack: getSelectedTrack(state),
-        isMinimized: state.settings.minimize
+        isMinimized: state.settings.minimize,
+        isLoading: state.status.loading
     };
 }
 
