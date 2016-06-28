@@ -2,6 +2,7 @@ import moment from 'moment';
 import Highlighter from 'react-highlight-words';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { escapeRegExp } from 'lodash';
+import Baron from 'react-baron';
 
 import styles from './Search.styl';
 
@@ -67,7 +68,9 @@ class Search extends React.Component {
 
             return (
                 <div className={styles.trackList}>
-                    {tracks.map(this._renderTrack.bind(this, searchWords))}
+                    <Baron barOnCls="baron">
+                        {tracks.map(this._renderTrack.bind(this, searchWords))}
+                    </Baron>
                 </div>
             );
         }

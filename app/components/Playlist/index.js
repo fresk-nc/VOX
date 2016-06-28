@@ -1,4 +1,5 @@
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Baron from 'react-baron';
 
 import SearchContainer from 'containers/SearchContainer';
 import ToolbarContainer from 'containers/ToolbarContainer';
@@ -26,7 +27,9 @@ export default class Playlist extends React.Component {
                 </ReactCSSTransitionGroup>
                 <ToolbarContainer />
                 <div className={styles.listWrap}>
-                    <TrackListContainer />
+                    <Baron barOnCls="baron">
+                        <TrackListContainer />
+                    </Baron>
                 </div>
             </div>
         );
