@@ -8,6 +8,7 @@ import { fromJS, List } from 'immutable';
 import PlaybackContainer from './PlaybackContainer';
 import PlaybackBarContainer from './PlaybackBarContainer';
 import PlaylistContainer from './PlaylistContainer';
+import Loading from 'components/Loading';
 import storage from 'lib/storage';
 import Track from 'records/Track';
 import Settings from 'records/Settings';
@@ -73,26 +74,33 @@ class Root extends React.Component {
         }, false);
     }
 
-    render() {
+    _renderContent() {
         if (!this.state.rehydrated) {
-            return null;
+            return (
+                <Loading />
+            );
         }
 
+        return (
+            <div>
+                <PlaybackContainer />
+                <PlaybackBarContainer />
+                <PlaylistContainer />
+            </div>
+        );
+    }
+
+    render() {
         const { store, locale, messages } = this.props;
 
         return (
             <Provider store={store}>
                 <IntlProvider locale={locale} messages={messages}>
-                    <div>
-                        <PlaybackContainer />
-                        <PlaybackBarContainer />
-                        <PlaylistContainer />
-                    </div>
+                    {this._renderContent()}
                 </IntlProvider>
             </Provider>
         );
     }
-
 }
 
 export default DragDropContext(HTML5Backend)(Root);

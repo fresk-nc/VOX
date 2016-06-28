@@ -16,6 +16,7 @@ export default {
         'trackCleaner.clear': 'Clear',
         'search.notFoundTitle': 'No Results',
         'search.notFoundText': 'Try another search phrase or check the spelling',
-        'search.inputPlaceholder': 'Type to search'
+        'search.inputPlaceholder': 'Type to search',
+        'loading': 'Loading'
     }
 };
