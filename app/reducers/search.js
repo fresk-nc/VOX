@@ -1,7 +1,7 @@
 import types from 'constants/ActionTypes';
 import Search from 'records/Search';
 
-export default function tracks(state = new Search(), action) {
+export default function search(state = new Search(), action) {
     if (handlers.hasOwnProperty(action.type)) {
         return handlers[action.type](state, action);
     } else {
