@@ -6,6 +6,10 @@ import player from 'lib/player';
 import windowResizer from 'lib/windowResizer';
 import playerErrorReporter from 'lib/playerErrorReporter';
 
+export function rehydrateSuccess() {
+    return { type: types.REHYDRATE_SUCCESS };
+}
+
 export function loadTracks() {
     return (dispatch) => {
         return trackLoader.loadFromDialog().then((tracks) => {

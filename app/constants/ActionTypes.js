@@ -1,6 +1,8 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
+    REHYDRATE_SUCCESS: null,
+    LOAD_TRACKS: null,
     LOAD_TRACKS_SUCCESS: null,
     CLEAR_TRACKS: null,
 
