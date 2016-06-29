@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { flatten } from 'lodash';
 import mediaDoctor from 'lib/mediaDoctor';
+import config from 'config';
 
 const glob = window.require('glob');
 const mm = window.require('musicmetadata');
@@ -44,7 +45,9 @@ function getStats(file) {
 
 function loadFolder(folder) {
     return new Promise((resolve, reject) => {
-        glob('**/*.mp3', { cwd: folder }, (err, files) => {
+        const pattern = `**/*.{${config.formats.join(',')}}`;
+
+        glob(pattern, { cwd: folder }, (err, files) => {
             if (err) {
                 reject(err);
             } else {

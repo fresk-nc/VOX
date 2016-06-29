@@ -2,6 +2,7 @@ import path from 'path';
 
 import { showOpenDialog } from 'lib/dialog.js';
 import { load } from 'lib/mediaFileLoader.js';
+import config from 'config';
 
 export default {
     loadFromDialog() {
@@ -15,7 +16,7 @@ export default {
                 filters: [
                     {
                         name: 'Audio',
-                        extensions: [ 'mp3' ]
+                        extensions: config.formats
                     }
                 ]
             }, (files) => {
@@ -28,7 +29,7 @@ export default {
         const audioFiles = files.filter((f) => {
             const extName = path.extname(f);
 
-            return !extName || extName === '.mp3';
+            return extName && config.formats.includes(extName.slice(1));
         });
 
         return load(audioFiles);

@@ -9,5 +9,6 @@ module.exports = {
     },
     backgroundColor: '#282828',
     defaultLocale: 'en',
-    devUserData: './state'
+    devUserData: './state',
+    formats: [ 'mp3', 'ogg', 'm4a' ]
 };
