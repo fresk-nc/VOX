@@ -13,8 +13,8 @@ export default class PlaybackSettings extends React.Component {
         volumeMax: React.PropTypes.number.isRequired,
         volumeStep: React.PropTypes.number.isRequired,
 
-        onShuffleClicked: React.PropTypes.func.isRequired,
-        onLoopClicked: React.PropTypes.func.isRequired,
+        onShuffleClick: React.PropTypes.func.isRequired,
+        onLoopClick: React.PropTypes.func.isRequired,
         onVolumeMinusMouseDown: React.PropTypes.func.isRequired,
         onVolumeMinusMouseUp: React.PropTypes.func.isRequired,
         onVolumePlusMouseDown: React.PropTypes.func.isRequired,
@@ -23,14 +23,14 @@ export default class PlaybackSettings extends React.Component {
     };
 
     _renderLoopButton() {
-        const { loopMode, onLoopClicked } = this.props;
+        const { loopMode, onLoopClick } = this.props;
         const className = classNames('js-repeat-button', {
             [styles.repeat]: loopMode === 'off',
             [styles.repeatActive]: loopMode !== 'off'
         });
 
         return (
-            <button className={className} onClick={onLoopClicked}>
+            <button className={className} onClick={onLoopClick}>
                 <i className="material-icons">{loopMode === 'one' ? 'repeat_one' : 'repeat'}</i>
             </button>
         );
@@ -39,7 +39,7 @@ export default class PlaybackSettings extends React.Component {
     render() {
         const {
             isShuffle,
-            onShuffleClicked,
+            onShuffleClick,
             volume,
             volumeMin,
             volumeMax,
@@ -62,7 +62,7 @@ export default class PlaybackSettings extends React.Component {
             <div className={styles.wrap}>
                 {this._renderLoopButton()}
                 <span className="separate"></span>
-                <button className={shuffleClass} onClick={onShuffleClicked}>
+                <button className={shuffleClass} onClick={onShuffleClick}>
                     <i className="material-icons">shuffle</i>
                 </button>
                 <span className="separate"></span>

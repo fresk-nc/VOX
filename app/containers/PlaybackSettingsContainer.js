@@ -27,6 +27,12 @@ class PlaybackSettingsContainer extends React.Component {
         super(props);
 
         this._timerId = null;
+        this._clearTimer = this._clearTimer.bind(this);
+        this._handleLoopClick = this._handleLoopClick.bind(this);
+        this._handleShuffleClick = this._handleShuffleClick.bind(this);
+        this._handleVolumePlusMouseDown = this._handleVolumePlusMouseDown.bind(this);
+        this._handleVolumeMinusMouseDown = this._handleVolumeMinusMouseDown.bind(this);
+        this._handleVolumeRangeInput = this._handleVolumeRangeInput.bind(this);
     }
 
     componentDidMount() {
@@ -43,7 +49,47 @@ class PlaybackSettingsContainer extends React.Component {
         }
     }
 
-    _changeLoopMode() {
+    _handleVolumeRangeInput(e) {
+        const { changeVolume } = this.props;
+
+        changeVolume(Number(e.target.value));
+    }
+
+    _decrementVolume() {
+        const { settings, changeVolume } = this.props;
+        const newVolume = Math.max(settings.volume - VOLUME_STEP, VOLUME_MIN);
+
+        changeVolume(newVolume);
+    }
+
+    _incrementVolume() {
+        const { settings, changeVolume } = this.props;
+        const newVolume = Math.min(settings.volume + VOLUME_STEP, VOLUME_MAX);
+
+        changeVolume(newVolume);
+    }
+
+    _handleVolumeMinusMouseDown() {
+        this._decrementVolume();
+
+        this._timerId = setInterval(() => {
+            this._decrementVolume();
+        }, DELAY_BEFORE_CHANGE_VOLUME);
+    }
+
+    _handleVolumePlusMouseDown() {
+        this._incrementVolume();
+
+        this._timerId = setInterval(() => {
+            this._incrementVolume();
+        }, DELAY_BEFORE_CHANGE_VOLUME);
+    }
+
+    _clearTimer() {
+        clearInterval(this._timerId);
+    }
+
+    _handleLoopClick() {
         const { settings, changeLoopMode } = this.props;
         const currentLoopMode = settings.loopMode;
         let newLoopMode;
@@ -65,48 +111,14 @@ class PlaybackSettingsContainer extends React.Component {
         changeLoopMode(newLoopMode);
     }
 
-    _onVolumeRangeInput(e) {
-        const { changeVolume } = this.props;
+    _handleShuffleClick() {
+        const { settings, toggleShuffle } = this.props;
 
-        changeVolume(Number(e.target.value));
-    }
-
-    _decrementVolume() {
-        const { settings, changeVolume } = this.props;
-        const newVolume = Math.max(settings.volume - VOLUME_STEP, VOLUME_MIN);
-
-        changeVolume(newVolume);
-    }
-
-    _incrementVolume() {
-        const { settings, changeVolume } = this.props;
-        const newVolume = Math.min(settings.volume + VOLUME_STEP, VOLUME_MAX);
-
-        changeVolume(newVolume);
-    }
-
-    _onVolumeMinusMouseDown() {
-        this._decrementVolume();
-
-        this._timerId = setInterval(() => {
-            this._decrementVolume();
-        }, DELAY_BEFORE_CHANGE_VOLUME);
-    }
-
-    _onVolumePlusMouseDown() {
-        this._incrementVolume();
-
-        this._timerId = setInterval(() => {
-            this._incrementVolume();
-        }, DELAY_BEFORE_CHANGE_VOLUME);
-    }
-
-    _clearTimer() {
-        clearInterval(this._timerId);
+        toggleShuffle(settings.shuffle);
     }
 
     render() {
-        const { settings, toggleShuffle } = this.props;
+        const { settings } = this.props;
 
         return (
             <PlaybackSettings
@@ -116,13 +128,13 @@ class PlaybackSettingsContainer extends React.Component {
                 volumeMin={VOLUME_MIN}
                 volumeMax={VOLUME_MAX}
                 volumeStep={VOLUME_STEP}
-                onLoopClicked={() => this._changeLoopMode()}
-                onShuffleClicked={() => toggleShuffle(settings.shuffle)}
-                onVolumePlusMouseDown={() => this._onVolumePlusMouseDown()}
-                onVolumePlusMouseUp={() => this._clearTimer()}
-                onVolumeMinusMouseDown={() => this._onVolumeMinusMouseDown()}
-                onVolumeMinusMouseUp={() => this._clearTimer()}
-                onVolumeRangeInput={(e) => this._onVolumeRangeInput(e)}
+                onLoopClick={this._handleLoopClick}
+                onShuffleClick={this._handleShuffleClick}
+                onVolumePlusMouseDown={this._handleVolumePlusMouseDown}
+                onVolumePlusMouseUp={this._clearTimer}
+                onVolumeMinusMouseDown={this._handleVolumeMinusMouseDown}
+                onVolumeMinusMouseUp={this._clearTimer}
+                onVolumeRangeInput={this._handleVolumeRangeInput}
             />
         );
     }

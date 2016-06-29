@@ -5,8 +5,8 @@ import { shallow } from 'enzyme';
 
 function setup(props) {
     const handlers = {
-        onShuffleClicked: sinon.spy(),
-        onLoopClicked: sinon.spy(),
+        onShuffleClick: sinon.spy(),
+        onLoopClick: sinon.spy(),
         onVolumeMinusMouseDown: sinon.spy(),
         onVolumeMinusMouseUp: sinon.spy(),
         onVolumePlusMouseDown: sinon.spy(),
@@ -71,12 +71,12 @@ describe('components', () => {
             expect(repeatButton.find('.material-icons').text()).to.be.equal('repeat');
         });
 
-        it('should call handler onLoopClicked on repeat button click', () => {
+        it('should call handler onLoopClick on repeat button click', () => {
             const { repeatButton, handlers } = setup(mockSettings());
 
             repeatButton.simulate('click');
 
-            expect(handlers.onLoopClicked).to.have.callCount(1);
+            expect(handlers.onLoopClick).to.have.callCount(1);
         });
 
         it('shuffle button should has class `shuffle` when shuffle mode is off', () => {
@@ -91,12 +91,12 @@ describe('components', () => {
             expect(shuffleButton.hasClass(styles.shuffleActive)).to.be.equal(true);
         });
 
-        it('should call handler onShuffleClicked on shuffle button click', () => {
+        it('should call handler onShuffleClick on shuffle button click', () => {
             const { shuffleButton, handlers } = setup(mockSettings());
 
             shuffleButton.simulate('click');
 
-            expect(handlers.onShuffleClicked).to.have.callCount(1);
+            expect(handlers.onShuffleClick).to.have.callCount(1);
         });
 
         it('should render the volume minus', () => {
