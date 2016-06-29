@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { debounce } from 'lodash';
 import { List } from 'immutable';
+import _ from 'lodash';
 
 import { searchTracks } from 'selectors/tracks';
 import { setSearchText, selectTrack, hideSearch } from 'actions';
 import SearchComponent from 'components/Search';
 import Search from 'records/Search';
 
-class SearchContainer extends React.Component {
+export class SearchContainer extends React.Component {
 
     static displayName = 'SearchContainer';
 
@@ -24,7 +24,7 @@ class SearchContainer extends React.Component {
     constructor() {
         super();
 
-        this._searchDebounced = debounce(this._search.bind(this), 30);
+        this._searchDebounced = _.debounce(this._search.bind(this), 30);
         this._handleInputChange = this._handleInputChange.bind(this);
         this._handleTrackDoubleClick = this._handleTrackDoubleClick.bind(this);
         this._handleInputCleanerClick = this._handleInputCleanerClick.bind(this);
