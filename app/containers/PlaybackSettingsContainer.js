@@ -11,7 +11,7 @@ const VOLUME_MAX = 1;
 const VOLUME_STEP = 0.05;
 const DELAY_BEFORE_CHANGE_VOLUME = 100;
 
-class PlaybackSettingsContainer extends React.Component {
+export class PlaybackSettingsContainer extends React.Component {
 
     static displayName = 'PlaybackSettingsContainer';
 
