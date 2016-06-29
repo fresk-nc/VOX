@@ -1,7 +1,10 @@
+import { List } from 'immutable';
+
 import Search from 'components/Search';
 import styles from 'components/Search/Search.styl';
 import compoundSelector from '../../helpers/compoundSelector';
 import { mountWithIntl } from '../../helpers/intlEnzyme';
+import Track from 'records/Track';
 
 function setup(props) {
     const handlers = {
@@ -28,7 +31,7 @@ function setup(props) {
 
 function mockSearch(overrides) {
     return Object.assign({}, {
-        tracks: [],
+        tracks: List(),
         searchText: null
     }, overrides);
 }
@@ -100,22 +103,22 @@ describe('components', () => {
         it('should render the tracks found', () => {
             const { track } = setup(mockSearch({
                 searchText: 'not empty',
-                tracks: [
-                    {
+                tracks: List([
+                    new Track({
                         id: '100',
                         title: 'title',
                         artist: 'artist',
                         album: 'album',
                         duration: 200
-                    },
-                    {
+                    }),
+                    new Track({
                         id: '101',
                         title: 'title',
                         artist: 'artist',
                         album: 'album',
                         duration: 200
-                    }
-                ]
+                    })
+                ])
             }));
 
             expect(track).to.have.length(2);
@@ -124,15 +127,15 @@ describe('components', () => {
         it('should call handler onTrackDoubleClick on track double click', () => {
             const { track, handlers } = setup(mockSearch({
                 searchText: 'not empty',
-                tracks: [
-                    {
+                tracks: List([
+                    new Track({
                         id: '100',
                         title: 'title',
                         artist: 'artist',
                         album: 'album',
                         duration: 200
-                    }
-                ]
+                    })
+                ])
             }));
 
             track.simulate('doubleClick');

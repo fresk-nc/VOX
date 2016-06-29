@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-no-bind */
+
 import moment from 'moment';
 import Highlighter from 'react-highlight-words';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { escapeRegExp } from 'lodash';
 import Baron from 'react-baron';
+import { List } from 'immutable';
 
 import styles from './Search.styl';
 
@@ -11,7 +14,7 @@ class Search extends React.Component {
     static displayName = 'Search';
 
     static propTypes = {
-        tracks: React.PropTypes.array.isRequired,
+        tracks: React.PropTypes.instanceOf(List).isRequired,
         searchText: React.PropTypes.string,
         intl: React.PropTypes.object.isRequired,
 
@@ -63,7 +66,7 @@ class Search extends React.Component {
     _renderResult() {
         const { tracks, searchText } = this.props;
 
-        if (tracks.length) {
+        if (tracks.size) {
             const searchWords = escapeRegExp(searchText).split(/\s/).filter((word) => word);
 
             return (

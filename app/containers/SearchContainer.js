@@ -25,6 +25,9 @@ class SearchContainer extends React.Component {
         super();
 
         this._searchDebounced = debounce(this._search.bind(this), 30);
+        this._handleInputChange = this._handleInputChange.bind(this);
+        this._handleTrackDoubleClick = this._handleTrackDoubleClick.bind(this);
+        this._handleInputCleanerClick = this._handleInputCleanerClick.bind(this);
     }
 
     _handleTrackDoubleClick(id) {
@@ -38,21 +41,29 @@ class SearchContainer extends React.Component {
         this._searchDebounced(event.target.value);
     }
 
+    _handleInputKeyDown(event) {
+        event.stopPropagation();
+    }
+
+    _handleInputCleanerClick() {
+        this.props.setSearchText(null);
+    }
+
     _search(text) {
         this.props.setSearchText(text);
     }
 
     render() {
-        const { tracks, search, hideSearch, setSearchText } = this.props;
+        const { tracks, search, hideSearch } = this.props;
 
         return (
             <SearchComponent
-                tracks={tracks.toJS()}
+                tracks={tracks}
                 searchText={search.text}
-                onInputCleanerClick={() => setSearchText(null)}
-                onInputChange={this._handleInputChange.bind(this)}
-                onInputKeyDown={(e) => e.stopPropagation()}
-                onTrackDoubleClick={this._handleTrackDoubleClick.bind(this)}
+                onInputCleanerClick={this._handleInputCleanerClick}
+                onInputChange={this._handleInputChange}
+                onInputKeyDown={this._handleInputKeyDown}
+                onTrackDoubleClick={this._handleTrackDoubleClick}
                 onOverlayClick={hideSearch}
             />
         );
