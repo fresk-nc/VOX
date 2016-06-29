@@ -1,11 +1,12 @@
 import Track from 'components/Track';
+import { List } from 'immutable';
 
 export default class TrackList extends React.Component {
 
     static displayName = 'TrackList';
 
     static propTypes = {
-        tracks: React.PropTypes.array.isRequired,
+        tracks: React.PropTypes.instanceOf(List).isRequired,
 
         onTrackClick: React.PropTypes.func.isRequired,
         onTrackDoubleClick: React.PropTypes.func.isRequired,
@@ -26,14 +27,10 @@ export default class TrackList extends React.Component {
                     <Track
                         key={track.id}
                         index={i + 1}
-                        artist={track.artist}
-                        title={track.title}
-                        duration={track.duration}
-                        isCurrent={track.isCurrent}
-                        isSelected={track.isSelected}
-                        onClick={() => onTrackClick(track.id)}
-                        onDoubleClick={() => onTrackDoubleClick(track.id)}
-                        onContextMenu={() => onTrackContextMenu(track)}
+                        track={track}
+                        onClick={onTrackClick}
+                        onDoubleClick={onTrackDoubleClick}
+                        onContextMenu={onTrackContextMenu}
                     />
                 )}
             </div>

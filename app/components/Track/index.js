@@ -1,7 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import moment from 'moment';
+
 import styles from './Track.styl';
+import TrackRecord from 'records/Track';
 
 export default class Track extends React.Component {
 
@@ -9,11 +11,7 @@ export default class Track extends React.Component {
 
     static propTypes = {
         index: React.PropTypes.number.isRequired,
-        artist: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        duration: React.PropTypes.number.isRequired,
-        isCurrent: React.PropTypes.bool.isRequired,
-        isSelected: React.PropTypes.bool.isRequired,
+        track: React.PropTypes.instanceOf(TrackRecord).isRequired,
 
         onClick: React.PropTypes.func.isRequired,
         onDoubleClick: React.PropTypes.func.isRequired,
@@ -24,26 +22,38 @@ export default class Track extends React.Component {
         super(props);
 
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+        this._handleClick = this._handleClick.bind(this);
+        this._handleDoubleClick = this._handleDoubleClick.bind(this);
+        this._handleContextMenu = this._handleContextMenu.bind(this);
     }
 
     componentDidUpdate(prevProps) {
-        if (!prevProps.isSelected && this.props.isSelected) {
+        if (!prevProps.track.isSelected && this.props.track.isSelected) {
             this._node.scrollIntoViewIfNeeded();
         }
     }
+    
+    _handleClick() {
+        this.props.onClick(this.props.track.id);
+    }
+    
+    _handleDoubleClick() {
+        this.props.onDoubleClick(this.props.track.id);
+    }
+    
+    _handleContextMenu() {
+        this.props.onContextMenu(this.props.track);
+    }
 
     render() {
+        const { index, track } = this.props;
         const {
-            onClick,
-            onDoubleClick,
-            onContextMenu,
-            index,
             title,
             artist,
             duration,
             isCurrent,
             isSelected
-        } = this.props;
+        } = track;
 
         const wrapClass = classNames({
             [styles.common]: !isCurrent && !isSelected,
@@ -54,9 +64,9 @@ export default class Track extends React.Component {
         return (
             <div
                 className={wrapClass}
-                onClick={onClick}
-                onDoubleClick={onDoubleClick}
-                onContextMenu={onContextMenu}
+                onClick={this._handleClick}
+                onDoubleClick={this._handleDoubleClick}
+                onContextMenu={this._handleContextMenu}
                 ref={(c) => this._node = c}
             >
                 <span className={styles.index}>

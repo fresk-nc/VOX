@@ -1,6 +1,9 @@
-import TrackList from 'components/TrackList';
-import Track from 'components/Track';
 import { shallow } from 'enzyme';
+import { List } from 'immutable';
+
+import TrackList from 'components/TrackList';
+import TrackComponent from 'components/Track';
+import Track from 'records/Track';
 
 function setup(props) {
     const handlers = {
@@ -19,24 +22,20 @@ function setup(props) {
 }
 
 function mockTracks() {
-    return [
-        {
+    return List([
+        new Track({
             id: 1,
             artist: 'artist 1',
             title: 'title 1',
-            duration: 100,
-            isCurrent: false,
-            isSelected: false
-        },
-        {
+            duration: 100
+        }),
+        new Track({
             id: 2,
             artist: 'artist 2',
             title: 'title 2',
-            duration: 200,
-            isCurrent: true,
-            isSelected: false
-        }
-    ];
+            duration: 200
+        })
+    ]);
 }
 
 describe('components', () => {
@@ -45,7 +44,7 @@ describe('components', () => {
             const tracks = mockTracks();
             const { component } = setup({ tracks });
 
-            expect(component.find(Track)).to.have.length(2);
+            expect(component.find(TrackComponent)).to.have.length(2);
         });
     });
 });

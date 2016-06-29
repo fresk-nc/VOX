@@ -81,6 +81,26 @@ describe('containers', () => {
             expect(loading).to.have.length(0);
         });
 
+        it('should call action selectTrack with right args when click on track', () => {
+            const { component, handlers } = setup(mockProps());
+            const instance = component.instance();
+
+            instance._handleTrackClick(10);
+
+            expect(handlers.selectTrack).to.have.callCount(1);
+            expect(handlers.selectTrack).to.be.calledWith(10);
+        });
+
+        it('should call action playTrack with right args when double click on track', () => {
+            const { component, handlers } = setup(mockProps());
+            const instance = component.instance();
+
+            instance._handleTrackDoubleClick(10);
+
+            expect(handlers.playTrack).to.have.callCount(1);
+            expect(handlers.playTrack).to.be.calledWith(10);
+        });
+
         describe('hotkeys ->', () => {
             it('should not call any action when the window is minimized', () => {
                 const { component } = setup(mockProps({ isMinimized: true }));

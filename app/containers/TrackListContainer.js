@@ -46,6 +46,14 @@ export class TrackListContainer extends React.Component {
         selectPrevTrack: React.PropTypes.func.isRequired
     };
 
+    constructor(props, context) {
+        super(props, context);
+
+        this._handleTrackClick = this._handleTrackClick.bind(this);
+        this._handleTrackDoubleClick = this._handleTrackDoubleClick.bind(this);
+        this._handleTrackContextMenu = this._handleTrackContextMenu.bind(this);
+    }
+
     componentDidMount() {
         player.addTracks(this.props.tracks.toJS());
 
@@ -96,7 +104,15 @@ export class TrackListContainer extends React.Component {
         }
     }
 
-    _showTrackMenu(track) {
+    _handleTrackClick(id) {
+        this.props.selectTrack(id);
+    }
+
+    _handleTrackDoubleClick(id) {
+        this.props.playTrack(id);
+    }
+
+    _handleTrackContextMenu(track) {
         const { playTrack, removeTrack, intl } = this.props;
         const menu = new Menu();
 
@@ -138,8 +154,6 @@ export class TrackListContainer extends React.Component {
             tracks,
             trackCount,
             totalDuration,
-            playTrack,
-            selectTrack,
             loadTracksFromDrop,
             isLoading
         } = this.props;
@@ -148,10 +162,10 @@ export class TrackListContainer extends React.Component {
             return (
                 <div>
                     <TrackList
-                        tracks={tracks.toJS()}
-                        onTrackClick={(id) => selectTrack(id)}
-                        onTrackDoubleClick={(id) => playTrack(id)}
-                        onTrackContextMenu={this._showTrackMenu.bind(this)}
+                        tracks={tracks}
+                        onTrackClick={this._handleTrackClick}
+                        onTrackDoubleClick={this._handleTrackDoubleClick}
+                        onTrackContextMenu={this._handleTrackContextMenu}
                     />
                     <Footer
                         trackCount={trackCount}
