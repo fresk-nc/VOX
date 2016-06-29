@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { delay } from 'lodash';
+import _ from 'lodash';
 
 import {
     prevTrack,
@@ -18,7 +18,9 @@ import Track from 'records/Track';
 import Settings from 'records/Settings';
 import Search from 'records/Search';
 
-class PlaybackBarContainer extends React.Component {
+const DELAY_BEFORE_TOGGLE_SEARCH = 30;
+
+export class PlaybackBarContainer extends React.Component {
 
     static displayName = 'PlaybackBarContainer';
 
@@ -88,9 +90,9 @@ class PlaybackBarContainer extends React.Component {
         }
 
         if (search.isShowed) {
-            delay(hideSearch, 30);
+            _.delay(hideSearch, DELAY_BEFORE_TOGGLE_SEARCH);
         } else {
-            delay(showSearch, 30);
+            _.delay(showSearch, DELAY_BEFORE_TOGGLE_SEARCH);
         }
     }
 
