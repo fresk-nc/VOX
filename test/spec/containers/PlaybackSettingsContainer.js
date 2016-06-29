@@ -29,13 +29,13 @@ function mockProps(overrides) {
 }
 
 describe('containers', () => {
-    beforeEach(function() {
-        this.sinon.stub(player, 'changeLoopMode');
-        this.sinon.stub(player, 'changeVolume');
-        this.sinon.stub(player, 'shuffleOn');
-    });
-
     describe('PlaybackSettingsContainer', () => {
+        beforeEach(function() {
+            this.sinon.stub(player, 'changeLoopMode');
+            this.sinon.stub(player, 'changeVolume');
+            this.sinon.stub(player, 'shuffleOn');
+        });
+
         it('should render PlaybackSettings', () => {
             const { playbackSettings } = setup(mockProps());
 
