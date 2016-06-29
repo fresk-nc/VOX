@@ -28,7 +28,7 @@ module.exports = webpackMerge(baseConfig, {
         ]
     },
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.DefinePlugin({
             '__DEV__': false,
             'process.env': {
