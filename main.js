@@ -15,6 +15,17 @@ if (isDev) {
     require('electron-debug')();
 }
 
+function installExtensions() {
+    const installer = require('electron-devtools-installer');
+    const extensions = [
+        'REACT_DEVELOPER_TOOLS'
+    ];
+
+    extensions.forEach((extension) => {
+        installer.default(installer[extension]);
+    });
+}
+
 app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') {
         app.quit();
@@ -22,6 +33,10 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
+    if (isDev) {
+        installExtensions();
+    }
+
     const storage = new JSONStorage(isDev ? config.devUserData : app.getPath('userData'));
     const settings = storage.getItem('reduxPersist:settings');
 
