@@ -7,6 +7,7 @@ import { searchTracks } from 'selectors/tracks';
 import { setSearchText, selectTrack, hideSearch } from 'actions';
 import SearchComponent from 'components/Search';
 import Search from 'records/Search';
+import keyboard from 'constants/KeyboardCodes';
 
 export class SearchContainer extends React.Component {
 
@@ -28,6 +29,7 @@ export class SearchContainer extends React.Component {
         this._handleInputChange = this._handleInputChange.bind(this);
         this._handleTrackDoubleClick = this._handleTrackDoubleClick.bind(this);
         this._handleInputCleanerClick = this._handleInputCleanerClick.bind(this);
+        this._handleInputKeyDown = this._handleInputKeyDown.bind(this);
     }
 
     _handleTrackDoubleClick(id) {
@@ -43,6 +45,10 @@ export class SearchContainer extends React.Component {
 
     _handleInputKeyDown(event) {
         event.stopPropagation();
+
+        if (event.which === keyboard.ESCAPE) {
+            this.props.hideSearch();
+        }
     }
 
     _handleInputCleanerClick() {

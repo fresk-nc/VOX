@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { SearchContainer } from 'containers/SearchContainer';
 import SearchComponent from 'components/Search';
 import Search from 'records/Search';
+import keyboard from 'constants/KeyboardCodes';
 
 function setup(props) {
     const handlers = {
@@ -67,7 +68,7 @@ describe('containers', () => {
             expect(handlers.hideSearch).to.have.callCount(1);
         });
 
-        it('should call setSearchText with right args when change input', () => {
+        it('should call action setSearchText with right args when change input', () => {
             const props = mockProps();
             const { component, handlers } = setup(props);
             const instance = component.instance();
@@ -93,7 +94,7 @@ describe('containers', () => {
             expect(cb).to.have.callCount(1);
         });
 
-        it('should call setSearchText with right args when click on `input cleaner`', () => {
+        it('should call action setSearchText with right args when click on `input cleaner`', () => {
             const props = mockProps();
             const { component, handlers } = setup(props);
             const instance = component.instance();
@@ -102,6 +103,34 @@ describe('containers', () => {
 
             expect(handlers.setSearchText).to.have.callCount(1);
             expect(handlers.setSearchText).to.be.calledWith(null);
+        });
+
+        describe('hotkeys ->', () => {
+            it('should call action hideSearch when key is ESCAPE', () => {
+                const props = mockProps();
+                const { component, handlers } = setup(props);
+                const instance = component.instance();
+
+                instance._handleInputKeyDown({
+                    stopPropagation: sinon.spy(),
+                    which: keyboard.ESCAPE
+                });
+
+                expect(handlers.hideSearch).to.have.callCount(1);
+            });
+
+            it('should not call action hideSearch when key is not ESCAPE', () => {
+                const props = mockProps();
+                const { component, handlers } = setup(props);
+                const instance = component.instance();
+
+                instance._handleInputKeyDown({
+                    stopPropagation: sinon.spy(),
+                    which: 'any'
+                });
+
+                expect(handlers.hideSearch).to.have.callCount(0);
+            });
         });
     });
 });
