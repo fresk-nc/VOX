@@ -5,12 +5,12 @@ import { shallow } from 'enzyme';
 
 function setup(props) {
     const handlers = {
-        onPauseClicked: sinon.spy(),
-        onPlayClicked: sinon.spy(),
-        onPrevClicked: sinon.spy(),
-        onNextClicked: sinon.spy(),
-        onMinimizeClicked: sinon.spy(),
-        onSearchClicked: sinon.spy()
+        onPauseClick: sinon.spy(),
+        onPlayClick: sinon.spy(),
+        onPrevClick: sinon.spy(),
+        onNextClick: sinon.spy(),
+        onMinimizeClick: sinon.spy(),
+        onSearchClick: sinon.spy()
     };
     const component = shallow(
         <PlaybackBar {...props} {...handlers} />
@@ -44,12 +44,12 @@ describe('components', () => {
             expect(prev).to.have.length(1);
         });
 
-        it('should call handler onPrevClicked on prev button click', () => {
+        it('should call handler onPrevClick on prev button click', () => {
             const { prev, handlers } = setup({ play: false });
 
             prev.simulate('click');
 
-            expect(handlers.onPrevClicked).to.have.callCount(1);
+            expect(handlers.onPrevClick).to.have.callCount(1);
         });
 
         it('should render play button with play icon when player is not playing', () => {
@@ -66,20 +66,20 @@ describe('components', () => {
             expect(play.find('.material-icons').text()).to.be.equal('pause');
         });
 
-        it('should call handler onPlayClicked on play button click when player is not playing', () => {
+        it('should call handler onPlayClick on play button click when player is not playing', () => {
             const { play, handlers } = setup({ play: false });
 
             play.simulate('click');
 
-            expect(handlers.onPlayClicked).to.have.callCount(1);
+            expect(handlers.onPlayClick).to.have.callCount(1);
         });
 
-        it('should call handler onPauseClicked on play button click when player is playing', () => {
+        it('should call handler onPauseClick on play button click when player is playing', () => {
             const { play, handlers } = setup({ play: true });
 
             play.simulate('click');
 
-            expect(handlers.onPauseClicked).to.have.callCount(1);
+            expect(handlers.onPauseClick).to.have.callCount(1);
         });
 
         it('should render next button', () => {
@@ -88,12 +88,12 @@ describe('components', () => {
             expect(next).to.have.length(1);
         });
 
-        it('should call handler onNextClicked on next button click', () => {
+        it('should call handler onNextClick on next button click', () => {
             const { next, handlers } = setup({ play: false });
 
             next.simulate('click');
 
-            expect(handlers.onNextClicked).to.have.callCount(1);
+            expect(handlers.onNextClick).to.have.callCount(1);
         });
 
         it('should render search button', () => {
@@ -102,12 +102,12 @@ describe('components', () => {
             expect(search).to.have.length(1);
         });
 
-        it('should call handler onSearchClicked on search button click', () => {
+        it('should call handler onSearchClick on search button click', () => {
             const { search, handlers } = setup({ play: false });
 
             search.simulate('click');
 
-            expect(handlers.onSearchClicked).to.have.callCount(1);
+            expect(handlers.onSearchClick).to.have.callCount(1);
         });
     });
 });

@@ -7,12 +7,12 @@ export default class PlaybackBar extends React.Component {
     static propTypes = {
         play: React.PropTypes.bool.isRequired,
 
-        onPauseClicked: React.PropTypes.func.isRequired,
-        onPlayClicked: React.PropTypes.func.isRequired,
-        onPrevClicked: React.PropTypes.func.isRequired,
-        onNextClicked: React.PropTypes.func.isRequired,
-        onMinimizeClicked: React.PropTypes.func.isRequired,
-        onSearchClicked: React.PropTypes.func.isRequired
+        onPauseClick: React.PropTypes.func.isRequired,
+        onPlayClick: React.PropTypes.func.isRequired,
+        onPrevClick: React.PropTypes.func.isRequired,
+        onNextClick: React.PropTypes.func.isRequired,
+        onMinimizeClick: React.PropTypes.func.isRequired,
+        onSearchClick: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -22,31 +22,31 @@ export default class PlaybackBar extends React.Component {
     }
 
     _handlePlayClick() {
-        const { play, onPlayClicked, onPauseClicked } = this.props;
+        const { play, onPlayClick, onPauseClick } = this.props;
 
-        play ? onPauseClicked() : onPlayClicked();
+        play ? onPauseClick() : onPlayClick();
     }
 
     render() {
         return (
             <div className={styles.wrap}>
-                <button className={styles.minimize} onClick={this.props.onMinimizeClicked}>
+                <button className={styles.minimize} onClick={this.props.onMinimizeClick}>
                     <i className="material-icons">more_horiz</i>
                 </button>
                 <span className="separate"></span>
                 <div className={styles.main}>
-                    <button className={styles.prev} onClick={this.props.onPrevClicked}>
+                    <button className={styles.prev} onClick={this.props.onPrevClick}>
                         <i className="material-icons">fast_rewind</i>
                     </button>
                     <button className={styles.play} onClick={this._handlePlayClick}>
                         <i className="material-icons">{this.props.play ? 'pause' : 'play_arrow'}</i>
                     </button>
-                    <button className={styles.next} onClick={this.props.onNextClicked}>
+                    <button className={styles.next} onClick={this.props.onNextClick}>
                         <i className="material-icons">fast_forward</i>
                     </button>
                 </div>
                 <span className="separate"></span>
-                <button className={styles.search} onClick={this.props.onSearchClicked}>
+                <button className={styles.search} onClick={this.props.onSearchClick}>
                     <i className="material-icons">search</i>
                 </button>
             </div>

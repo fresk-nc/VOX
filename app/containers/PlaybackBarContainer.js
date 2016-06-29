@@ -38,6 +38,48 @@ class PlaybackBarContainer extends React.Component {
         hideSearch: React.PropTypes.func.isRequired
     };
 
+    constructor(props, context) {
+        super(props, context);
+
+        this._handleMinimizeClick = this._handleMinimizeClick.bind(this);
+        this._handlePlayClick = this._handlePlayClick.bind(this);
+        this._handlePrevClick = this._handlePrevClick.bind(this);
+        this._handleNextClick = this._handleNextClick.bind(this);
+        this._handleSearchClick = this._handleSearchClick.bind(this);
+    }
+
+    _handleMinimizeClick() {
+        const { toggleMinimize, settings } = this.props;
+
+        toggleMinimize(settings.minimize);
+    }
+
+    _handlePlayClick() {
+        const { trackCount, playTrack, loadTracks } = this.props;
+
+        if (trackCount) {
+            playTrack();
+        } else {
+            loadTracks();
+        }
+    }
+
+    _handlePrevClick() {
+        const { trackCount, prevTrack } = this.props;
+
+        if (trackCount) {
+            prevTrack();
+        }
+    }
+
+    _handleNextClick() {
+        const { trackCount, nextTrack } = this.props;
+
+        if (trackCount) {
+            nextTrack();
+        }
+    }
+
     _handleSearchClick() {
         const { search, settings, hideSearch, showSearch, toggleMinimize } = this.props;
 
@@ -53,27 +95,17 @@ class PlaybackBarContainer extends React.Component {
     }
 
     render() {
-        const {
-            trackCount,
-            currentTrack,
-            settings,
-            toggleMinimize,
-            playTrack,
-            loadTracks,
-            pauseTrack,
-            prevTrack,
-            nextTrack
-        } = this.props;
+        const { currentTrack, pauseTrack } = this.props;
 
         return (
             <PlaybackBar
                 play={Boolean(currentTrack && currentTrack.isPlay)}
-                onMinimizeClicked={() => toggleMinimize(settings.minimize)}
-                onPlayClicked={trackCount ? playTrack : loadTracks}
-                onPauseClicked={pauseTrack}
-                onPrevClicked={() => trackCount ? prevTrack() : null}
-                onNextClicked={() => trackCount ? nextTrack() : null}
-                onSearchClicked={this._handleSearchClick.bind(this)}
+                onMinimizeClick={this._handleMinimizeClick}
+                onPlayClick={this._handlePlayClick}
+                onPauseClick={pauseTrack}
+                onPrevClick={this._handlePrevClick}
+                onNextClick={this._handleNextClick}
+                onSearchClick={this._handleSearchClick}
             />
         );
     }
