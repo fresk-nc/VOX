@@ -8,8 +8,9 @@ export default class Toolbar extends React.Component {
 
     static propTypes = {
         trackCount: React.PropTypes.number.isRequired,
-        onAddClicked: React.PropTypes.func.isRequired,
-        onClearClicked: React.PropTypes.func.isRequired
+
+        onAddClick: React.PropTypes.func.isRequired,
+        onClearClick: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -19,7 +20,7 @@ export default class Toolbar extends React.Component {
     }
 
     render() {
-        const { trackCount, onAddClicked, onClearClicked } = this.props;
+        const { trackCount, onAddClick, onClearClick } = this.props;
         const clearButtonClass = classNames({
             [styles.disableButton]: !trackCount,
             [styles.button]: trackCount
@@ -27,10 +28,10 @@ export default class Toolbar extends React.Component {
 
         return (
             <div className={styles.wrap}>
-                <button className={styles.button} onClick={onAddClicked}>
+                <button className={styles.button} onClick={onAddClick}>
                     <i className="material-icons">add_circle_outline</i>
                 </button>
-                <button className={clearButtonClass} onClick={onClearClicked}>
+                <button className={clearButtonClass} onClick={onClearClick}>
                     <i className="material-icons">highlight_off</i>
                 </button>
             </div>

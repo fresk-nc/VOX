@@ -13,8 +13,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        onAddClicked: loadTracks,
-        onClearClicked: clearTracks
+        onAddClick: loadTracks,
+        onClearClick: clearTracks
     }, dispatch);
 }
 

@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 
 function setup(props) {
     const handlers = {
-        onAddClicked: sinon.spy(),
-        onClearClicked: sinon.spy()
+        onAddClick: sinon.spy(),
+        onClearClick: sinon.spy()
     };
     const component = shallow(
         <Toolbar {...props} {...handlers} />
@@ -27,12 +27,12 @@ describe('components', () => {
             expect(addButton).to.have.length(1);
         });
 
-        it('should call handler onAddClicked on add button click', () => {
+        it('should call handler onAddClick on add button click', () => {
             const { addButton, handlers } = setup({ trackCount: 1 });
 
             addButton.simulate('click');
 
-            expect(handlers.onAddClicked).to.have.callCount(1);
+            expect(handlers.onAddClick).to.have.callCount(1);
         });
 
         it('should render the clear button', () => {
@@ -47,12 +47,12 @@ describe('components', () => {
             expect(clearButton.hasClass(styles.disableButton)).to.be.equal(true);
         });
 
-        it('should call handler onClearClicked on clear button click', () => {
+        it('should call handler onClearClick on clear button click', () => {
             const { clearButton, handlers } = setup({ trackCount: 1 });
 
             clearButton.simulate('click');
 
-            expect(handlers.onClearClicked).to.have.callCount(1);
+            expect(handlers.onClearClick).to.have.callCount(1);
         });
     });
 });
