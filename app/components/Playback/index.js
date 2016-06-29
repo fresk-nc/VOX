@@ -3,25 +3,21 @@ import classNames from 'classnames';
 
 import PlaybackSettingsContainer from 'containers/PlaybackSettingsContainer.js';
 import styles from './Playback.styl';
+import Track from 'records/Track';
 
 export default class Playback extends React.Component {
 
     static displayName = 'Playback';
 
     static propTypes = {
-        currentTrack: React.PropTypes.shape({
-            artist: React.PropTypes.string.isRequired,
-            album: React.PropTypes.string.isRequired,
-            title: React.PropTypes.string.isRequired,
-            duration: React.PropTypes.number.isRequired
-        }),
+        currentTrack: React.PropTypes.instanceOf(Track),
         isChangingTime: React.PropTypes.bool.isRequired,
         currentTime: React.PropTypes.number.isRequired,
         progress: React.PropTypes.number.isRequired,
 
-        onProgressClicked: React.PropTypes.func.isRequired,
+        onProgressClick: React.PropTypes.func.isRequired,
         onProgressMouseDown: React.PropTypes.func.isRequired,
-        onQuitClicked: React.PropTypes.func.isRequired
+        onQuitClick: React.PropTypes.func.isRequired
     };
 
     _renderContent() {
@@ -32,7 +28,7 @@ export default class Playback extends React.Component {
                 isChangingTime,
                 currentTime,
                 progress,
-                onProgressClicked,
+                onProgressClick,
                 onProgressMouseDown
             } = this.props;
             const time = currentTrack.duration - currentTime;
@@ -57,7 +53,7 @@ export default class Playback extends React.Component {
                         </div>
                         <PlaybackSettingsContainer />
                     </div>
-                    <div className={progressClass} onClick={onProgressClicked} onMouseDown={onProgressMouseDown}>
+                    <div className={progressClass} onClick={onProgressClick} onMouseDown={onProgressMouseDown}>
                         <div className={styles.progressBg}></div>
                         <div className={styles.progressLine} style={{ width: `${progress}%` }}></div>
                     </div>
@@ -73,11 +69,11 @@ export default class Playback extends React.Component {
     }
 
     render() {
-        const { onQuitClicked } = this.props;
+        const { onQuitClick } = this.props;
 
         return (
             <div className={styles.wrap}>
-                <span className={styles.quit} onClick={onQuitClicked}>
+                <span className={styles.quit} onClick={onQuitClick}>
                     <i className="material-icons">clear</i>
                 </span>
                 {this._renderContent()}

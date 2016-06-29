@@ -111,19 +111,23 @@ export class PlaybackContainer extends React.Component {
         player.setProgress(this.state.currentTime);
     }
 
+    _handleQuitClick() {
+        app.hide();
+    }
+
     render() {
         const { currentTrack } = this.props;
         const { isChangingTime, currentTime, progress } = this.state;
 
         return (
             <Playback
-                currentTrack={currentTrack && currentTrack.toJS()}
+                currentTrack={currentTrack}
                 isChangingTime={isChangingTime}
                 currentTime={currentTime}
                 progress={progress}
-                onProgressClicked={this._handleProgressClick}
+                onProgressClick={this._handleProgressClick}
                 onProgressMouseDown={this._handleProgressMouseDown}
-                onQuitClicked={() => app.hide()}
+                onQuitClick={this._handleQuitClick}
             />
         );
     }

@@ -1,13 +1,15 @@
+import { shallow } from 'enzyme';
+
 import Playback from 'components/Playback';
 import styles from 'components/Playback/Playback.styl';
 import compoundSelector from '../../helpers/compoundSelector';
-import { shallow } from 'enzyme';
+import Track from 'records/Track';
 
 function setup(props) {
     const handlers = {
-        onProgressClicked: sinon.spy(),
+        onProgressClick: sinon.spy(),
         onProgressMouseDown: sinon.spy(),
-        onQuitClicked: sinon.spy()
+        onQuitClick: sinon.spy()
     };
     const component = shallow(
         <Playback {...props} {...handlers} />
@@ -30,12 +32,12 @@ function setup(props) {
 
 function mockProps(overrides) {
     return Object.assign({}, {
-        currentTrack: {
+        currentTrack: new Track({
             artist: 'artist',
             album: 'album',
             title: 'title',
             duration: 300
-        },
+        }),
         isChangingTime: false,
         currentTime: 150,
         progress: 50
@@ -50,12 +52,12 @@ describe('components', () => {
             expect(quit).to.have.length(1);
         });
 
-        it('should call handler onQuitClicked on quit click', () => {
+        it('should call handler onQuitClick on quit click', () => {
             const { quit, handlers } = setup(mockProps());
 
             quit.simulate('click');
 
-            expect(handlers.onQuitClicked).to.have.callCount(1);
+            expect(handlers.onQuitClick).to.have.callCount(1);
         });
 
         it('should render logo instead content when there is no a current track', () => {
@@ -104,12 +106,12 @@ describe('components', () => {
             expect(progressBar.hasClass(styles.progressActive)).to.be.equal(true);
         });
 
-        it('should call handler onProgressClicked on progress click', () => {
+        it('should call handler onProgressClick on progress click', () => {
             const { progressBar, handlers } = setup(mockProps());
 
             progressBar.simulate('click');
 
-            expect(handlers.onProgressClicked).to.have.callCount(1);
+            expect(handlers.onProgressClick).to.have.callCount(1);
         });
 
         it('should call handler onProgressMouseDown on progress mouse down', () => {
