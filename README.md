@@ -7,21 +7,12 @@ It is with the aim to learn the [Electron](http://electron.atom.io/).
 
 ![screenshot](screenshot.png)
 
-## Install
+## Download
 
-First, clone the repo via git:
+Only [MacOS](https://github.com/fresk-nc/VOX/releases)
 
-```
-$ git clone https://github.com/fresk-nc/VOX.git
-```
-
-And then install dependencies:
-
-```
-$ cd VOX && npm install
-```
-
-## Run
+## How to develop
+### Run
 
 Run this two commands **simultaneously** in different console tabs:
 
@@ -36,8 +27,26 @@ or run with one command:
 $ npm run dev
 ```
 
-## Package
+### Tests and linter
+
+For unit tests:
+```
+$ npm run test
+```
+or
+```
+$ npm run test:watch
+```
+
+For linter:
+```
+$ npm run lint
+```
+### Package
 
 ```
 $ npm run package
 ```
+
+## License
+MIT
