@@ -71,7 +71,7 @@
     "electron-debug": "1.0.1",
     "electron-devtools-installer": "1.1.4",
     "electron-packager": "7.0.4",
-    "electron-prebuilt": "1.2.3",
+    "electron-prebuilt": "1.2.5",
     "electron-rebuild": "1.1.5",
     "enzyme": "2.3.0",
     "eslint": "2.9.0",

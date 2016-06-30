@@ -18,7 +18,7 @@ const opts = {
     name: appName,
     asar: false,
     ignore: getIgnore(),
-    version: '1.2.3',
+    version: '1.2.5',
     prune: true,
     'app-version': pkg.version,
     out: 'release/darwin-x64',
