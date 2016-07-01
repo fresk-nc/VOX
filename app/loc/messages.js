@@ -8,6 +8,7 @@ export default {
         'trackMenu.remove': 'Remove',
         'trackMenu.removeWithFile': 'Remove with File',
         'trackMenu.show.darwin': 'Show in Finder',
+        'trackMenu.clipboard': 'Copy info to Clipboard',
         'playerError.message': 'Ooops, can\'t play it',
         'playerError.detail': 'Possibly the file "{src}" has been deleted or moved',
         'playerError.remove': 'Remove track',

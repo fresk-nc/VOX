@@ -22,7 +22,7 @@ import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 import Loading from 'components/Loading';
 
-const { Menu, MenuItem, getCurrentWindow, shell } = require('electron').remote;
+const { Menu, MenuItem, getCurrentWindow, shell, clipboard } = require('electron').remote;
 
 export class TrackListContainer extends React.Component {
 
@@ -123,6 +123,12 @@ export class TrackListContainer extends React.Component {
             })
         );
         menu.append(new MenuItem({ type: 'separator' }));
+        menu.append(
+            new MenuItem({
+                label: intl.formatMessage({ id: 'trackMenu.clipboard' }),
+                click: () => clipboard.writeText(`${track.artist} - ${track.title}`)
+            })
+        );
         menu.append(
             new MenuItem({
                 label: intl.formatMessage({ id: 'trackMenu.show.darwin' }),
