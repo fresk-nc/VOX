@@ -19,22 +19,6 @@ describe('actions', () => {
             });
         });
 
-        it('should not add tracks to the player when nothing is added into the dialog', function() {
-            trackLoader.loadFromDialog.returns(Promise.resolve([]));
-
-            return loadTracks()(this.dispatch).then(() => {
-                expect(player.addTracks).to.have.callCount(0);
-            });
-        });
-
-        it('should not create LOAD_TRACKS_SUCCESS action when nothing is added into the dialog', function() {
-            trackLoader.loadFromDialog.returns(Promise.resolve([]));
-
-            return loadTracks()(this.dispatch).then(() => {
-                expect(this.dispatch).to.not.be.calledWith({ type: types.LOAD_TRACKS_SUCCESS, tracks: [] });
-            });
-        });
-
         it('should add tracks to the player when they added into the dialog', function() {
             const tracks = [ 'track1', 'track2' ];
 

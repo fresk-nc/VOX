@@ -4,7 +4,47 @@ describe('lib', () => {
     describe('player', () => {
         describe('addTracks', () => {
             beforeEach(function() {
+                this.sinon.stub(player, '_addTracks');
                 this.sinon.stub(player, '_shuffleTracks');
+            });
+
+            it('should add tracks to the list', function() {
+                player.addTracks([ 1, 2, 3 ]);
+
+                expect(player._addTracks).to.have.callCount(1);
+            });
+
+            it('should not add tracks to the list when there is no data ', function() {
+                player.addTracks();
+
+                expect(player._addTracks).to.have.callCount(0);
+            });
+
+            it('should not add tracks to the list when data is empty', function() {
+                player.addTracks([]);
+
+                expect(player._addTracks).to.have.callCount(0);
+            });
+
+            it('should not shuffle tracks', function() {
+                this.sinon.stub(player, '_shuffle', false);
+
+                player.addTracks([ 1, 2, 3 ]);
+
+                expect(player._shuffleTracks).to.have.callCount(0);
+            });
+
+            it('should shuffle tracks when shuffle mode', function() {
+                this.sinon.stub(player, '_shuffle', true);
+
+                player.addTracks([ 1, 2, 3 ]);
+
+                expect(player._shuffleTracks).to.have.callCount(1);
+            });
+        });
+
+        describe('_addTracks', () => {
+            beforeEach(function() {
                 this.sinon.stub(player, '_list', []);
                 this.sinon.stub(player, '_noShuffleList', []);
                 this.sinon.stub(player, '_currentTrack', null);
@@ -62,22 +102,6 @@ describe('lib', () => {
                 player.addTracks(this.tracks);
 
                 expect(player._currentTrack).to.be.eql(this.processedTracks[0]);
-            });
-
-            it('should not shuffle tracks', function() {
-                this.sinon.stub(player, '_shuffle', false);
-
-                player.addTracks(this.tracks);
-
-                expect(player._shuffleTracks).to.have.callCount(0);
-            });
-
-            it('should shuffle tracks when shuffle mode', function() {
-                this.sinon.stub(player, '_shuffle', true);
-
-                player.addTracks(this.tracks);
-
-                expect(player._shuffleTracks).to.have.callCount(1);
             });
         });
 

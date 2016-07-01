@@ -31,10 +31,8 @@ export function loadTracksFromDrop(files) {
 }
 
 function loadTracksSuccess(dispatch, tracks) {
-    if (tracks.length) {
-        player.addTracks(tracks);
-        dispatch({ type: types.LOAD_TRACKS_SUCCESS, tracks });
-    }
+    player.addTracks(tracks);
+    dispatch({ type: types.LOAD_TRACKS_SUCCESS, tracks });
 }
 
 export function clearTracks() {

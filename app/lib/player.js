@@ -33,6 +33,18 @@ class Player {
     }
 
     addTracks(tracks) {
+        if (!tracks || !tracks.length) {
+            return;
+        }
+
+        this._addTracks(tracks);
+
+        if (this._shuffle) {
+            this._shuffleTracks();
+        }
+    }
+
+    _addTracks(tracks) {
         const newTracks = [];
 
         tracks.forEach((track) => {
@@ -53,10 +65,6 @@ class Player {
 
         this._list = this._list.concat(newTracks);
         this._noShuffleList = this._noShuffleList.concat(newTracks);
-
-        if (this._shuffle) {
-            this._shuffleTracks();
-        }
     }
 
     removeTrack(id) {
