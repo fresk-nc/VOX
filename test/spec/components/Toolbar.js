@@ -1,13 +1,13 @@
+import { mountWithIntl } from '../../helpers/intlEnzyme';
 import Toolbar from 'components/Toolbar';
 import styles from 'components/Toolbar/Toolbar.styl';
-import { shallow } from 'enzyme';
 
 function setup(props) {
     const handlers = {
         onAddClick: sinon.spy(),
         onClearClick: sinon.spy()
     };
-    const component = shallow(
+    const component = mountWithIntl(
         <Toolbar {...props} {...handlers} />
     );
 

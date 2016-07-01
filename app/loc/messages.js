@@ -17,6 +17,8 @@ export default {
         'search.notFoundTitle': 'No Results',
         'search.notFoundText': 'Try another search phrase or check the spelling',
         'search.inputPlaceholder': 'Type to search',
-        'loading': 'Loading'
+        'loading': 'Loading',
+        'toolbar.clear': 'Clear Playlist',
+        'toolbar.add': 'Add Files to Playlist'
     }
 };
