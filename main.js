@@ -11,9 +11,7 @@ const isDev = (process.env.NODE_ENV === 'development');
 let mainWindow = null;
 let menu = null;
 
-if (isDev) {
-    require('electron-debug')();
-}
+require('electron-debug')();
 
 function installExtensions() {
     const installer = require('electron-devtools-installer');
