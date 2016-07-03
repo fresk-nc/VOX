@@ -33,8 +33,8 @@ export default class Track extends React.Component {
         }
     }
     
-    _handleClick() {
-        this.props.onClick(this.props.track.id);
+    _handleClick(event) {
+        this.props.onClick(event, this.props.track.id);
     }
     
     _handleDoubleClick() {

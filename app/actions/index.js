@@ -45,10 +45,10 @@ export function clearTracks() {
     };
 }
 
-export function removeTrack(id) {
+export function removeTracks(ids) {
     return (dispatch) => {
-        player.removeTrack(id);
-        dispatch({ type: types.REMOVE_TRACK, id });
+        player.removeTracks(ids);
+        dispatch({ type: types.REMOVE_TRACKS, ids });
     };
 }
 
@@ -86,8 +86,8 @@ export function prevTrack() {
     };
 }
 
-export function selectTrack(id) {
-    return { type: types.SELECT_TRACK, id };
+export function selectTrack(id, options) {
+    return { type: types.SELECT_TRACK, id, options };
 }
 
 export function selectNextTrack() {
@@ -96,6 +96,10 @@ export function selectNextTrack() {
 
 export function selectPrevTrack() {
     return { type: types.SELECT_PREV_TRACK };
+}
+
+export function selectRangeTracks(id) {
+    return { type: types.SELECT_RANGE_TRACKS, id };
 }
 
 export function toggleMinimize(minimize) {
@@ -138,7 +142,7 @@ export function changeVolume(volume) {
 export function reportPlayerError(src, id) {
     return (dispatch) => {
         playerErrorReporter.report(src, () => {
-            removeTrack(id)(dispatch);
+            removeTracks([ id ])(dispatch);
         });
     };
 }

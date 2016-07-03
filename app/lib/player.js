@@ -67,11 +67,11 @@ class Player {
         this._noShuffleList = this._noShuffleList.concat(newTracks);
     }
 
-    removeTrack(id) {
-        this._list = this._list.filter((track) => track.id !== id);
-        this._noShuffleList = this._noShuffleList.filter((track) => track.id !== id);
+    removeTracks(ids) {
+        this._list = this._list.filter((track) => !ids.includes(track.id));
+        this._noShuffleList = this._noShuffleList.filter((track) => !ids.includes(track.id));
 
-        if (this._currentTrack && this._currentTrack.id === id) {
+        if (this._currentTrack && ids.includes(this._currentTrack.id)) {
             this._currentTrack = null;
             this.pause();
         }

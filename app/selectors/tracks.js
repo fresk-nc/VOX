@@ -22,10 +22,10 @@ export const getCurrentTrack = createSelector(
     }
 );
 
-export const getSelectedTrack = createSelector(
+export const getSelectedTracks = createSelector(
     getTracks,
     (tracks) => {
-        return tracks.find((track) => {
+        return tracks.filter((track) => {
             return track.isSelected;
         });
     }

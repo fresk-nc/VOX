@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import { List } from 'immutable';
+import _ from 'lodash';
 
 import { TrackListContainer } from 'containers/TrackListContainer';
 import TrackList from 'components/TrackList';
@@ -12,12 +13,13 @@ import Track from 'records/Track';
 function setup(props) {
     const handlers = {
         loadTracksFromDrop: sinon.spy(),
-        removeTrack: sinon.spy(),
+        removeTracks: sinon.spy(),
         playTrack: sinon.spy(),
         pauseTrack: sinon.spy(),
         selectTrack: sinon.spy(),
         selectNextTrack: sinon.spy(),
-        selectPrevTrack: sinon.spy()
+        selectPrevTrack: sinon.spy(),
+        selectRangeTracks: sinon.spy()
     };
     const component = shallow(
         <TrackListContainer {...props} {...handlers} />
@@ -38,13 +40,23 @@ function mockProps(overrides) {
         trackCount: 0,
         totalDuration: 0,
         tracks: List(),
-        selectedTrack: new Track({
-            id: '100',
-            title: 'title',
-            artist: 'artist',
-            album: 'album',
-            duration: 150
-        }),
+        currentTrack: undefined,
+        selectedTracks: List([
+            new Track({
+                id: '100',
+                title: 'title',
+                artist: 'artist',
+                album: 'album',
+                duration: 150
+            }),
+            new Track({
+                id: '101',
+                title: 'title',
+                artist: 'artist',
+                album: 'album',
+                duration: 150
+            })
+        ]),
         isMinimized: false,
         isLoading: false,
         intl: {}
@@ -81,16 +93,6 @@ describe('containers', () => {
             expect(loading).to.have.length(0);
         });
 
-        it('should call action selectTrack with right args when click on track', () => {
-            const { component, handlers } = setup(mockProps());
-            const instance = component.instance();
-
-            instance._handleTrackClick(10);
-
-            expect(handlers.selectTrack).to.have.callCount(1);
-            expect(handlers.selectTrack).to.be.calledWith(10);
-        });
-
         it('should call action playTrack with right args when double click on track', () => {
             const { component, handlers } = setup(mockProps());
             const instance = component.instance();
@@ -101,83 +103,343 @@ describe('containers', () => {
             expect(handlers.playTrack).to.be.calledWith(10);
         });
 
-        describe('hotkeys ->', () => {
-            it('should not call any action when the window is minimized', () => {
-                const { component } = setup(mockProps({ isMinimized: true }));
+        describe('click on track', () => {
+            it('should call action selectRangeTracks with right args when click on track and press shift', () => {
+                const { component, handlers } = setup(mockProps());
                 const instance = component.instance();
-                const _processKeySpy = sinon.spy(instance._processKey);
 
-                instance._handleWindowKeyDown({ which: 'any key' });
+                instance._handleTrackClick({ shiftKey: true }, 10);
 
-                expect(_processKeySpy).to.have.callCount(0);
+                expect(handlers.selectRangeTracks).to.have.callCount(1);
+                expect(handlers.selectRangeTracks).to.be.calledWith(10);
             });
 
-            it('should call action selectNextTrack when key is DOWN', () => {
+            it('should call action selectTrack with right args when click on track and press meta', () => {
                 const { component, handlers } = setup(mockProps());
+                const instance = component.instance();
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.DOWN });
+                instance._handleTrackClick({ metaKey: true }, 10);
 
-                expect(handlers.selectNextTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.be.calledWith(10, {
+                    resetSelected: false
+                });
             });
 
-            it('should call action selectPrevTrack when key is UP', () => {
+            it('should call action selectTrack with right args when click on track', () => {
                 const { component, handlers } = setup(mockProps());
+                const instance = component.instance();
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.UP });
+                instance._handleTrackClick({
+                    shiftKey: false,
+                    metaKey: false
+                }, 10);
 
-                expect(handlers.selectPrevTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.be.calledWith(10, {
+                    resetSelected: true
+                });
+            });
+        });
+
+        describe('hotkeys ->', () => {
+            describe('key DOWN ->', () => {
+                it('should call action selectNextTrack', () => {
+                    const { component, handlers } = setup(mockProps());
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.DOWN,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.selectNextTrack).to.have.callCount(1);
+                });
+
+                it('should not call action selectNextTrack when window is minimized', () => {
+                    const { component, handlers } = setup(mockProps({ isMinimized: true }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.DOWN,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.selectNextTrack).to.have.callCount(0);
+                });
             });
 
-            it('should call action playTrack with right args when key is ENTER and there is the selected track', () => {
-                const mock = mockProps();
-                const { component, handlers } = setup(mock);
-                const trackId = mock.selectedTrack.id;
+            describe('key UP ->', () => {
+                it('should call action selectPrevTrack', () => {
+                    const { component, handlers } = setup(mockProps());
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.ENTER });
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.UP,
+                        preventDefault() {}
+                    });
 
-                expect(handlers.playTrack).to.have.callCount(1);
-                expect(handlers.playTrack).to.be.calledWith(trackId);
+                    expect(handlers.selectPrevTrack).to.have.callCount(1);
+                });
+
+                it('should not call action selectPrevTrack when window is minimized', () => {
+                    const { component, handlers } = setup(mockProps({ isMinimized: true }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.UP,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.selectPrevTrack).to.have.callCount(0);
+                });
             });
 
-            it('should not call action playTrack when key is ENTER and there is no the selected track', () => {
-                const { component, handlers } = setup(mockProps({
-                    selectedTrack: undefined
-                }));
+            describe('key ENTER ->', () => {
+                it('should call action playTrack with id of first track', () => {
+                    const { component, handlers } = setup(mockProps({
+                        selectedTracks: List(),
+                        tracks: List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' })
+                        ])
+                    }));
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.ENTER });
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.ENTER,
+                        preventDefault() {}
+                    });
 
-                expect(handlers.playTrack).to.have.callCount(0);
+                    expect(handlers.playTrack).to.have.callCount(1);
+                    expect(handlers.playTrack).to.be.calledWith('1');
+                });
+
+                it('should call action playTrack with id of first selected track', () => {
+                    const { component, handlers } = setup(mockProps({
+                        selectedTracks: List([
+                            new Track({ id: '3' }),
+                            new Track({ id: '4' })
+                        ]),
+                        tracks: List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' })
+                        ])
+                    }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.ENTER,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.playTrack).to.have.callCount(1);
+                    expect(handlers.playTrack).to.be.calledWith('3');
+                });
+
+                it('should not call action playTrack when there are no tracks and selected tracks', () => {
+                    const { component, handlers } = setup(mockProps({
+                        selectedTracks: List(),
+                        tracks: List()
+                    }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.ENTER,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.playTrack).to.have.callCount(0);
+                });
             });
 
-            it('should call action pauseTrack when key is SPACE and the selected track is playing', () => {
-                const { component, handlers } = setup(mockProps({
-                    selectedTrack: new Track({ isPlay: true })
-                }));
+            describe('key SPACE ->', () => {
+                it('should not process hotkey when there are no tracks, selected tracks and current track', function() {
+                    const { component } = setup(mockProps({
+                        currentTrack: undefined,
+                        selectedTracks: List(),
+                        tracks: List()
+                    }));
+                    const instance = component.instance();
+                    const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.SPACE });
+                    instance._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
 
-                expect(handlers.pauseTrack).to.have.callCount(1);
+                    expect(handlePressSpaceSpy).to.have.callCount(0);
+                });
+
+                it('should process hotkey with first track', function() {
+                    const { component } = setup(mockProps({
+                        currentTrack: undefined,
+                        selectedTracks: List(),
+                        tracks: List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' })
+                        ])
+                    }));
+                    const instance = component.instance();
+                    const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
+
+                    instance._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
+
+                    expect(handlePressSpaceSpy).to.have.callCount(1);
+                    expect(handlePressSpaceSpy).to.be.calledWith(new Track({ id: '1' }));
+                });
+
+                it('should process hotkey with first selected track', function() {
+                    const { component } = setup(mockProps({
+                        currentTrack: undefined,
+                        selectedTracks: List([
+                            new Track({ id: '3' }),
+                            new Track({ id: '4' })
+                        ]),
+                        tracks: List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' }),
+                            new Track({ id: '3' }),
+                            new Track({ id: '4' })
+                        ])
+                    }));
+                    const instance = component.instance();
+                    const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
+
+                    instance._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
+
+                    expect(handlePressSpaceSpy).to.have.callCount(1);
+                    expect(handlePressSpaceSpy).to.be.calledWith(new Track({ id: '3' }));
+                });
+
+                it('should process hotkey with current track', function() {
+                    const { component } = setup(mockProps({
+                        currentTrack: new Track({ id: '5' }),
+                        selectedTracks: List([
+                            new Track({ id: '3' }),
+                            new Track({ id: '4' })
+                        ]),
+                        tracks: List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' }),
+                            new Track({ id: '3' }),
+                            new Track({ id: '4' }),
+                            new Track({ id: '5' })
+                        ])
+                    }));
+                    const instance = component.instance();
+                    const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
+
+                    instance._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
+
+                    expect(handlePressSpaceSpy).to.have.callCount(1);
+                    expect(handlePressSpaceSpy).to.be.calledWith(new Track({ id: '5' }));
+                });
+
+                it('should call action pauseTrack when the track is playing', () => {
+                    const { component, handlers } = setup(mockProps({
+                        currentTrack: undefined,
+                        selectedTracks: List(),
+                        tracks: List([
+                            new Track({ id: '1', isPlay: true })
+                        ])
+                    }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.pauseTrack).to.have.callCount(1);
+                });
+
+                it('should call action playTrack when the track is current', () => {
+                    const { component, handlers } = setup(mockProps({
+                        currentTrack: undefined,
+                        selectedTracks: List(),
+                        tracks: List([
+                            new Track({ id: '1', isCurrent: true })
+                        ])
+                    }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.playTrack).to.have.callCount(1);
+                });
+
+                it('should call action playTrack with right args when the track is not current', () => {
+                    const mock = mockProps({
+                        currentTrack: undefined,
+                        selectedTracks: List(),
+                        tracks: List([
+                            new Track({ id: '1' })
+                        ])
+                    });
+                    const { component, handlers } = setup(mock);
+                    const trackId = mock.tracks.first().id;
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.SPACE,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.playTrack).to.have.callCount(1);
+                    expect(handlers.playTrack).to.be.calledWith(trackId);
+                });
             });
 
-            it('should call action playTrack when key is SPACE and the selected track is current', () => {
-                const { component, handlers } = setup(mockProps({
-                    selectedTrack: new Track({ isCurrent: true })
-                }));
+            describe('context menu', () => {
+                beforeEach(function() {
+                    this.sinon.stub(_, 'delay', function(cb) {
+                        cb();
+                    });
+                });
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.SPACE });
+                it('should select track', function() {
+                    const { component, handlers } = setup(mockProps());
+                    const instance = component.instance();
 
-                expect(handlers.playTrack).to.have.callCount(1);
-            });
+                    this.sinon.stub(instance, '_showContextMenu');
 
-            it('should call action playTrack with right args when key is SPACE and the selected track is not current', () => {
-                const mock = mockProps();
-                const { component, handlers } = setup(mock);
-                const trackId = mock.selectedTrack.id;
+                    instance._handleTrackContextMenu(new Track({
+                        id: '1',
+                        isSelected: true
+                    }));
 
-                component.instance()._handleWindowKeyDown({ which: keyboard.SPACE });
+                    expect(handlers.selectTrack).to.have.callCount(1);
+                    expect(handlers.selectTrack).to.be.calledWith('1', {
+                        resetSelected: false
+                    });
+                });
 
-                expect(handlers.playTrack).to.have.callCount(1);
-                expect(handlers.playTrack).to.be.calledWith(trackId);
+                it('should select track and reset other selected when track is not selected', function() {
+                    const { component, handlers } = setup(mockProps());
+                    const instance = component.instance();
+
+                    this.sinon.stub(instance, '_showContextMenu');
+
+                    instance._handleTrackContextMenu(new Track({ id: '1' }));
+
+                    expect(handlers.selectTrack).to.have.callCount(1);
+                    expect(handlers.selectTrack).to.be.calledWith('1', {
+                        resetSelected: true
+                    });
+                });
+
+                it('should show the context menu', function() {
+                    const { component } = setup(mockProps());
+                    const instance = component.instance();
+                    const showContextMenuStub = this.sinon.stub(instance, '_showContextMenu');
+
+                    instance._handleTrackContextMenu(new Track({ id: '1' }));
+
+                    expect(showContextMenuStub).to.have.callCount(1);
+                });
             });
         });
     });

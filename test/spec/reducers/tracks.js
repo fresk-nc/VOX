@@ -64,35 +64,27 @@ describe('reducers', () => {
             ).to.be.equal(List());
         });
 
-        it('should handle REMOVE_TRACK', () => {
+        it('should handle REMOVE_TRACKS', () => {
             const state = List([
                 new Track({ id: '1' }),
                 new Track({ id: '2' }),
                 new Track({ id: '3' })
             ]);
 
-            expect(tracks(state, { type: types.REMOVE_TRACK, id: '1' })).to.be.equal(
+            expect(tracks(state, { type: types.REMOVE_TRACKS, ids: [ '1' ] })).to.be.equal(
                 List([
                     new Track({ id: '2' }),
                     new Track({ id: '3' })
                 ])
             );
 
-            expect(tracks(state, { type: types.REMOVE_TRACK, id: '2' })).to.be.equal(
+            expect(tracks(state, { type: types.REMOVE_TRACKS, ids: [ '2', '3' ] })).to.be.equal(
                 List([
-                    new Track({ id: '1' }),
-                    new Track({ id: '3' })
+                    new Track({ id: '1' })
                 ])
             );
 
-            expect(tracks(state, { type: types.REMOVE_TRACK, id: '3' })).to.be.equal(
-                List([
-                    new Track({ id: '1' }),
-                    new Track({ id: '2' })
-                ])
-            );
-
-            expect(tracks(state, { type: types.REMOVE_TRACK, id: '4' })).to.be.equal(state);
+            expect(tracks(state, { type: types.REMOVE_TRACKS, ids: [ '4' ] })).to.be.equal(state);
         });
 
         it('should handle PLAY_TRACK', () => {
@@ -151,7 +143,13 @@ describe('reducers', () => {
                         new Track({ id: '1', isSelected: false }),
                         new Track({ id: '2', isSelected: false })
                     ]),
-                    { type: types.SELECT_TRACK, id: '1' }
+                    {
+                        type: types.SELECT_TRACK,
+                        id: '1',
+                        options: {
+                            resetSelected: true
+                        }
+                    }
                 )
             ).to.be.equal(
                 List([
@@ -166,12 +164,60 @@ describe('reducers', () => {
                         new Track({ id: '1', isSelected: false }),
                         new Track({ id: '2', isSelected: true })
                     ]),
-                    { type: types.SELECT_TRACK, id: '1' }
+                    {
+                        type: types.SELECT_TRACK,
+                        id: '1',
+                        options: {
+                            resetSelected: true
+                        }
+                    }
                 )
             ).to.be.equal(
                 List([
                     new Track({ id: '1', isSelected: true }),
                     new Track({ id: '2', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: true })
+                    ]),
+                    {
+                        type: types.SELECT_TRACK,
+                        id: '1',
+                        options: {
+                            resetSelected: true
+                        }
+                    }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: false })
+                    ]),
+                    {
+                        type: types.SELECT_TRACK,
+                        id: '2',
+                        options: {
+                            resetSelected: false
+                        }
+                    }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: true })
                 ])
             );
         });
@@ -221,6 +267,40 @@ describe('reducers', () => {
                     new Track({ id: '2', isSelected: true })
                 ])
             );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: true }),
+                        new Track({ id: '3', isSelected: false })
+                    ]),
+                    { type: types.SELECT_NEXT_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: false }),
+                    new Track({ id: '3', isSelected: true })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: true }),
+                        new Track({ id: '3', isSelected: true })
+                    ]),
+                    { type: types.SELECT_NEXT_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: false }),
+                    new Track({ id: '3', isSelected: true })
+                ])
+            );
         });
 
         it('should handle SELECT_PREV_TRACK', () => {
@@ -266,6 +346,110 @@ describe('reducers', () => {
                 List([
                     new Track({ id: '1', isSelected: true }),
                     new Track({ id: '2', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: true }),
+                        new Track({ id: '3', isSelected: true })
+                    ]),
+                    { type: types.SELECT_PREV_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false }),
+                    new Track({ id: '3', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: true }),
+                        new Track({ id: '2', isSelected: true }),
+                        new Track({ id: '3', isSelected: true })
+                    ]),
+                    { type: types.SELECT_PREV_TRACK }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: false }),
+                    new Track({ id: '3', isSelected: false })
+                ])
+            );
+        });
+
+        it('should handle SELECT_RANGE_TRACKS', () => {
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false }),
+                        new Track({ id: '3', isSelected: false })
+                    ]),
+                    { type: types.SELECT_RANGE_TRACKS, id: '2' }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: true }),
+                    new Track({ id: '3', isSelected: false })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: true }),
+                        new Track({ id: '3', isSelected: false })
+                    ]),
+                    { type: types.SELECT_RANGE_TRACKS, id: '3' }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: true }),
+                    new Track({ id: '3', isSelected: true })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false }),
+                        new Track({ id: '3', isSelected: true })
+                    ]),
+                    { type: types.SELECT_RANGE_TRACKS, id: '1' }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: true }),
+                    new Track({ id: '2', isSelected: true }),
+                    new Track({ id: '3', isSelected: true })
+                ])
+            );
+
+            expect(
+                tracks(
+                    List([
+                        new Track({ id: '1', isSelected: false }),
+                        new Track({ id: '2', isSelected: false }),
+                        new Track({ id: '3', isSelected: true })
+                    ]),
+                    { type: types.SELECT_RANGE_TRACKS, id: '3' }
+                )
+            ).to.be.equal(
+                List([
+                    new Track({ id: '1', isSelected: false }),
+                    new Track({ id: '2', isSelected: false }),
+                    new Track({ id: '3', isSelected: true })
                 ])
             );
         });

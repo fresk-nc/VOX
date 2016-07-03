@@ -105,7 +105,7 @@ describe('lib', () => {
             });
         });
 
-        describe('removeTrack', () => {
+        describe('removeTracks', () => {
             beforeEach(function() {
                 this.sinon.stub(player, 'pause');
                 this.sinon.stub(player, '_list', []);
@@ -113,7 +113,7 @@ describe('lib', () => {
                 this.sinon.stub(player, '_currentTrack', null);
             });
 
-            it('should remove track from shuffle list and no shuffle list', function() {
+            it('should remove tracks from shuffle list and no shuffle list', function() {
                 this.sinon.stub(player, '_list', [
                     { id: 3 },
                     { id: 1 },
@@ -125,14 +125,12 @@ describe('lib', () => {
                     { id: 3 }
                 ]);
 
-                player.removeTrack(1);
+                player.removeTracks([ 1, 2 ]);
 
                 expect(player._list).to.be.eql([
-                    { id: 3 },
-                    { id: 2 }
+                    { id: 3 }
                 ]);
                 expect(player._noShuffleList).to.be.eql([
-                    { id: 2 },
                     { id: 3 }
                 ]);
             });
@@ -142,7 +140,7 @@ describe('lib', () => {
 
                 expect(player._currentTrack).to.be.eql({ id: 1 });
 
-                player.removeTrack(1);
+                player.removeTracks([ 1 ]);
 
                 expect(player._currentTrack).to.be.equal(null);
             });
@@ -150,7 +148,7 @@ describe('lib', () => {
             it('player must pause when current track is removed', function() {
                 this.sinon.stub(player, '_currentTrack', { id: 1 });
 
-                player.removeTrack(1);
+                player.removeTracks([ 1 ]);
 
                 expect(player.pause).to.have.callCount(1);
             });

@@ -6,7 +6,7 @@ export default {
         'footer.total': '{totalCount, plural, one {1 Track} other {{totalCount} Tracks}}, {min} min {sec} sec',
         'trackMenu.play': 'Play',
         'trackMenu.remove': 'Remove',
-        'trackMenu.removeWithFile': 'Remove with File',
+        'trackMenu.removeWithFile': 'Remove with File(s)',
         'trackMenu.show.darwin': 'Show in Finder',
         'trackMenu.clipboard': 'Copy info to Clipboard',
         'playerError.message': 'Ooops, can\'t play it',

@@ -35,7 +35,9 @@ export class SearchContainer extends React.Component {
     _handleTrackDoubleClick(id) {
         const { selectTrack, hideSearch } = this.props;
 
-        selectTrack(id);
+        selectTrack(id, {
+            resetSelected: true
+        });
         hideSearch();
     }
 

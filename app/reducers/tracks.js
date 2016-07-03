@@ -1,5 +1,6 @@
-import types from 'constants/ActionTypes';
 import { List } from 'immutable';
+
+import types from 'constants/ActionTypes';
 import Track from 'records/Track';
 
 export default function tracks(state = List(), action) {
@@ -21,8 +22,8 @@ const handlers = {
         return state.clear();
     },
 
-    [types.REMOVE_TRACK](state, action) {
-        return state.filter((track) => track.id !== action.id);
+    [types.REMOVE_TRACKS](state, action) {
+        return state.filter((track) => !action.ids.includes(track.id));
     },
 
     [types.PLAY_TRACK](state, action) {
@@ -57,18 +58,22 @@ const handlers = {
                 return track.set('isSelected', true);
             }
 
-            return track.set('isSelected', false);
+            if (action.options.resetSelected) {
+                return track.set('isSelected', false);
+            }
+
+            return track;
         });
     },
 
     [types.SELECT_NEXT_TRACK](state) {
-        const selectedIndex = state.findIndex((track) => track.isSelected);
+        const selectedIndex = state.findLastIndex((track) => track.isSelected);
+
+        let nextIndex = (selectedIndex >= 0) ? selectedIndex + 1 : 0;
 
         if (selectedIndex === state.size - 1) {
-            return state;
+            nextIndex = state.size - 1;
         }
-
-        const nextIndex = (selectedIndex >= 0) ? selectedIndex + 1 : 0;
 
         return state.map((track, i) => {
             if (i === nextIndex) {
@@ -82,11 +87,11 @@ const handlers = {
     [types.SELECT_PREV_TRACK](state) {
         const selectedIndex = state.findIndex((track) => track.isSelected);
 
-        if (selectedIndex === 0) {
-            return state;
-        }
+        let prevIndex = (selectedIndex > 0) ? selectedIndex - 1 : state.size - 1;
 
-        const prevIndex = (selectedIndex > 0) ? selectedIndex - 1 : state.size - 1;
+        if (selectedIndex === 0) {
+            prevIndex = 0;
+        }
 
         return state.map((track, i) => {
             if (i === prevIndex) {
@@ -94,6 +99,30 @@ const handlers = {
             }
 
             return track.set('isSelected', false);
+        });
+    },
+
+    [types.SELECT_RANGE_TRACKS](state, action) {
+        const selectedIndex = state.findIndex((track) => track.isSelected);
+        const points = [
+            (selectedIndex > -1) ? selectedIndex : 0,
+            state.findIndex((track) => track.id === action.id)
+        ];
+
+        let startIndex = points[0];
+        let stopIndex = points[1];
+
+        if (startIndex > stopIndex) {
+            startIndex = points[1];
+            stopIndex = points[0];
+        }
+
+        return state.map((track, i) => {
+            if (i >= startIndex && i <= stopIndex) {
+                return track.set('isSelected', true);
+            }
+
+            return track;
         });
     }
 };

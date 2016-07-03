@@ -2,17 +2,20 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { List } from 'immutable';
 import { injectIntl } from 'react-intl';
+import _ from 'lodash';
+import moment from 'moment';
 
-import { getTotalDuration, getCount, getSelectedTrack } from 'selectors/tracks';
+import { getTotalDuration, getCount, getSelectedTracks, getCurrentTrack } from 'selectors/tracks';
 import player from 'lib/player';
 import {
     loadTracksFromDrop,
-    removeTrack,
+    removeTracks,
     playTrack,
     pauseTrack,
     selectTrack,
     selectNextTrack,
-    selectPrevTrack
+    selectPrevTrack,
+    selectRangeTracks
 } from 'actions';
 import keyboard from 'constants/KeyboardCodes';
 import Track from 'records/Track';
@@ -22,6 +25,7 @@ import TrackList from 'components/TrackList';
 import Footer from 'components/Footer';
 import Loading from 'components/Loading';
 
+const DELAY_BEFORE_SHOW_CONTEXT_MENU = 50;
 const { Menu, MenuItem, getCurrentWindow, shell, clipboard } = require('electron').remote;
 
 export class TrackListContainer extends React.Component {
@@ -30,20 +34,22 @@ export class TrackListContainer extends React.Component {
 
     static propTypes = {
         tracks: React.PropTypes.instanceOf(List),
+        currentTrack: React.PropTypes.instanceOf(Track),
         trackCount: React.PropTypes.number.isRequired,
         totalDuration: React.PropTypes.number.isRequired,
-        selectedTrack: React.PropTypes.instanceOf(Track),
+        selectedTracks: React.PropTypes.instanceOf(List).isRequired,
         isMinimized: React.PropTypes.bool.isRequired,
         isLoading: React.PropTypes.bool.isRequired,
         intl: React.PropTypes.object.isRequired,
 
         loadTracksFromDrop: React.PropTypes.func.isRequired,
-        removeTrack: React.PropTypes.func.isRequired,
+        removeTracks: React.PropTypes.func.isRequired,
         playTrack: React.PropTypes.func.isRequired,
         pauseTrack: React.PropTypes.func.isRequired,
         selectTrack: React.PropTypes.func.isRequired,
         selectNextTrack: React.PropTypes.func.isRequired,
-        selectPrevTrack: React.PropTypes.func.isRequired
+        selectPrevTrack: React.PropTypes.func.isRequired,
+        selectRangeTracks: React.PropTypes.func.isRequired
     };
 
     constructor(props, context) {
@@ -61,51 +67,86 @@ export class TrackListContainer extends React.Component {
     }
 
     _handleWindowKeyDown(event) {
-        if (this.props.isMinimized) {
-            return;
-        }
+        event.preventDefault();
 
-        this._processKey(event.which);
-    }
+        const { selectNextTrack, selectPrevTrack, isMinimized } = this.props;
+        let track;
 
-    _processKey(key) {
-        const {
-            selectNextTrack,
-            selectPrevTrack,
-            selectedTrack,
-            playTrack,
-            pauseTrack
-        } = this.props;
-
-        switch (key) {
+        switch (event.which) {
             case keyboard.DOWN:
-                selectNextTrack();
+                if (!isMinimized) {
+                    selectNextTrack();
+                }
                 break;
 
             case keyboard.UP:
-                selectPrevTrack();
-                break;
-
-            case keyboard.ENTER:
-                if (selectedTrack) {
-                    playTrack(selectedTrack.id);
+                if (!isMinimized) {
+                    selectPrevTrack();
                 }
                 break;
 
+            case keyboard.ENTER:
+                this._handlePressEnter();
+                break;
+
             case keyboard.SPACE:
-                if (selectedTrack) {
-                    if (selectedTrack.isPlay) {
-                        pauseTrack();
-                    } else {
-                        selectedTrack.isCurrent ? playTrack() : playTrack(selectedTrack.id);
-                    }
+                track = this._getTrackForProcessSpace();
+                if (track) {
+                    this._handlePressSpace(track);
                 }
                 break;
         }
     }
 
-    _handleTrackClick(id) {
-        this.props.selectTrack(id);
+    _handlePressEnter() {
+        const { selectedTracks, playTrack, tracks } = this.props;
+
+        let track = tracks.first();
+
+        if (selectedTracks.size) {
+            track = selectedTracks.first();
+        }
+
+        if (track) {
+            playTrack(track.id);
+        }
+    }
+
+    _getTrackForProcessSpace() {
+        const { selectedTracks, currentTrack, tracks } = this.props;
+
+        if (currentTrack) {
+            return currentTrack;
+        }
+
+        if (selectedTracks.size) {
+            return selectedTracks.first();
+        }
+
+        return tracks.first();
+    }
+
+    _handlePressSpace(track) {
+        const { playTrack, pauseTrack } = this.props;
+
+        if (track.isPlay) {
+            pauseTrack();
+        } else {
+            track.isCurrent ? playTrack() : playTrack(track.id);
+        }
+    }
+
+    _handleTrackClick(event, id) {
+        const { selectTrack, selectRangeTracks } = this.props;
+
+        if (event.shiftKey) {
+            selectRangeTracks(id);
+            return;
+        }
+
+        selectTrack(id, {
+            resetSelected: !event.metaKey
+        });
     }
 
     _handleTrackDoubleClick(id) {
@@ -113,41 +154,94 @@ export class TrackListContainer extends React.Component {
     }
 
     _handleTrackContextMenu(track) {
-        const { playTrack, removeTrack, intl } = this.props;
+        this.props.selectTrack(track.id, {
+            resetSelected: !track.isSelected
+        });
+
+        _.delay(() => {
+            this._showContextMenu();
+        }, DELAY_BEFORE_SHOW_CONTEXT_MENU);
+    }
+
+    _showContextMenu() {
+        const { playTrack, removeTracks, selectedTracks, intl } = this.props;
+        const firstSelectedTrack = selectedTracks.first();
         const menu = new Menu();
+
+        if (selectedTracks.size > 1) {
+            const totalDuration = selectedTracks.reduce((total, track) => {
+                return total += track.duration;
+            }, 0);
+            const momentDuration = moment.duration(totalDuration, 'seconds');
+
+            menu.append(
+                new MenuItem({
+                    label: intl.formatMessage({
+                        id: 'footer.total'
+                    }, {
+                        totalCount: selectedTracks.size,
+                        min: momentDuration.minutes(),
+                        sec: momentDuration.seconds()
+                    })
+                })
+            );
+        } else {
+            menu.append(
+                new MenuItem({
+                    label: intl.formatMessage({ id: 'trackMenu.play' }),
+                    click: () => playTrack(firstSelectedTrack.id)
+                })
+            );
+        }
+
+        menu.append(new MenuItem({ type: 'separator' }));
 
         menu.append(
             new MenuItem({
-                label: intl.formatMessage({ id: 'trackMenu.play' }),
-                click: () => playTrack(track.id)
-            })
-        );
-        menu.append(new MenuItem({ type: 'separator' }));
-        menu.append(
-            new MenuItem({
                 label: intl.formatMessage({ id: 'trackMenu.clipboard' }),
-                click: () => clipboard.writeText(`${track.artist} - ${track.title}`)
+                click: () => {
+                    clipboard.writeText(
+                        selectedTracks
+                            .toJS()
+                            .map((track) => `${track.artist} - ${track.title}`)
+                            .join(' ')
+                    );
+                }
             })
         );
-        menu.append(
-            new MenuItem({
-                label: intl.formatMessage({ id: 'trackMenu.show.darwin' }),
-                click: () => shell.showItemInFolder(track.src)
-            })
-        );
+
+        if (selectedTracks.size === 1) {
+            menu.append(
+                new MenuItem({
+                    label: intl.formatMessage({ id: 'trackMenu.show.darwin' }),
+                    click: () => shell.showItemInFolder(firstSelectedTrack.src)
+                })
+            );
+        }
+
         menu.append(new MenuItem({ type: 'separator' }));
+
         menu.append(
             new MenuItem({
                 label: intl.formatMessage({ id: 'trackMenu.remove' }),
-                click: () => removeTrack(track.id)
+                click: () => {
+                    removeTracks(
+                        selectedTracks.toJS().map((track) => track.id)
+                    );
+                }
             })
         );
+
         menu.append(
             new MenuItem({
                 label: intl.formatMessage({ id: 'trackMenu.removeWithFile' }),
                 click: () => {
-                    removeTrack(track.id);
-                    shell.moveItemToTrash(track.src);
+                    removeTracks(
+                        selectedTracks.toJS().map((track) => track.id)
+                    );
+                    selectedTracks.forEach((track) => {
+                        shell.moveItemToTrash(track.src);
+                    });
                 }
             })
         );
@@ -197,9 +291,10 @@ export class TrackListContainer extends React.Component {
 function mapStateToProps(state) {
     return {
         tracks: state.tracks,
+        currentTrack: getCurrentTrack(state),
         trackCount: getCount(state),
         totalDuration: getTotalDuration(state),
-        selectedTrack: getSelectedTrack(state),
+        selectedTracks: getSelectedTracks(state),
         isMinimized: state.settings.minimize,
         isLoading: state.status.loading
     };
@@ -208,12 +303,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         loadTracksFromDrop,
-        removeTrack,
+        removeTracks,
         playTrack,
         pauseTrack,
         selectTrack,
         selectNextTrack,
-        selectPrevTrack
+        selectPrevTrack,
+        selectRangeTracks
     }, dispatch);
 }
 

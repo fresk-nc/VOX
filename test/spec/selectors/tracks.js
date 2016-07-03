@@ -5,7 +5,7 @@ import {
     getTotalDuration,
     getCurrentTrack,
     getCount,
-    getSelectedTrack,
+    getSelectedTracks,
     searchTracks
 } from 'selectors/tracks';
 
@@ -56,19 +56,26 @@ describe('selectors', () => {
             });
         });
 
-        describe('getSelectedTrack', () => {
-            it('should return selected track', () => {
+        describe('getSelectedTracks', () => {
+            it('should return selected tracks', () => {
                 const state = {
                     tracks: List([
                         new Track({ id: '1', isSelected: false }),
-                        new Track({ id: '2', isSelected: true })
+                        new Track({ id: '2', isSelected: true }),
+                        new Track({ id: '3', isSelected: true })
                     ])
                 };
 
-                expect(getSelectedTrack(state)).to.be.equal(state.tracks.get(1));
+                expect(getSelectedTracks(state))
+                    .to.be.equal(
+                        List([
+                            new Track({ id: '2', isSelected: true }),
+                            new Track({ id: '3', isSelected: true })
+                        ])
+                    );
             });
 
-            it('should return undefined if there is no selected track', () => {
+            it('should return empty list if there are no selected tracks', () => {
                 const state = {
                     tracks: List([
                         new Track({ id: '1', isSelected: false }),
@@ -76,7 +83,7 @@ describe('selectors', () => {
                     ])
                 };
 
-                expect(getSelectedTrack(state)).to.be.equal(undefined);
+                expect(getSelectedTracks(state)).to.be.equal(List());
             });
         });
 

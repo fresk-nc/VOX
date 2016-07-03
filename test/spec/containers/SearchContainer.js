@@ -55,7 +55,9 @@ describe('containers', () => {
             instance._handleTrackDoubleClick(100);
 
             expect(handlers.selectTrack).to.have.callCount(1);
-            expect(handlers.selectTrack).to.be.calledWith(100);
+            expect(handlers.selectTrack).to.be.calledWith(100, {
+                resetSelected: true
+            });
         });
 
         it('should call action hideSearch when double click on track', () => {

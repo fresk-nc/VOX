@@ -94,11 +94,12 @@ describe('components', () => {
         it('should call handler onClick with right args when click on track', () => {
             const props = mockProps();
             const { component, handlers } = setup(props);
+            const event = {};
 
-            component.simulate('click');
+            component.simulate('click', event);
 
             expect(handlers.onClick).to.have.callCount(1);
-            expect(handlers.onClick).to.be.calledWith(props.track.id);
+            expect(handlers.onClick).to.be.calledWith(event, props.track.id);
         });
 
         it('should call handler onDoubleClick with right args when double click on track', () => {
