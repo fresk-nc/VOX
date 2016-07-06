@@ -9,5 +9,6 @@ export default Record({
     duration: null,
     isCurrent: false,
     isPlay: false,
-    isSelected: false
+    isSelected: false,
+    rootOfSelection: false
 });

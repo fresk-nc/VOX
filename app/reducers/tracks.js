@@ -124,5 +124,90 @@ const handlers = {
 
             return track;
         });
+    },
+
+    [types.SET_ROOT_OF_SELECTION](state) {
+        if (!state.size) {
+            return state;
+        }
+
+        const selectedIndex = state.findIndex((track) => track.isSelected);
+        const rootIndex = (selectedIndex > -1) ? selectedIndex : 0;
+
+        return state.update(rootIndex, (track) => track.set('rootOfSelection', true));
+    },
+
+    [types.UNSET_ROOT_OF_SELECTION](state) {
+        return state.map((track) => {
+            if (track.rootOfSelection) {
+                return track.set('rootOfSelection', false);
+            }
+
+            return track;
+        });
+    },
+    
+    [types.MOVE_DOWN_SELECTION](state) {
+        if (!state.size) {
+            return state;
+        }
+
+        const rootIndex = state.findIndex((track) => track.rootOfSelection);
+        const rootTrack = state.get(rootIndex);
+
+        if (!rootTrack.isSelected) {
+            return state.update(rootIndex, (track) => track.set('isSelected', true));
+        }
+
+        if (rootIndex !== 0) {
+            const prevTrack = state.get(rootIndex - 1);
+
+            if (prevTrack.isSelected) {
+                return state.update(
+                    state.findIndex((track) => track.isSelected),
+                    (track) => track.set('isSelected', false)
+                );
+            }
+        }
+
+        const lastSelectedIndex = state.findLastIndex((track) => track.isSelected);
+
+        if (lastSelectedIndex === state.size - 1) {
+            return state;
+        }
+
+        return state.update(lastSelectedIndex + 1, (track) => track.set('isSelected', true));
+    },
+
+    [types.MOVE_UP_SELECTION](state) {
+        if (!state.size) {
+            return state;
+        }
+
+        const rootIndex = state.findIndex((track) => track.rootOfSelection);
+        const rootTrack = state.get(rootIndex);
+
+        if (!rootTrack.isSelected) {
+            return state.map((track) => track.set('isSelected', true));
+        }
+
+        if (rootIndex !== state.size - 1) {
+            const nextTrack = state.get(rootIndex + 1);
+
+            if (nextTrack.isSelected) {
+                return state.update(
+                    state.findLastIndex((track) => track.isSelected),
+                    (track) => track.set('isSelected', false)
+                );
+            }
+        }
+
+        const firstSelectedIndex = state.findIndex((track) => track.isSelected);
+
+        if (firstSelectedIndex === 0) {
+            return state;
+        }
+
+        return state.update(firstSelectedIndex - 1, (track) => track.set('isSelected', true));
     }
 };

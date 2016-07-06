@@ -47,7 +47,8 @@ export class App extends React.Component {
                     return new Track({
                         ...track,
                         isPlay: false,
-                        isSelected: false
+                        isSelected: false,
+                        rootOfSelection: false
                     });
                 })
             );

@@ -11,7 +11,11 @@ import {
     selectNextTrack,
     selectPrevTrack,
     selectRangeTracks,
-    reportPlayerError
+    reportPlayerError,
+    setRootOfSelection,
+    unsetRootOfSelection,
+    moveDownSelection,
+    moveUpSelection
 } from 'actions';
 import types from 'constants/ActionTypes';
 import trackLoader from 'lib/trackLoader';
@@ -309,6 +313,30 @@ describe('actions', () => {
                     type: types.SELECT_RANGE_TRACKS,
                     id: 111
                 });
+            });
+        });
+
+        describe('setRootOfSelection', () => {
+            it('should create SET_ROOT_OF_SELECTION action', () => {
+                expect(setRootOfSelection()).to.be.eql({ type: types.SET_ROOT_OF_SELECTION });
+            });
+        });
+
+        describe('unsetRootOfSelection', () => {
+            it('should create UNSET_ROOT_OF_SELECTION action', () => {
+                expect(unsetRootOfSelection()).to.be.eql({ type: types.UNSET_ROOT_OF_SELECTION });
+            });
+        });
+
+        describe('moveDownSelection', () => {
+            it('should create MOVE_DOWN_SELECTION action', () => {
+                expect(moveDownSelection()).to.be.eql({ type: types.MOVE_DOWN_SELECTION });
+            });
+        });
+
+        describe('moveUpSelection', () => {
+            it('should create MOVE_UP_SELECTION action', () => {
+                expect(moveUpSelection()).to.be.eql({ type: types.MOVE_UP_SELECTION });
             });
         });
 

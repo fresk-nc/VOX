@@ -97,6 +97,22 @@ export function selectRangeTracks(id) {
     return { type: types.SELECT_RANGE_TRACKS, id };
 }
 
+export function setRootOfSelection() {
+    return { type: types.SET_ROOT_OF_SELECTION };
+}
+
+export function unsetRootOfSelection() {
+    return { type: types.UNSET_ROOT_OF_SELECTION };
+}
+
+export function moveDownSelection() {
+    return { type: types.MOVE_DOWN_SELECTION };
+}
+
+export function moveUpSelection() {
+    return { type: types.MOVE_UP_SELECTION };
+}
+
 export function reportPlayerError(src, id) {
     return (dispatch) => {
         playerErrorReporter.report(src, () => {

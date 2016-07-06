@@ -19,7 +19,11 @@ function setup(props) {
         selectTrack: sinon.spy(),
         selectNextTrack: sinon.spy(),
         selectPrevTrack: sinon.spy(),
-        selectRangeTracks: sinon.spy()
+        selectRangeTracks: sinon.spy(),
+        setRootOfSelection: sinon.spy(),
+        unsetRootOfSelection: sinon.spy(),
+        moveUpSelection: sinon.spy(),
+        moveDownSelection: sinon.spy()
     };
     const component = shallow(
         <TrackListContainer {...props} {...handlers} />
@@ -142,7 +146,29 @@ describe('containers', () => {
             });
         });
 
-        describe('hotkeys ->', () => {
+        describe('keyup on window ->', () => {
+            it('should call action unsetRootOfSelection when key is shift', () => {
+                const { component, handlers } = setup(mockProps());
+
+                component.instance()._handleWindowKeyUp({
+                    which: keyboard.SHIFT
+                });
+
+                expect(handlers.unsetRootOfSelection).to.have.callCount(1);
+            });
+
+            it('should not call action unsetRootOfSelection when key is not shift', () => {
+                const { component, handlers } = setup(mockProps());
+
+                component.instance()._handleWindowKeyUp({
+                    which: keyboard.UP
+                });
+
+                expect(handlers.unsetRootOfSelection).to.have.callCount(0);
+            });
+        });
+
+        describe('keydown on window ->', () => {
             describe('key DOWN ->', () => {
                 it('should call action selectNextTrack', () => {
                     const { component, handlers } = setup(mockProps());
@@ -164,6 +190,31 @@ describe('containers', () => {
                     });
 
                     expect(handlers.selectNextTrack).to.have.callCount(0);
+                    expect(handlers.moveDownSelection).to.have.callCount(0);
+                });
+
+                it('should call action moveDownSelection when shift key is pressed', () => {
+                    const { component, handlers } = setup(mockProps());
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.DOWN,
+                        shiftKey: true,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.moveDownSelection).to.have.callCount(1);
+                });
+
+                it('should not call action moveDownSelection when window is minimized', () => {
+                    const { component, handlers } = setup(mockProps({ isMinimized: true }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.DOWN,
+                        shiftKey: true,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.moveDownSelection).to.have.callCount(0);
                 });
             });
 
@@ -188,6 +239,30 @@ describe('containers', () => {
                     });
 
                     expect(handlers.selectPrevTrack).to.have.callCount(0);
+                });
+
+                it('should call action moveUpSelection when shift key is pressed', () => {
+                    const { component, handlers } = setup(mockProps());
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.UP,
+                        shiftKey: true,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.moveUpSelection).to.have.callCount(1);
+                });
+
+                it('should not call action moveUpSelection when window is minimized', () => {
+                    const { component, handlers } = setup(mockProps({ isMinimized: true }));
+
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.UP,
+                        shiftKey: true,
+                        preventDefault() {}
+                    });
+
+                    expect(handlers.moveUpSelection).to.have.callCount(0);
                 });
             });
 
@@ -393,53 +468,77 @@ describe('containers', () => {
                 });
             });
 
-            describe('context menu', () => {
-                beforeEach(function() {
-                    this.sinon.stub(_, 'delay', function(cb) {
-                        cb();
-                    });
-                });
-
-                it('should select track', function() {
+            describe('key SHIFT ->', () => {
+                it('should call action setRootOfSelection', () => {
                     const { component, handlers } = setup(mockProps());
-                    const instance = component.instance();
 
-                    this.sinon.stub(instance, '_showContextMenu');
-
-                    instance._handleTrackContextMenu(new Track({
-                        id: '1',
-                        isSelected: true
-                    }));
-
-                    expect(handlers.selectTrack).to.have.callCount(1);
-                    expect(handlers.selectTrack).to.be.calledWith('1', {
-                        resetSelected: false
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.SHIFT,
+                        preventDefault() {}
                     });
+
+                    expect(handlers.setRootOfSelection).to.have.callCount(1);
                 });
 
-                it('should select track and reset other selected when track is not selected', function() {
-                    const { component, handlers } = setup(mockProps());
-                    const instance = component.instance();
+                it('should not call action setRootOfSelection when window is minimized', () => {
+                    const { component, handlers } = setup(mockProps({ isMinimized: true }));
 
-                    this.sinon.stub(instance, '_showContextMenu');
-
-                    instance._handleTrackContextMenu(new Track({ id: '1' }));
-
-                    expect(handlers.selectTrack).to.have.callCount(1);
-                    expect(handlers.selectTrack).to.be.calledWith('1', {
-                        resetSelected: true
+                    component.instance()._handleWindowKeyDown({
+                        which: keyboard.SHIFT,
+                        preventDefault() {}
                     });
+
+                    expect(handlers.setRootOfSelection).to.have.callCount(0);
                 });
+            });
+        });
 
-                it('should show the context menu', function() {
-                    const { component } = setup(mockProps());
-                    const instance = component.instance();
-                    const showContextMenuStub = this.sinon.stub(instance, '_showContextMenu');
-
-                    instance._handleTrackContextMenu(new Track({ id: '1' }));
-
-                    expect(showContextMenuStub).to.have.callCount(1);
+        describe('context menu', () => {
+            beforeEach(function() {
+                this.sinon.stub(_, 'delay', function(cb) {
+                    cb();
                 });
+            });
+
+            it('should select track', function() {
+                const { component, handlers } = setup(mockProps());
+                const instance = component.instance();
+
+                this.sinon.stub(instance, '_showContextMenu');
+
+                instance._handleTrackContextMenu(new Track({
+                    id: '1',
+                    isSelected: true
+                }));
+
+                expect(handlers.selectTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.be.calledWith('1', {
+                    resetSelected: false
+                });
+            });
+
+            it('should select track and reset other selected when track is not selected', function() {
+                const { component, handlers } = setup(mockProps());
+                const instance = component.instance();
+
+                this.sinon.stub(instance, '_showContextMenu');
+
+                instance._handleTrackContextMenu(new Track({ id: '1' }));
+
+                expect(handlers.selectTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.be.calledWith('1', {
+                    resetSelected: true
+                });
+            });
+
+            it('should show the context menu', function() {
+                const { component } = setup(mockProps());
+                const instance = component.instance();
+                const showContextMenuStub = this.sinon.stub(instance, '_showContextMenu');
+
+                instance._handleTrackContextMenu(new Track({ id: '1' }));
+
+                expect(showContextMenuStub).to.have.callCount(1);
             });
         });
     });

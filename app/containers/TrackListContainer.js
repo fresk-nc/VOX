@@ -15,7 +15,11 @@ import {
     selectTrack,
     selectNextTrack,
     selectPrevTrack,
-    selectRangeTracks
+    selectRangeTracks,
+    setRootOfSelection,
+    unsetRootOfSelection,
+    moveUpSelection,
+    moveDownSelection
 } from 'actions';
 import keyboard from 'constants/KeyboardCodes';
 import Track from 'records/Track';
@@ -49,7 +53,11 @@ export class TrackListContainer extends React.Component {
         selectTrack: React.PropTypes.func.isRequired,
         selectNextTrack: React.PropTypes.func.isRequired,
         selectPrevTrack: React.PropTypes.func.isRequired,
-        selectRangeTracks: React.PropTypes.func.isRequired
+        selectRangeTracks: React.PropTypes.func.isRequired,
+        setRootOfSelection: React.PropTypes.func.isRequired,
+        unsetRootOfSelection: React.PropTypes.func.isRequired,
+        moveUpSelection: React.PropTypes.func.isRequired,
+        moveDownSelection: React.PropTypes.func.isRequired
     };
 
     constructor(props, context) {
@@ -64,24 +72,46 @@ export class TrackListContainer extends React.Component {
         player.addTracks(this.props.tracks.toJS());
 
         window.addEventListener('keydown', this._handleWindowKeyDown.bind(this), false);
+        window.addEventListener('keyup', this._handleWindowKeyUp.bind(this), false);
+    }
+
+    _handleWindowKeyUp(event) {
+        if (event.which === keyboard.SHIFT) {
+            this.props.unsetRootOfSelection();
+        }
     }
 
     _handleWindowKeyDown(event) {
         event.preventDefault();
 
-        const { selectNextTrack, selectPrevTrack, isMinimized } = this.props;
+        const {
+            selectNextTrack,
+            selectPrevTrack,
+            isMinimized,
+            setRootOfSelection,
+            moveDownSelection,
+            moveUpSelection
+        } = this.props;
         let track;
 
         switch (event.which) {
             case keyboard.DOWN:
                 if (!isMinimized) {
-                    selectNextTrack();
+                    if (event.shiftKey) {
+                        moveDownSelection();
+                    } else {
+                        selectNextTrack();
+                    }
                 }
                 break;
 
             case keyboard.UP:
                 if (!isMinimized) {
-                    selectPrevTrack();
+                    if (event.shiftKey) {
+                        moveUpSelection();
+                    } else {
+                        selectPrevTrack();
+                    }
                 }
                 break;
 
@@ -93,6 +123,12 @@ export class TrackListContainer extends React.Component {
                 track = this._getTrackForProcessSpace();
                 if (track) {
                     this._handlePressSpace(track);
+                }
+                break;
+
+            case keyboard.SHIFT:
+                if (!isMinimized) {
+                    setRootOfSelection();
                 }
                 break;
         }
@@ -309,7 +345,11 @@ function mapDispatchToProps(dispatch) {
         selectTrack,
         selectNextTrack,
         selectPrevTrack,
-        selectRangeTracks
+        selectRangeTracks,
+        setRootOfSelection,
+        unsetRootOfSelection,
+        moveUpSelection,
+        moveDownSelection
     }, dispatch);
 }
 
