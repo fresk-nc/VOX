@@ -30,25 +30,25 @@ export default class PlaybackBar extends React.Component {
     render() {
         return (
             <div className={styles.wrap}>
-                <button className={styles.minimize} onClick={this.props.onMinimizeClick}>
+                <span className={styles.minimize} onClick={this.props.onMinimizeClick}>
                     <i className="material-icons">more_horiz</i>
-                </button>
+                </span>
                 <span className="separate"></span>
                 <div className={styles.main}>
-                    <button className={styles.prev} onClick={this.props.onPrevClick}>
+                    <span className={styles.prev} onClick={this.props.onPrevClick}>
                         <i className="material-icons">fast_rewind</i>
-                    </button>
-                    <button className={styles.play} onClick={this._handlePlayClick}>
+                    </span>
+                    <span className={styles.play} onClick={this._handlePlayClick}>
                         <i className="material-icons">{this.props.play ? 'pause' : 'play_arrow'}</i>
-                    </button>
-                    <button className={styles.next} onClick={this.props.onNextClick}>
+                    </span>
+                    <span className={styles.next} onClick={this.props.onNextClick}>
                         <i className="material-icons">fast_forward</i>
-                    </button>
+                    </span>
                 </div>
                 <span className="separate"></span>
-                <button className={styles.search} onClick={this.props.onSearchClick}>
+                <span className={styles.search} onClick={this.props.onSearchClick}>
                     <i className="material-icons">search</i>
-                </button>
+                </span>
             </div>
         );
     }

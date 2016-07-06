@@ -82,8 +82,6 @@ export class TrackListContainer extends React.Component {
     }
 
     _handleWindowKeyDown(event) {
-        event.preventDefault();
-
         const {
             selectNextTrack,
             selectPrevTrack,

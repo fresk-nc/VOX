@@ -31,20 +31,20 @@ class Toolbar extends React.Component {
 
         return (
             <div className={styles.wrap}>
-                <button
+                <span
                     className={styles.button}
                     onClick={onAddClick}
                     title={intl.formatMessage({ id: 'toolbar.add' })}
                 >
                     <i className="material-icons">add_circle_outline</i>
-                </button>
-                <button
+                </span>
+                <span
                     className={clearButtonClass}
                     onClick={onClearClick}
                     title={intl.formatMessage({ id: 'toolbar.clear' })}
                 >
                     <i className="material-icons">highlight_off</i>
-                </button>
+                </span>
             </div>
         );
     }

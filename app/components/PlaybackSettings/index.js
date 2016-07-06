@@ -30,9 +30,9 @@ export default class PlaybackSettings extends React.Component {
         });
 
         return (
-            <button className={className} onClick={onLoopClick}>
+            <span className={className} onClick={onLoopClick}>
                 <i className="material-icons">{loopMode === 'one' ? 'repeat_one' : 'repeat'}</i>
-            </button>
+            </span>
         );
     }
 
@@ -62,22 +62,23 @@ export default class PlaybackSettings extends React.Component {
             <div className={styles.wrap}>
                 {this._renderLoopButton()}
                 <span className="separate"></span>
-                <button className={shuffleClass} onClick={onShuffleClick}>
+                <span className={shuffleClass} onClick={onShuffleClick}>
                     <i className="material-icons">shuffle</i>
-                </button>
+                </span>
                 <span className="separate"></span>
                 <div className={styles.volume}>
-                    <button
+                    <span
                         className={classNames('js-volume-minus', styles.volumeButton)}
                         onMouseDown={onVolumeMinusMouseDown}
                         onMouseUp={onVolumeMinusMouseUp}
                     >
                         –
-                    </button>
+                    </span>
                     <label className={styles.volumeRangeWrap}>
                         <input
                             className={styles.volumeRange}
                             type="range"
+                            tabIndex="-1"
                             min={volumeMin}
                             max={volumeMax}
                             step={volumeStep}
@@ -86,13 +87,13 @@ export default class PlaybackSettings extends React.Component {
                             style={volumeRangeStyle}
                         />
                     </label>
-                    <button
+                    <span
                         className={classNames('js-volume-plus', styles.volumeButton)}
                         onMouseDown={onVolumePlusMouseDown}
                         onMouseUp={onVolumePlusMouseUp}
                     >
                         +
-                    </button>
+                    </span>
                 </div>
                 <span className="separate"></span>
             </div>

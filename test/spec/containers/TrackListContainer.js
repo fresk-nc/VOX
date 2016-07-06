@@ -174,8 +174,7 @@ describe('containers', () => {
                     const { component, handlers } = setup(mockProps());
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.DOWN,
-                        preventDefault() {}
+                        which: keyboard.DOWN
                     });
 
                     expect(handlers.selectNextTrack).to.have.callCount(1);
@@ -185,8 +184,7 @@ describe('containers', () => {
                     const { component, handlers } = setup(mockProps({ isMinimized: true }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.DOWN,
-                        preventDefault() {}
+                        which: keyboard.DOWN
                     });
 
                     expect(handlers.selectNextTrack).to.have.callCount(0);
@@ -198,8 +196,7 @@ describe('containers', () => {
 
                     component.instance()._handleWindowKeyDown({
                         which: keyboard.DOWN,
-                        shiftKey: true,
-                        preventDefault() {}
+                        shiftKey: true
                     });
 
                     expect(handlers.moveDownSelection).to.have.callCount(1);
@@ -210,8 +207,7 @@ describe('containers', () => {
 
                     component.instance()._handleWindowKeyDown({
                         which: keyboard.DOWN,
-                        shiftKey: true,
-                        preventDefault() {}
+                        shiftKey: true
                     });
 
                     expect(handlers.moveDownSelection).to.have.callCount(0);
@@ -223,8 +219,7 @@ describe('containers', () => {
                     const { component, handlers } = setup(mockProps());
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.UP,
-                        preventDefault() {}
+                        which: keyboard.UP
                     });
 
                     expect(handlers.selectPrevTrack).to.have.callCount(1);
@@ -234,8 +229,7 @@ describe('containers', () => {
                     const { component, handlers } = setup(mockProps({ isMinimized: true }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.UP,
-                        preventDefault() {}
+                        which: keyboard.UP
                     });
 
                     expect(handlers.selectPrevTrack).to.have.callCount(0);
@@ -246,8 +240,7 @@ describe('containers', () => {
 
                     component.instance()._handleWindowKeyDown({
                         which: keyboard.UP,
-                        shiftKey: true,
-                        preventDefault() {}
+                        shiftKey: true
                     });
 
                     expect(handlers.moveUpSelection).to.have.callCount(1);
@@ -258,8 +251,7 @@ describe('containers', () => {
 
                     component.instance()._handleWindowKeyDown({
                         which: keyboard.UP,
-                        shiftKey: true,
-                        preventDefault() {}
+                        shiftKey: true
                     });
 
                     expect(handlers.moveUpSelection).to.have.callCount(0);
@@ -277,8 +269,7 @@ describe('containers', () => {
                     }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.ENTER,
-                        preventDefault() {}
+                        which: keyboard.ENTER
                     });
 
                     expect(handlers.playTrack).to.have.callCount(1);
@@ -298,8 +289,7 @@ describe('containers', () => {
                     }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.ENTER,
-                        preventDefault() {}
+                        which: keyboard.ENTER
                     });
 
                     expect(handlers.playTrack).to.have.callCount(1);
@@ -313,8 +303,7 @@ describe('containers', () => {
                     }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.ENTER,
-                        preventDefault() {}
+                        which: keyboard.ENTER
                     });
 
                     expect(handlers.playTrack).to.have.callCount(0);
@@ -332,8 +321,7 @@ describe('containers', () => {
                     const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
 
                     instance._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlePressSpaceSpy).to.have.callCount(0);
@@ -352,8 +340,7 @@ describe('containers', () => {
                     const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
 
                     instance._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlePressSpaceSpy).to.have.callCount(1);
@@ -378,8 +365,7 @@ describe('containers', () => {
                     const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
 
                     instance._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlePressSpaceSpy).to.have.callCount(1);
@@ -405,8 +391,7 @@ describe('containers', () => {
                     const handlePressSpaceSpy = this.sinon.spy(instance, '_handlePressSpace');
 
                     instance._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlePressSpaceSpy).to.have.callCount(1);
@@ -423,8 +408,7 @@ describe('containers', () => {
                     }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlers.pauseTrack).to.have.callCount(1);
@@ -440,8 +424,7 @@ describe('containers', () => {
                     }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlers.playTrack).to.have.callCount(1);
@@ -459,8 +442,7 @@ describe('containers', () => {
                     const trackId = mock.tracks.first().id;
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.SPACE,
-                        preventDefault() {}
+                        which: keyboard.SPACE
                     });
 
                     expect(handlers.playTrack).to.have.callCount(1);
@@ -473,8 +455,7 @@ describe('containers', () => {
                     const { component, handlers } = setup(mockProps());
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.SHIFT,
-                        preventDefault() {}
+                        which: keyboard.SHIFT
                     });
 
                     expect(handlers.setRootOfSelection).to.have.callCount(1);
@@ -484,8 +465,7 @@ describe('containers', () => {
                     const { component, handlers } = setup(mockProps({ isMinimized: true }));
 
                     component.instance()._handleWindowKeyDown({
-                        which: keyboard.SHIFT,
-                        preventDefault() {}
+                        which: keyboard.SHIFT
                     });
 
                     expect(handlers.setRootOfSelection).to.have.callCount(0);
