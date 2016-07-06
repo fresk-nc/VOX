@@ -219,7 +219,8 @@ export class TrackListContainer extends React.Component {
                     }, {
                         count: selectedTracks.size,
                         duration: duration
-                    })
+                    }),
+                    enabled: false
                 })
             );
         } else {
