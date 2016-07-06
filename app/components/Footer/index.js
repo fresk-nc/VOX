@@ -1,16 +1,17 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import moment from 'moment';
 
 import styles from './Footer.styl';
 
-export default class Footer extends React.Component {
+class Footer extends React.Component {
 
     static displayName = 'Footer';
 
     static propTypes = {
         trackCount: React.PropTypes.number.isRequired,
-        totalDuration: React.PropTypes.number.isRequired
+        totalDuration: React.PropTypes.number.isRequired,
+        intl: React.PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -20,21 +21,23 @@ export default class Footer extends React.Component {
     }
 
     render() {
-        const { trackCount, totalDuration } = this.props;
-        const momentDuration = moment.duration(totalDuration, 'seconds');
+        const { trackCount, totalDuration, intl } = this.props;
+        const duration = moment.duration(totalDuration, 'seconds').format(
+            intl.formatMessage({ id: 'totalDuration' })
+        );
 
         return (
             <div className={styles.wrap}>
                 <FormattedMessage
-                    id='footer.total'
+                    id='tracksInfo'
                     values={{
-                        totalCount: trackCount,
-                        min: momentDuration.minutes(),
-                        sec: momentDuration.seconds()
+                        count: trackCount,
+                        duration: duration
                     }}
                 />
             </div>
         );
     }
-
 }
+
+export default injectIntl(Footer);

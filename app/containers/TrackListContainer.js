@@ -208,16 +208,17 @@ export class TrackListContainer extends React.Component {
             const totalDuration = selectedTracks.reduce((total, track) => {
                 return total += track.duration;
             }, 0);
-            const momentDuration = moment.duration(totalDuration, 'seconds');
+            const duration = moment.duration(totalDuration, 'seconds').format(
+                intl.formatMessage({ id: 'totalDuration' })
+            );
 
             menu.append(
                 new MenuItem({
                     label: intl.formatMessage({
-                        id: 'footer.total'
+                        id: 'tracksInfo'
                     }, {
-                        totalCount: selectedTracks.size,
-                        min: momentDuration.minutes(),
-                        sec: momentDuration.seconds()
+                        count: selectedTracks.size,
+                        duration: duration
                     })
                 })
             );
