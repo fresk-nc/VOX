@@ -1,7 +1,7 @@
 import path from 'path';
 
 import { showOpenDialog } from 'lib/dialog.js';
-import { load } from 'lib/mediaFileLoader.js';
+import mediaFileLoader from 'lib/mediaFileLoader.js';
 import config from 'config';
 
 export default {
@@ -20,7 +20,7 @@ export default {
                     }
                 ]
             }, (files) => {
-                load(files).then(resolve).catch(reject);
+                mediaFileLoader.load(files).then(resolve).catch(reject);
             });
         });
     },
@@ -32,6 +32,6 @@ export default {
             return extName && config.formats.includes(extName.slice(1));
         });
 
-        return load(audioFiles);
+        return mediaFileLoader.load(audioFiles);
     }
 };

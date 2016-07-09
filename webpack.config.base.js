@@ -62,6 +62,7 @@ module.exports = {
     externals: [
         'glob',
         'musicmetadata',
-        'node-localstorage'
+        'node-localstorage',
+        'md5'
     ]
 };
