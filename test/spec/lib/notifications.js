@@ -1,4 +1,5 @@
 import notifications from 'lib/notifications';
+import coverLoader from 'lib/coverLoader';
 
 describe('lib', () => {
     describe('notifications', () => {
@@ -6,6 +7,11 @@ describe('lib', () => {
             beforeEach(function() {
                 this.sinon.stub(notifications, '_hasFocusedWindow');
                 this.sinon.stub(notifications, '_showNotification');
+                this.sinon.stub(coverLoader, 'load').returns({
+                    then(cb) {
+                        cb('icon');
+                    }
+                });
                 this.track = {
                     title: 'test',
                     artist: 'test',
@@ -32,7 +38,9 @@ describe('lib', () => {
 
                 expect(notifications._showNotification).to.have.callCount(1);
                 expect(notifications._showNotification).to.be.calledWith(this.track.title, {
-                    body: `${this.track.artist} — ${this.track.album}`
+                    body: `${this.track.artist} — ${this.track.album}`,
+                    silent: true,
+                    icon: 'icon'
                 });
             });
         });

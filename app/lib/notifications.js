@@ -1,3 +1,5 @@
+import coverLoader from 'lib/coverLoader';
+
 const { BrowserWindow } = require('electron').remote;
 
 export default {
@@ -10,8 +12,12 @@ export default {
             return;
         }
 
-        this._showNotification(track.title, {
-            body: `${track.artist} — ${track.album}`
+        coverLoader.load(track.src).then((cover) => {
+            this._showNotification(track.title, {
+                body: `${track.artist} — ${track.album}`,
+                icon: cover,
+                silent: true
+            });
         });
     },
 

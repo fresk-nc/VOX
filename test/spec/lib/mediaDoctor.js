@@ -13,7 +13,13 @@ describe('libs', () => {
                 album: 'Album',
                 artist: [ 'Artist' ],
                 title: 'Title',
-                duration: 222
+                duration: 222,
+                picture: [
+                    {
+                        data: [],
+                        format: 'png'
+                    }
+                ]
             };
 
             expect(mediaDoctor(file, metadata)).to.be.deep.equal({
@@ -22,7 +28,8 @@ describe('libs', () => {
                 album: metadata.album,
                 artist: metadata.artist[0],
                 title: metadata.title,
-                duration: metadata.duration
+                duration: metadata.duration,
+                picture: []
             });
         });
     });
