@@ -10,7 +10,8 @@ export default class TrackList extends React.Component {
 
         onTrackClick: React.PropTypes.func.isRequired,
         onTrackDoubleClick: React.PropTypes.func.isRequired,
-        onTrackContextMenu: React.PropTypes.func.isRequired
+        onTrackContextMenu: React.PropTypes.func.isRequired,
+        onDropTrackHover: React.PropTypes.func.isRequired
     };
 
     render() {
@@ -18,7 +19,8 @@ export default class TrackList extends React.Component {
             tracks,
             onTrackClick,
             onTrackDoubleClick,
-            onTrackContextMenu
+            onTrackContextMenu,
+            onDropTrackHover
         } = this.props;
 
         return (
@@ -31,6 +33,7 @@ export default class TrackList extends React.Component {
                         onClick={onTrackClick}
                         onDoubleClick={onTrackDoubleClick}
                         onContextMenu={onTrackContextMenu}
+                        onDropHover={onDropTrackHover}
                     />
                 )}
             </div>

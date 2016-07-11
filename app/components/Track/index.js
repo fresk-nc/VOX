@@ -1,21 +1,45 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import moment from 'moment';
 
 import styles from './Track.styl';
 import TrackRecord from 'records/Track';
+import dragDropTypes from 'constants/dragDropTypes';
 
-export default class Track extends React.Component {
+const trackDragSpec = {
+    beginDrag(props) {
+        return {
+            id: props.track.id
+        };
+    }
+};
+
+const trackDropSpec = {
+    hover(props, monitor) {
+        const draggedId = monitor.getItem().id;
+
+        if (props.track.id !== draggedId) {
+            props.onDropHover(draggedId, props.track.id);
+        }
+    }
+};
+
+class Track extends React.Component {
 
     static displayName = 'Track';
 
     static propTypes = {
         index: React.PropTypes.number.isRequired,
         track: React.PropTypes.instanceOf(TrackRecord).isRequired,
+        isDragging: React.PropTypes.bool.isRequired,
 
         onClick: React.PropTypes.func.isRequired,
         onDoubleClick: React.PropTypes.func.isRequired,
-        onContextMenu: React.PropTypes.func.isRequired
+        onContextMenu: React.PropTypes.func.isRequired,
+        onDropHover: React.PropTypes.func.isRequired,
+        connectDropTarget: React.PropTypes.func.isRequired,
+        connectDragSource: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -46,7 +70,7 @@ export default class Track extends React.Component {
     }
 
     render() {
-        const { index, track } = this.props;
+        const { index, track, connectDragSource, connectDropTarget, isDragging } = this.props;
         const {
             title,
             artist,
@@ -61,13 +85,18 @@ export default class Track extends React.Component {
             [styles.selected]: isSelected
         });
 
-        return (
+        const style = {
+            opacity: isDragging ? 0 : 1
+        };
+
+        return connectDragSource(connectDropTarget(
             <div
                 className={wrapClass}
                 onClick={this._handleClick}
                 onDoubleClick={this._handleDoubleClick}
                 onContextMenu={this._handleContextMenu}
                 ref={(c) => this._node = c}
+                style={style}
             >
                 <span className={styles.index}>
                     {index}
@@ -86,7 +115,17 @@ export default class Track extends React.Component {
                     </span>
                 </div>
             </div>
-        );
+        ));
     }
-
 }
+
+const dragOrderTrack = DragSource(dragDropTypes.TRACK, trackDragSpec, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+}))(Track);
+
+const dropOrderTrack = DropTarget(dragDropTypes.TRACK, trackDropSpec, (connect) => ({
+    connectDropTarget: connect.dropTarget()
+}))(dragOrderTrack);
+
+export default dropOrderTrack;

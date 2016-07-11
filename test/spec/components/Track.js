@@ -8,10 +8,13 @@ function setup(props) {
     const handlers = {
         onClick: sinon.spy(),
         onDoubleClick: sinon.spy(),
-        onContextMenu: sinon.spy()
+        onContextMenu: sinon.spy(),
+        onDropHover: sinon.spy(),
+        connectDropTarget: (el) => el,
+        connectDragSource: (el) => el
     };
     const component = shallow(
-        <TrackComponent {...props} {...handlers} />
+        <TrackComponent.DecoratedComponent.DecoratedComponent {...props} {...handlers} />
     );
 
     return {
@@ -27,6 +30,7 @@ function setup(props) {
 function mockProps(overrides) {
     return Object.assign({}, {
         index: 1,
+        isDragging: false,
         track: new Track({
             title: 'title',
             artist: 'artist',

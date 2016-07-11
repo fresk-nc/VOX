@@ -698,5 +698,45 @@ describe('reducers', () => {
                 );
             });
         });
+
+        describe('UPDATE_TRACK_POSITION', () => {
+            it('should move down the track', () => {
+                expect(
+                    tracks(
+                        List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' }),
+                            new Track({ id: '3' })
+                        ]),
+                        { type: types.UPDATE_TRACK_POSITION, trackId: '1', targetId: '2' }
+                    )
+                ).to.be.equal(
+                    List([
+                        new Track({ id: '2' }),
+                        new Track({ id: '1' }),
+                        new Track({ id: '3' })
+                    ])
+                );
+            });
+
+            it('should move up the track', () => {
+                expect(
+                    tracks(
+                        List([
+                            new Track({ id: '1' }),
+                            new Track({ id: '2' }),
+                            new Track({ id: '3' })
+                        ]),
+                        { type: types.UPDATE_TRACK_POSITION, trackId: '3', targetId: '1' }
+                    )
+                ).to.be.equal(
+                    List([
+                        new Track({ id: '3' }),
+                        new Track({ id: '1' }),
+                        new Track({ id: '2' })
+                    ])
+                );
+            });
+        });
     });
 });

@@ -209,5 +209,14 @@ const handlers = {
         }
 
         return state.update(firstSelectedIndex - 1, (track) => track.set('isSelected', true));
+    },
+
+    [types.UPDATE_TRACK_POSITION](state, action) {
+        const trackIndex = state.findIndex((track) => track.id === action.trackId);
+        const targetIndex = state.findIndex((track) => track.id === action.targetId);
+
+        const track = state.get(trackIndex);
+
+        return state.splice(trackIndex, 1).splice(targetIndex, 0, track);
     }
 };

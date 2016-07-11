@@ -5,6 +5,7 @@ export default keyMirror({
     LOAD_TRACKS_SUCCESS: null,
     CLEAR_TRACKS: null,
     REMOVE_TRACKS: null,
+    UPDATE_TRACK_POSITION: null,
 
     PLAY_TRACK: null,
     PAUSE_TRACK: null,

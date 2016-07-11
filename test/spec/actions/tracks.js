@@ -15,7 +15,8 @@ import {
     setRootOfSelection,
     unsetRootOfSelection,
     moveDownSelection,
-    moveUpSelection
+    moveUpSelection,
+    updateTrackPosition
 } from 'actions';
 import types from 'constants/ActionTypes';
 import trackLoader from 'lib/trackLoader';
@@ -337,6 +338,31 @@ describe('actions', () => {
         describe('moveUpSelection', () => {
             it('should create MOVE_UP_SELECTION action', () => {
                 expect(moveUpSelection()).to.be.eql({ type: types.MOVE_UP_SELECTION });
+            });
+        });
+
+        describe('updateTrackPosition', () => {
+            beforeEach(function() {
+                this.dispatch = this.sinon.spy();
+                this.sinon.stub(player, 'updateTrackPosition');
+            });
+
+            it('should update position of track in player', function() {
+                updateTrackPosition('1', '2')(this.dispatch);
+
+                expect(player.updateTrackPosition).to.have.callCount(1);
+                expect(player.updateTrackPosition).to.be.calledWith('1', '2');
+            });
+
+            it('should dispatch UPDATE_TRACK_POSITION action', function() {
+                updateTrackPosition('1', '2')(this.dispatch);
+
+                expect(this.dispatch).to.have.callCount(1);
+                expect(this.dispatch).to.be.calledWith({
+                    type: types.UPDATE_TRACK_POSITION,
+                    trackId: '1',
+                    targetId: '2'
+                });
             });
         });
 

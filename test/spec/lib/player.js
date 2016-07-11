@@ -647,5 +647,56 @@ describe('lib', () => {
                 expect(player._getPrevTrackIndex()).to.be.equal(0);
             });
         });
+
+        describe('updateTrackPosition', () => {
+            beforeEach(function() {
+                this.sinon.stub(player, '_list', []);
+                this.sinon.stub(player, '_noShuffleList', []);
+                this.sinon.stub(player, '_shuffle', false);
+            });
+
+            it('should update position of track in current list', function() {
+                player._list = [
+                    { id: '1' },
+                    { id: '2' },
+                    { id: '3' }
+                ];
+
+                player.updateTrackPosition('1', '2');
+
+                expect(player._list).to.be.eql([
+                    { id: '2' },
+                    { id: '1' },
+                    { id: '3' }
+                ]);
+            });
+
+            it('should update position of track in current list and no shuffle list when shuffle on', () => {
+                player._list = [
+                    { id: '3' },
+                    { id: '2' },
+                    { id: '1' }
+                ];
+                player._noShuffleList = [
+                    { id: '1' },
+                    { id: '2' },
+                    { id: '3' }
+                ];
+                player._shuffle = true;
+
+                player.updateTrackPosition('1', '2');
+
+                expect(player._list).to.be.eql([
+                    { id: '3' },
+                    { id: '1' },
+                    { id: '2' }
+                ]);
+                expect(player._noShuffleList).to.be.eql([
+                    { id: '2' },
+                    { id: '1' },
+                    { id: '3' }
+                ]);
+            });
+        });
     });
 });

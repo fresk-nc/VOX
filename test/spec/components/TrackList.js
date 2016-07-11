@@ -9,7 +9,8 @@ function setup(props) {
     const handlers = {
         onTrackClick: sinon.spy(),
         onTrackDoubleClick: sinon.spy(),
-        onTrackContextMenu: sinon.spy()
+        onTrackContextMenu: sinon.spy(),
+        onDropTrackHover: sinon.spy()
     };
     const component = shallow(
         <TrackList {...props} {...handlers} />

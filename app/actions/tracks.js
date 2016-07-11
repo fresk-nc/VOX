@@ -113,6 +113,13 @@ export function moveUpSelection() {
     return { type: types.MOVE_UP_SELECTION };
 }
 
+export function updateTrackPosition(trackId, targetId) {
+    return (dispatch) => {
+        player.updateTrackPosition(trackId, targetId);
+        dispatch({ type: types.UPDATE_TRACK_POSITION, trackId, targetId });
+    };
+}
+
 export function reportPlayerError(src, id) {
     return (dispatch) => {
         playerErrorReporter.report(src, () => {

@@ -23,7 +23,8 @@ function setup(props) {
         setRootOfSelection: sinon.spy(),
         unsetRootOfSelection: sinon.spy(),
         moveUpSelection: sinon.spy(),
-        moveDownSelection: sinon.spy()
+        moveDownSelection: sinon.spy(),
+        updateTrackPosition: sinon.spy()
     };
     const component = shallow(
         <TrackListContainer {...props} {...handlers} />

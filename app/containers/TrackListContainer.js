@@ -19,7 +19,8 @@ import {
     setRootOfSelection,
     unsetRootOfSelection,
     moveUpSelection,
-    moveDownSelection
+    moveDownSelection,
+    updateTrackPosition
 } from 'actions';
 import keyboard from 'constants/KeyboardCodes';
 import Track from 'records/Track';
@@ -57,7 +58,8 @@ export class TrackListContainer extends React.Component {
         setRootOfSelection: React.PropTypes.func.isRequired,
         unsetRootOfSelection: React.PropTypes.func.isRequired,
         moveUpSelection: React.PropTypes.func.isRequired,
-        moveDownSelection: React.PropTypes.func.isRequired
+        moveDownSelection: React.PropTypes.func.isRequired,
+        updateTrackPosition: React.PropTypes.func.isRequired
     };
 
     constructor(props, context) {
@@ -291,7 +293,8 @@ export class TrackListContainer extends React.Component {
             trackCount,
             totalDuration,
             loadTracksFromDrop,
-            isLoading
+            isLoading,
+            updateTrackPosition
         } = this.props;
 
         if (trackCount) {
@@ -302,6 +305,7 @@ export class TrackListContainer extends React.Component {
                         onTrackClick={this._handleTrackClick}
                         onTrackDoubleClick={this._handleTrackDoubleClick}
                         onTrackContextMenu={this._handleTrackContextMenu}
+                        onDropTrackHover={updateTrackPosition}
                     />
                     <Footer
                         trackCount={trackCount}
@@ -349,7 +353,8 @@ function mapDispatchToProps(dispatch) {
         setRootOfSelection,
         unsetRootOfSelection,
         moveUpSelection,
-        moveDownSelection
+        moveDownSelection,
+        updateTrackPosition
     }, dispatch);
 }
 

@@ -1,4 +1,4 @@
-import { shuffle } from 'lodash';
+import _ from 'lodash';
 
 class Player {
 
@@ -224,7 +224,7 @@ class Player {
 
     _shuffleTracks() {
         if (this._list.length) {
-            this._list = shuffle(this._list);
+            this._list = _.shuffle(this._list);
         }
     }
 
@@ -234,6 +234,23 @@ class Player {
 
     changeVolume(volume) {
         this._audio.volume = volume;
+    }
+
+    updateTrackPosition(trackId, targetId) {
+        this._updateTrackPosition(this._list, trackId, targetId);
+
+        if (this._shuffle) {
+            this._updateTrackPosition(this._noShuffleList, trackId, targetId);
+        }
+    }
+
+    _updateTrackPosition(list, trackId, targetId) {
+        const trackIndex = list.findIndex((track) => track.id === trackId);
+        const targetIndex = list.findIndex((track) => track.id === targetId);
+        const track = list[trackIndex];
+
+        list.splice(trackIndex, 1);
+        list.splice(targetIndex, 0, track);
     }
 
 }
