@@ -6,6 +6,7 @@ import moment from 'moment';
 import styles from './Track.styl';
 import TrackRecord from 'records/Track';
 import dragDropTypes from 'constants/dragDropTypes';
+import Visualizer from 'components/Visualizer';
 
 const trackDragSpec = {
     beginDrag(props) {
@@ -69,8 +70,24 @@ class Track extends React.Component {
         this.props.onContextMenu(this.props.track);
     }
 
+    _renderVisualizer() {
+        return (
+            <Visualizer isActive={this.props.track.isPlay} />
+        );
+    }
+
+    _renderIndex() {
+        const { index } = this.props;
+
+        return (
+            <span className={styles.index}>
+                {index}
+            </span>
+        );
+    }
+
     render() {
-        const { index, track, connectDragSource, connectDropTarget, isDragging } = this.props;
+        const { track, connectDragSource, connectDropTarget, isDragging } = this.props;
         const {
             title,
             artist,
@@ -80,8 +97,7 @@ class Track extends React.Component {
         } = track;
 
         const wrapClass = classNames({
-            [styles.common]: !isCurrent && !isSelected,
-            [styles.current]: isCurrent && !isSelected,
+            [styles.common]: !isSelected,
             [styles.selected]: isSelected
         });
 
@@ -98,9 +114,7 @@ class Track extends React.Component {
                 ref={(c) => this._node = c}
                 style={style}
             >
-                <span className={styles.index}>
-                    {index}
-                </span>
+                {isCurrent ? this._renderVisualizer() : this._renderIndex()}
                 <div className={styles.info}>
                     <div className={styles.name}>
                         <span className={styles.title}>
