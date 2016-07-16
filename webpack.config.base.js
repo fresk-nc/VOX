@@ -24,7 +24,8 @@ module.exports = {
             lib: path.join(srcPath, 'lib'),
             loc: path.join(srcPath, 'loc'),
             records: path.join(srcPath, 'records'),
-            config: path.join(srcPath, 'config.js')
+            config: path.join(srcPath, 'config.js'),
+            utils: path.join(srcPath, 'utils')
         },
         packageMains: [ 'webpack', 'browser', 'web', 'browserify', [ 'jam', 'main' ], 'main' ]
     },

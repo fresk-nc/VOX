@@ -1,14 +1,7 @@
+import createReducer from 'utils/createReducer';
 import types from 'constants/ActionTypes';
 
-export default function informer(state = '', action) {
-    if (handlers.hasOwnProperty(action.type)) {
-        return handlers[action.type](state, action);
-    } else {
-        return state;
-    }
-}
-
-const handlers = {
+export default createReducer('', {
     [types.UPDATE_INFORMER](state, action) {
         return action.text;
     },
@@ -16,4 +9,4 @@ const handlers = {
     [types.RESET_INFORMER]() {
         return '';
     }
-};
+});

@@ -1,17 +1,10 @@
 import { List } from 'immutable';
 
+import createReducer from 'utils/createReducer';
 import types from 'constants/ActionTypes';
 import Track from 'records/Track';
 
-export default function tracks(state = List(), action) {
-    if (handlers.hasOwnProperty(action.type)) {
-        return handlers[action.type](state, action);
-    } else {
-        return state;
-    }
-}
-
-const handlers = {
+export default createReducer(List(), {
     [types.LOAD_TRACKS_SUCCESS](state, action) {
         return state.concat(
             List(action.tracks.map((track) => new Track(track)))
@@ -146,7 +139,7 @@ const handlers = {
             return track;
         });
     },
-    
+
     [types.MOVE_DOWN_SELECTION](state) {
         if (!state.size) {
             return state;
@@ -219,4 +212,4 @@ const handlers = {
 
         return state.splice(trackIndex, 1).splice(targetIndex, 0, track);
     }
-};
+});

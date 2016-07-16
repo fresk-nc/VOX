@@ -1,15 +1,8 @@
+import createReducer from 'utils/createReducer';
 import types from 'constants/ActionTypes';
 import Settings from 'records/Settings';
 
-export default function settings(state = new Settings(), action) {
-    if (handlers.hasOwnProperty(action.type)) {
-        return handlers[action.type](state, action);
-    } else {
-        return state;
-    }
-}
-
-const handlers = {
+export default createReducer(new Settings(), {
     [types.TOGGLE_MINIMIZE](state) {
         return state.update('minimize', (v) => !v);
     },
@@ -25,4 +18,4 @@ const handlers = {
     [types.CHANGE_VOLUME](state, action) {
         return state.set('volume', action.volume);
     }
-};
+});
