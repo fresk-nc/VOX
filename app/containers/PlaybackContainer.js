@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Track from 'records/Track';
+import { injectIntl } from 'react-intl';
+import moment from 'moment';
 
+import Track from 'records/Track';
 import { getCurrentTrack } from 'selectors/tracks';
-import { nextTrack, reportPlayerError } from 'actions';
+import { nextTrack, reportPlayerError, updateInformer } from 'actions';
 import player from 'lib/player';
 import Playback from 'components/Playback';
 
@@ -15,9 +17,11 @@ export class PlaybackContainer extends React.Component {
 
     static propTypes = {
         currentTrack: React.PropTypes.instanceOf(Track),
+        intl: React.PropTypes.object.isRequired,
 
         nextTrack: React.PropTypes.func.isRequired,
-        reportPlayerError: React.PropTypes.func.isRequired
+        reportPlayerError: React.PropTypes.func.isRequired,
+        updateInformer: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -71,6 +75,7 @@ export class PlaybackContainer extends React.Component {
         this.setState({ currentTime, progress });
 
         player.setProgress(currentTime);
+        this._inform(currentTime);
     }
 
     _handleProgressMouseDown() {
@@ -100,6 +105,18 @@ export class PlaybackContainer extends React.Component {
         }
 
         this.setState({ currentTime, progress });
+        this._inform(currentTime);
+    }
+
+    _inform(time) {
+        const { updateInformer, intl } = this.props;
+
+        updateInformer(
+            intl.formatMessage(
+                { id: 'informer.time' },
+                { time: moment.duration(time, 'seconds').format('m:ss', { trim: false }) }
+            )
+        );
     }
 
     _handleWindowMouseUp() {
@@ -143,11 +160,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         nextTrack,
-        reportPlayerError
+        reportPlayerError,
+        updateInformer
     }, dispatch);
 }
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(PlaybackContainer);
+)(injectIntl(PlaybackContainer));

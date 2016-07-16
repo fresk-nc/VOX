@@ -1,15 +1,16 @@
+import { shallowWithIntl } from '../../helpers/intlEnzyme';
 import { PlaybackContainer } from 'containers/PlaybackContainer';
 import Playback from 'components/Playback';
 import player from 'lib/player';
-import { shallow } from 'enzyme';
 import Track from 'records/Track';
 
 function setup(props) {
     const handlers = {
         nextTrack: sinon.spy(),
-        reportPlayerError: sinon.spy()
+        reportPlayerError: sinon.spy(),
+        updateInformer: sinon.spy()
     };
-    const component = shallow(
+    const component = shallowWithIntl(
         <PlaybackContainer {...props} {...handlers} />
     );
 
@@ -27,7 +28,8 @@ function mockProps(overrides) {
             artist: 'artist',
             album: 'album',
             duration: 220
-        })
+        }),
+        intl: {}
     }, overrides);
 }
 
@@ -138,6 +140,16 @@ describe('containers', () => {
                 expect(component.state('currentTime')).to.be.equal(110);
                 expect(component.state('progress')).to.be.equal(50);
             });
+
+            it('should update informer', () => {
+                const { component, handlers } = setup(mockProps());
+
+                component.setState({ currentTime: 0, progress: 0 });
+                component.instance()._handleWindowMouseMove({ clientX: 160 });
+
+                expect(handlers.updateInformer).to.have.callCount(1);
+                expect(handlers.updateInformer).to.be.calledWith('time elapsed: 1:50');
+            });
         });
 
         describe('click on the progress line ->', () => {
@@ -164,6 +176,16 @@ describe('containers', () => {
 
                 expect(player.setProgress).to.have.callCount(1);
                 expect(player.setProgress).to.be.calledWith(110);
+            });
+
+            it('should update informer', () => {
+                const { component, handlers } = setup(mockProps());
+
+                component.setState({ currentTime: 0, progress: 0 });
+                component.instance()._handleProgressClick({ clientX: 160 });
+
+                expect(handlers.updateInformer).to.have.callCount(1);
+                expect(handlers.updateInformer).to.be.calledWith('time elapsed: 1:50');
             });
         });
 

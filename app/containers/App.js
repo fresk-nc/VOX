@@ -30,7 +30,7 @@ export class App extends React.Component {
     componentDidMount() {
         persistStore(this.context.store, {
             storage,
-            blacklist: [ 'search', 'status' ],
+            whitelist: [ 'tracks', 'settings' ],
             transforms: [
                 {
                     in: (state) => state,

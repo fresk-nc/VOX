@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { injectIntl } from 'react-intl';
 
-import { toggleShuffle, changeLoopMode, changeVolume } from 'actions';
+import { toggleShuffle, changeLoopMode, changeVolume, updateInformer } from 'actions';
 import player from 'lib/player.js';
 import PlaybackSettings from 'components/PlaybackSettings';
 import Settings from 'records/Settings';
@@ -17,10 +18,12 @@ export class PlaybackSettingsContainer extends React.Component {
 
     static propTypes = {
         settings: React.PropTypes.instanceOf(Settings),
+        intl: React.PropTypes.object.isRequired,
 
         toggleShuffle: React.PropTypes.func.isRequired,
         changeLoopMode: React.PropTypes.func.isRequired,
-        changeVolume: React.PropTypes.func.isRequired
+        changeVolume: React.PropTypes.func.isRequired,
+        updateInformer: React.PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -50,23 +53,34 @@ export class PlaybackSettingsContainer extends React.Component {
     }
 
     _handleVolumeRangeInput(e) {
-        const { changeVolume } = this.props;
-
-        changeVolume(Number(e.target.value));
+        this._changeVolume(Number(e.target.value));
     }
 
     _decrementVolume() {
-        const { settings, changeVolume } = this.props;
+        const { settings } = this.props;
         const newVolume = Math.max(settings.volume - VOLUME_STEP, VOLUME_MIN);
 
-        changeVolume(newVolume);
+        this._changeVolume(newVolume);
     }
 
     _incrementVolume() {
-        const { settings, changeVolume } = this.props;
+        const { settings } = this.props;
         const newVolume = Math.min(settings.volume + VOLUME_STEP, VOLUME_MAX);
 
-        changeVolume(newVolume);
+        this._changeVolume(newVolume);
+    }
+
+    _changeVolume(volume) {
+        const { changeVolume, updateInformer, intl } = this.props;
+
+        changeVolume(Number(volume.toFixed(2)));
+
+        updateInformer(
+            intl.formatMessage(
+                { id: 'informer.volume' },
+                { volume: Math.floor(volume * 100) }
+            )
+        );
     }
 
     _handleVolumeMinusMouseDown() {
@@ -90,31 +104,41 @@ export class PlaybackSettingsContainer extends React.Component {
     }
 
     _handleLoopClick() {
-        const { settings, changeLoopMode } = this.props;
+        const { settings, changeLoopMode, updateInformer, intl } = this.props;
         const currentLoopMode = settings.loopMode;
         let newLoopMode;
+        let informMessage;
 
         switch (currentLoopMode) {
             case 'off':
                 newLoopMode = 'all';
+                informMessage = intl.formatMessage({ id: 'informer.repeatAll' });
                 break;
 
             case 'all':
                 newLoopMode = 'one';
+                informMessage = intl.formatMessage({ id: 'informer.repeatOne' });
                 break;
 
             case 'one':
                 newLoopMode = 'off';
+                informMessage = intl.formatMessage({ id: 'informer.repeatOff' });
                 break;
         }
 
         changeLoopMode(newLoopMode);
+        updateInformer(informMessage);
     }
 
     _handleShuffleClick() {
-        const { settings, toggleShuffle } = this.props;
+        const { settings, toggleShuffle, updateInformer, intl } = this.props;
 
         toggleShuffle(settings.shuffle);
+        updateInformer(
+            intl.formatMessage(
+                { id: settings.shuffle ? 'informer.shuffleOff' : 'informer.shuffleOn' }
+            )
+        );
     }
 
     render() {
@@ -149,11 +173,12 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         toggleShuffle,
         changeLoopMode,
-        changeVolume
+        changeVolume,
+        updateInformer
     }, dispatch);
 }
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(PlaybackSettingsContainer);
+)(injectIntl(PlaybackSettingsContainer));

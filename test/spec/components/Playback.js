@@ -1,6 +1,8 @@
 import { shallow } from 'enzyme';
 
 import Playback from 'components/Playback';
+import PlaybackInformerContainer from 'containers/PlaybackInformerContainer';
+import PlaybackSettingsContainer from 'containers/PlaybackSettingsContainer';
 import styles from 'components/Playback/Playback.styl';
 import compoundSelector from '../../helpers/compoundSelector';
 import Track from 'records/Track';
@@ -26,7 +28,9 @@ function setup(props) {
         title: component.find(compoundSelector(styles.title)),
         time: component.find(compoundSelector(styles.time)),
         progressBar: component.find('.js-progress-bar'),
-        progressLine: component.find(compoundSelector(styles.progressLine))
+        progressLine: component.find(compoundSelector(styles.progressLine)),
+        PlaybackInformerContainer: component.find(PlaybackInformerContainer),
+        PlaybackSettingsContainer: component.find(PlaybackSettingsContainer)
     };
 }
 
@@ -72,6 +76,18 @@ describe('components', () => {
 
             expect(logo).to.have.length(0);
             expect(content).to.have.length(1);
+        });
+
+        it('should render the playback informer', () => {
+            const { PlaybackInformerContainer } = setup(mockProps());
+
+            expect(PlaybackInformerContainer).to.have.length(1);
+        });
+
+        it('should render the playback settings', () => {
+            const { PlaybackSettingsContainer } = setup(mockProps());
+
+            expect(PlaybackSettingsContainer).to.have.length(1);
         });
 
         it('should render album of the current track', () => {

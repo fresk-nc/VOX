@@ -21,6 +21,13 @@ export default {
         'search.inputPlaceholder': 'Type to search',
         'loading': 'Loading',
         'toolbar.clear': 'Clear Playlist',
-        'toolbar.add': 'Add Files to Playlist'
+        'toolbar.add': 'Add Files to Playlist',
+        'informer.volume': 'volume: {volume}%',
+        'informer.repeatOne': 'repeat current track',
+        'informer.repeatAll': 'repeat all tracks',
+        'informer.repeatOff': 'repeat mode off',
+        'informer.shuffleOn': 'shuffle: on',
+        'informer.shuffleOff': 'shuffle: off',
+        'informer.time': 'time elapsed: {time}'
     }
 };

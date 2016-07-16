@@ -1,7 +1,8 @@
 import moment from 'moment';
 import classNames from 'classnames';
 
-import PlaybackSettingsContainer from 'containers/PlaybackSettingsContainer.js';
+import PlaybackSettingsContainer from 'containers/PlaybackSettingsContainer';
+import PlaybackInformerContainer from 'containers/PlaybackInformerContainer';
 import styles from './Playback.styl';
 import Track from 'records/Track';
 
@@ -40,6 +41,7 @@ export default class Playback extends React.Component {
 
             return (
                 <div className={styles.content}>
+                    <PlaybackInformerContainer />
                     <div className={styles.main}>
                         <div className={styles.artistLine}>
                             <span className={styles.artist}>{currentTrack.artist}</span>

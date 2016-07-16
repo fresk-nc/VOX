@@ -1,0 +1,29 @@
+$transitionTime = 200ms
+
+.wrap
+  font-size: 10px
+
+  position: absolute
+  top: 4px
+  left: 20px
+  right: 20px
+
+  text-align: center
+  text-transform: uppercase
+  text-shadow: 0 -1px #222
+
+  color: #CBCBCB
+
+:global .informer-enter
+  opacity: 0.01
+
+:global .informer-enter-active
+  opacity: 1
+  transition: opacity $transitionTime
+
+:global .informer-leave
+  opacity: 1
+
+:global .informer-leave-active
+  opacity: 0.01
+  transition: opacity $transitionTime
