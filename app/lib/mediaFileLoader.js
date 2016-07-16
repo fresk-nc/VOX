@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
+import uuid from 'node-uuid';
 
 import mediaDoctor from 'lib/mediaDoctor';
 import config from 'config';
@@ -35,7 +36,7 @@ export default {
                     });
                 })
             )
-                .then((res) => resolve(_.flatten(res)))
+                .then((res) => resolve(this._process(res)))
                 .catch(reject);
         });
     },
@@ -102,5 +103,16 @@ export default {
                 }
             );
         });
+    },
+
+    /**
+     * @param {Array} data
+     * @returns {Array}
+     */
+    _process(data) {
+        return _(data).flatten().map((item) => {
+            item.id = uuid.v1();
+            return item;
+        }).value();
     }
 };

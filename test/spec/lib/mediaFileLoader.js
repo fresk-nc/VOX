@@ -1,18 +1,20 @@
+import uuid from 'node-uuid';
 import mediaFileLoader from 'lib/mediaFileLoader';
 
 describe('libs', () => {
     describe('mediaFileLoader', () => {
         describe('#load', () => {
             beforeEach(function() {
+                this.sinon.stub(uuid, 'v1').returns('id');
                 this.sinon.stub(mediaFileLoader, '_getStats').returns(Promise.resolve({
                     isDirectory() { return false; },
                     isFile() { return true; }
                 }));
 
-                this.sinon.stub(mediaFileLoader, 'loadFile').returns(Promise.resolve({ id: '111' }));
+                this.sinon.stub(mediaFileLoader, 'loadFile').returns(Promise.resolve({ title: 'title 1' }));
                 this.sinon.stub(mediaFileLoader, 'loadFolder').returns(Promise.resolve([
-                    { id: '111' },
-                    { id: '112' }
+                    { title: 'title 2' },
+                    { title: 'title 3' }
                 ]));
             });
 
@@ -27,7 +29,7 @@ describe('libs', () => {
                     expect(mediaFileLoader.loadFile).to.have.callCount(1);
                     expect(mediaFileLoader.loadFolder).to.have.callCount(0);
                     expect(result).to.be.eql([
-                        { id: '111' }
+                        { id: 'id', title: 'title 1' }
                     ]);
                 });
             });
@@ -42,8 +44,8 @@ describe('libs', () => {
                     expect(mediaFileLoader.loadFile).to.have.callCount(0);
                     expect(mediaFileLoader.loadFolder).to.have.callCount(1);
                     expect(result).to.be.eql([
-                        { id: '111' },
-                        { id: '112' }
+                        { id: 'id', title: 'title 2' },
+                        { id: 'id', title: 'title 3' }
                     ]);
                 });
             });
