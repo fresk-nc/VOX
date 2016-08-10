@@ -1,11 +1,10 @@
 import _ from 'lodash';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import styles from './Visualizer.styl';
 
 const DRAW_INTERVAL = 50;
 
-export default class Visualizer extends React.Component {
+export default class Visualizer extends React.PureComponent {
 
     static displayName = 'Visualizer';
 
@@ -24,7 +23,6 @@ export default class Visualizer extends React.Component {
         this._timerId = null;
         this._bars = [];
 
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this._draw = this._draw.bind(this);
         this._drawBar = this._drawBar.bind(this);
     }

@@ -1,10 +1,9 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import { injectIntl } from 'react-intl';
 
 import styles from './Toolbar.styl';
 
-class Toolbar extends React.Component {
+class Toolbar extends React.PureComponent {
 
     static displayName = 'Toolbar';
 
@@ -15,12 +14,6 @@ class Toolbar extends React.Component {
         onAddClick: React.PropTypes.func.isRequired,
         onClearClick: React.PropTypes.func.isRequired
     };
-
-    constructor(props) {
-        super(props);
-
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-    }
 
     render() {
         const { trackCount, onAddClick, onClearClick, intl } = this.props;

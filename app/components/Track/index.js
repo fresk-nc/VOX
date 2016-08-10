@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -26,7 +25,7 @@ const trackDropSpec = {
     }
 };
 
-class Track extends React.Component {
+class Track extends React.PureComponent {
 
     static displayName = 'Track';
 
@@ -43,10 +42,9 @@ class Track extends React.Component {
         connectDragSource: React.PropTypes.func.isRequired
     };
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this._handleDoubleClick = this._handleDoubleClick.bind(this);
         this._handleContextMenu = this._handleContextMenu.bind(this);

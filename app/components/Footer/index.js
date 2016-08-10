@@ -1,10 +1,9 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import moment from 'moment';
 
 import styles from './Footer.styl';
 
-class Footer extends React.Component {
+class Footer extends React.PureComponent {
 
     static displayName = 'Footer';
 
@@ -13,12 +12,6 @@ class Footer extends React.Component {
         totalDuration: React.PropTypes.number.isRequired,
         intl: React.PropTypes.object.isRequired
     };
-
-    constructor(props) {
-        super(props);
-
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-    }
 
     render() {
         const { trackCount, totalDuration, intl } = this.props;
