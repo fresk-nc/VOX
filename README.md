@@ -9,7 +9,7 @@ It is with the aim to learn the [Electron](http://electron.atom.io/).
 
 ## Download
 
-Only [MacOS](https://github.com/fresk-nc/VOX/releases)
+[Download the latest build from here](https://github.com/fresk-nc/VOX/releases)
 
 ## How to develop
 ### Run
