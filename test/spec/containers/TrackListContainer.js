@@ -109,6 +109,14 @@ describe('containers', () => {
         });
 
         describe('click on track', () => {
+            before(function() {
+                this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+            });
+
+            after(function() {
+                Object.defineProperty(process, 'platform', this.originalPlatform);
+            });
+
             it('should call action selectRangeTracks with right args when click on track and press shift', () => {
                 const { component, handlers } = setup(mockProps());
                 const instance = component.instance();
@@ -119,11 +127,27 @@ describe('containers', () => {
                 expect(handlers.selectRangeTracks).to.be.calledWith(10);
             });
 
-            it('should call action selectTrack with right args when click on track and press meta', () => {
+            it('should call action selectTrack with right args when click on track and press meta(darwin platform)', () => {
+                Object.defineProperty(process, 'platform', { value: 'darwin' });
+
                 const { component, handlers } = setup(mockProps());
                 const instance = component.instance();
 
                 instance._handleTrackClick({ metaKey: true }, 10);
+
+                expect(handlers.selectTrack).to.have.callCount(1);
+                expect(handlers.selectTrack).to.be.calledWith(10, {
+                    resetSelected: false
+                });
+            });
+
+            it('should call action selectTrack with right args when click on track and press ctrl(other platform)', () => {
+                Object.defineProperty(process, 'platform', { value: 'any-value' });
+
+                const { component, handlers } = setup(mockProps());
+                const instance = component.instance();
+
+                instance._handleTrackClick({ ctrlKey: true }, 10);
 
                 expect(handlers.selectTrack).to.have.callCount(1);
                 expect(handlers.selectTrack).to.be.calledWith(10, {
@@ -137,7 +161,8 @@ describe('containers', () => {
 
                 instance._handleTrackClick({
                     shiftKey: false,
-                    metaKey: false
+                    metaKey: false,
+                    ctrlKey: false
                 }, 10);
 
                 expect(handlers.selectTrack).to.have.callCount(1);

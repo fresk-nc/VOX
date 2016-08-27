@@ -4,15 +4,20 @@ import { showOpenDialog } from 'lib/dialog.js';
 import mediaFileLoader from 'lib/mediaFileLoader.js';
 import config from 'config';
 
+const properties = [
+    'openFile',
+    'multiSelections'
+];
+
+if (process.platform === 'darwin') {
+    properties.push('openDirectory');
+}
+
 export default {
     loadFromDialog() {
         return new Promise((resolve, reject) => {
             showOpenDialog({
-                properties: [
-                    'openFile',
-                    'openDirectory',
-                    'multiSelections'
-                ],
+                properties,
                 filters: [
                     {
                         name: 'Audio',

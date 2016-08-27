@@ -1,7 +1,7 @@
 const electron = require('electron');
 const JSONStorage = require('node-localstorage').JSONStorage;
 const config = require('./app/config');
-const darwinTemplate = require('./menus/darwin');
+const menuTemplate = require(`./menus/${process.platform === 'darwin' ? 'darwin' : 'other'}`);
 
 const app = electron.app;
 const Menu = electron.Menu;
@@ -58,7 +58,7 @@ app.on('ready', function() {
         frame: false
     });
 
-    menu = Menu.buildFromTemplate(darwinTemplate());
+    menu = Menu.buildFromTemplate(menuTemplate());
     Menu.setApplicationMenu(menu);
 
     mainWindow.loadURL(`file://${__dirname}/app/app.html`);

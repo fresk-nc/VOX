@@ -6,23 +6,23 @@ const webpackConfig = require('./webpack.config.prod.js');
 const packager = require('electron-packager');
 const del = require('del');
 const pkg = require('./package.json');
+const argv = require('minimist')(process.argv.slice(2));
 
 const deps = Object.keys(pkg.dependencies);
 const devDeps = Object.keys(pkg.devDependencies);
-const appName = pkg.productName;
 
 const opts = {
     dir: './',
-    platform: 'darwin',
-    arch: 'x64',
-    name: appName,
-    asar: false,
+    name: pkg.productName,
+    platform: argv.platform || [ 'darwin', 'win32', 'linux' ],
+    arch: argv.arch || 'all',
     ignore: getIgnore(),
-    version: '1.3.2',
+    version: pkg.devDependencies['electron-prebuilt'],
     prune: true,
     'app-version': pkg.version,
-    out: 'release/darwin-x64',
-    icon: 'app/app.icns'
+    'build-version': pkg.version,
+    out: 'release',
+    icon: './app/images/logo/app'
 };
 
 startPack();
@@ -47,7 +47,11 @@ function startPack() {
 
     build()
         .then(() => del('release'))
-        .then(() => packager(opts, log('darwin', 'x64')))
+        .then(() => packager(opts, (err) => {
+            if (err) {
+                throw err;
+            }
+        }))
         .catch((err) => console.error(err));
 }
 
@@ -61,14 +65,4 @@ function build() {
             }
         });
     });
-}
-
-function log(plat, arch) {
-    return (err) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(`${plat}-${arch} finished!`);
-        }
-    };
 }

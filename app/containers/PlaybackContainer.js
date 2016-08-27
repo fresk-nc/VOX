@@ -129,7 +129,7 @@ export class PlaybackContainer extends React.Component {
     }
 
     _handleQuitClick() {
-        app.hide();
+        process.platform === 'darwin' ? app.hide() : app.quit();
     }
 
     render() {

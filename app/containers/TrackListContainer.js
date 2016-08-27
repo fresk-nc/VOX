@@ -181,7 +181,7 @@ export class TrackListContainer extends React.Component {
         }
 
         selectTrack(id, {
-            resetSelected: !event.metaKey
+            resetSelected: (process.platform === 'darwin') ? !event.metaKey : !event.ctrlKey
         });
     }
 
