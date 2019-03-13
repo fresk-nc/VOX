@@ -3,7 +3,7 @@
   "productName": "VOX",
   "version": "1.4.0",
   "engines": {
-    "node": "4.x"
+    "node": "8.x"
   },
   "main": "main.js",
   "scripts": {
